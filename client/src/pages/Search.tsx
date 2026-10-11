@@ -7,20 +7,20 @@ import { api, errMsg } from '../api/client';
 import { PlayerInfo } from '../types';
 import { toast } from '../components/Toast';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 /** 查选手:底部输入 + 自动补全,选中后在上方展示选手卡片(原版布局) */
 export default function Search() {
   const { t } = useTranslation();
   const [player, setPlayer] = useState<PlayerInfo | null>(null);
 
-  const lookup = async (nickname: string) => {
+  const lookup = async (selection: { id: number; nickname: string }) => {
     try {
       const res = await api.get<PlayerInfo[]>('/players', {
-        params: { search: nickname },
+        params: { search: selection.nickname },
       });
       const exact =
-        res.data.find((p) => p.nickname.toLowerCase() === nickname.toLowerCase()) ??
-        res.data[0] ??
+        res.data.find((p) => p.id === selection.id) ??
         null;
       setPlayer(exact);
     } catch (err) {
@@ -32,9 +32,10 @@ export default function Search() {
     <Page
       title={t('search.title')}
       icon={<SearchIcon size={17} />}
+      actions={import.meta.env.DEV && <Link to="/teammates" className="btn btn-sm">队友关系</Link>}
       dock={
         <GuessInputBar
-          onPick={(p) => void lookup(p.nickname)}
+          onPick={(p) => void lookup(p)}
           placeholder={t('search.placeholder')}
           buttonText={t('search.button')}
         />

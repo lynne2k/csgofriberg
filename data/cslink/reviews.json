@@ -1,0 +1,2758 @@
+{
+  "maps": [
+    {
+      "actual_map_played": true,
+      "competition_type": "official",
+      "date_note": "源 CSV 与当前网页显示时间相差一小时；保留原始时间，不推定时区。",
+      "decision": "verify",
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/157818/g2-vs-og"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 157818,
+      "player_ids": [
+        [
+          "cs-person-000005",
+          "cs-person-000001",
+          "cs-person-000003",
+          "cs-person-000006",
+          "cs-person-000004"
+        ],
+        [
+          "cs-person-000009",
+          "cs-person-000008",
+          "cs-person-000007",
+          "cs-person-000010",
+          "cs-person-000002"
+        ]
+      ],
+      "reason": "逐项核对 HLTV Mirage 单图页面两队的全场出场名单及比分。原始第一组为 G2、第二组为 OG，与本图比赛列表顺序一致；十名选手身份按外部编号区分。本结论仅适用于本图。",
+      "record_sha256": "a8dabd7bb14ac02248d018b91f71d0c907c9132aa0a4955b4d752cef86bf6197",
+      "review_method": "primary_source_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-09-30"
+    },
+    {
+      "actual_map_played": true,
+      "competition_type": "official",
+      "date_note": "源 CSV 时间为 22:50，当前网页显示 23:50；保留原始时间与未知时区，仅确认日期为 2023-05-29。",
+      "decision": "verify",
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/157822/og-vs-g2"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 157822,
+      "player_ids": [
+        [
+          "cs-person-000001",
+          "cs-person-000003",
+          "cs-person-000004",
+          "cs-person-000005",
+          "cs-person-000006"
+        ],
+        [
+          "cs-person-000007",
+          "cs-person-000008",
+          "cs-person-000009",
+          "cs-person-000010",
+          "cs-person-000002"
+        ]
+      ],
+      "reason": "逐项核对 HLTV 单图页面的 G2 与 OG 两张全场选手统计表及选手链接。原始第一组为 G2、第二组为 OG；NiKo 与 niko 分属不同队伍且外部编号不同。仅确认本图的身份及同队出场，不推广到其他地图。",
+      "record_sha256": "e809b3e5d9ec79a99887b1e9e4a0309a842256039daf751cc44341f9ca9d1932",
+      "review_method": "primary_source_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-09-30"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/38757/mouz-vs-heroic"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 38757,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Heroic",
+          "observed_team_name": "HEROIC",
+          "players": [
+            {
+              "hltv_id": "9031",
+              "nickname": "valde",
+              "profile_url": "https://www.hltv.org/stats/players/9031/valde"
+            },
+            {
+              "hltv_id": "545",
+              "nickname": "MODDII",
+              "profile_url": "https://www.hltv.org/stats/players/545/moddii"
+            },
+            {
+              "hltv_id": "7",
+              "nickname": "Friis",
+              "profile_url": "https://www.hltv.org/stats/players/7/friis"
+            },
+            {
+              "hltv_id": "10264",
+              "nickname": "niko",
+              "profile_url": "https://www.hltv.org/stats/players/10264/niko"
+            },
+            {
+              "hltv_id": "922",
+              "nickname": "Snappi",
+              "profile_url": "https://www.hltv.org/stats/players/922/snappi"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "MOUZ",
+          "observed_team_name": "MOUZ",
+          "players": [
+            {
+              "hltv_id": "2730",
+              "nickname": "chrisJ",
+              "profile_url": "https://www.hltv.org/stats/players/2730/chrisj"
+            },
+            {
+              "hltv_id": "3997",
+              "nickname": "loWel",
+              "profile_url": "https://www.hltv.org/stats/players/3997/lowel"
+            },
+            {
+              "hltv_id": "7511",
+              "nickname": "denis",
+              "profile_url": "https://www.hltv.org/stats/players/7511/denis"
+            },
+            {
+              "hltv_id": "7499",
+              "nickname": "Spiidi",
+              "profile_url": "https://www.hltv.org/stats/players/7499/spiidi"
+            },
+            {
+              "hltv_id": "3741",
+              "nickname": "NiKo",
+              "profile_url": "https://www.hltv.org/stats/players/3741/niko"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1479423600000,
+      "player_ids": [
+        [
+          "cs-person-000011",
+          "cs-person-000012",
+          "cs-person-000013",
+          "cs-person-000002",
+          "cs-person-000014"
+        ],
+        [
+          "cs-person-000015",
+          "cs-person-000016",
+          "cs-person-000017",
+          "cs-person-000018",
+          "cs-person-000001"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "ff80874802585067da9b0d678e3afb16b1ddf4a6a1f6f88968b94d54a81e44eb",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/41274/mouz-vs-heroic"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 41274,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Heroic",
+          "observed_team_name": "HEROIC",
+          "players": [
+            {
+              "hltv_id": "7964",
+              "nickname": "cadiaN",
+              "profile_url": "https://www.hltv.org/stats/players/7964/cadian"
+            },
+            {
+              "hltv_id": "9031",
+              "nickname": "valde",
+              "profile_url": "https://www.hltv.org/stats/players/9031/valde"
+            },
+            {
+              "hltv_id": "10264",
+              "nickname": "niko",
+              "profile_url": "https://www.hltv.org/stats/players/10264/niko"
+            },
+            {
+              "hltv_id": "922",
+              "nickname": "Snappi",
+              "profile_url": "https://www.hltv.org/stats/players/922/snappi"
+            },
+            {
+              "hltv_id": "545",
+              "nickname": "MODDII",
+              "profile_url": "https://www.hltv.org/stats/players/545/moddii"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "MOUZ",
+          "observed_team_name": "MOUZ",
+          "players": [
+            {
+              "hltv_id": "3997",
+              "nickname": "loWel",
+              "profile_url": "https://www.hltv.org/stats/players/3997/lowel"
+            },
+            {
+              "hltv_id": "3741",
+              "nickname": "NiKo",
+              "profile_url": "https://www.hltv.org/stats/players/3741/niko"
+            },
+            {
+              "hltv_id": "798",
+              "nickname": "oskar",
+              "profile_url": "https://www.hltv.org/stats/players/798/oskar"
+            },
+            {
+              "hltv_id": "7499",
+              "nickname": "Spiidi",
+              "profile_url": "https://www.hltv.org/stats/players/7499/spiidi"
+            },
+            {
+              "hltv_id": "7511",
+              "nickname": "denis",
+              "profile_url": "https://www.hltv.org/stats/players/7511/denis"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1486317000000,
+      "player_ids": [
+        [
+          "cs-person-000019",
+          "cs-person-000011",
+          "cs-person-000002",
+          "cs-person-000014",
+          "cs-person-000012"
+        ],
+        [
+          "cs-person-000016",
+          "cs-person-000001",
+          "cs-person-000020",
+          "cs-person-000018",
+          "cs-person-000017"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "2f4910a5db446129cedfe6b50b381435d3ce2e1293a33fb4361e53eba14d4934",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "defer",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "map_id": 12838,
+      "observed_timestamp_ms": 1347562800000,
+      "reason": "原始明细完全缺失；网页有十人阵容，已保存为补录候选。先保持隔离，待新增独立来源记录，不伪造原 CSV 槽位。",
+      "record_sha256": "2adb162f3ce459c5322cc44c04e096fab5dd71a6358717235d6d523a73acf052",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/12849/verygames-vs-ninjas-in-pyjamas"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 12849,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Ninjas in Pyjamas",
+          "observed_team_name": "Ninjas in Pyjamas",
+          "players": [
+            {
+              "hltv_id": "29",
+              "nickname": "f0rest",
+              "profile_url": "https://www.hltv.org/stats/players/29/f0rest"
+            },
+            {
+              "hltv_id": "884",
+              "nickname": "Xizt",
+              "profile_url": "https://www.hltv.org/stats/players/884/xizt"
+            },
+            {
+              "hltv_id": "39",
+              "nickname": "GeT_RiGhT",
+              "profile_url": "https://www.hltv.org/stats/players/39/get-right"
+            },
+            {
+              "hltv_id": "7147",
+              "nickname": "Fifflaren",
+              "profile_url": "https://www.hltv.org/stats/players/7147/fifflaren"
+            },
+            {
+              "hltv_id": "7148",
+              "nickname": "friberg",
+              "profile_url": "https://www.hltv.org/stats/players/7148/friberg"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "VeryGames",
+          "observed_team_name": "VeryGames",
+          "players": [
+            {
+              "hltv_id": "7167",
+              "nickname": "kennyS",
+              "profile_url": "https://www.hltv.org/stats/players/7167/kennys"
+            },
+            {
+              "hltv_id": "7166",
+              "nickname": "Ex6TenZ",
+              "profile_url": "https://www.hltv.org/stats/players/7166/ex6tenz"
+            },
+            {
+              "hltv_id": "7168",
+              "nickname": "NBK-",
+              "profile_url": "https://www.hltv.org/stats/players/7168/nbk"
+            },
+            {
+              "hltv_id": "7170",
+              "nickname": "SmithZz",
+              "profile_url": "https://www.hltv.org/stats/players/7170/smithzz"
+            },
+            {
+              "hltv_id": "7169",
+              "nickname": "RpK",
+              "profile_url": "https://www.hltv.org/stats/players/7169/rpk"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1348401600000,
+      "player_ids": [
+        [
+          "cs-person-000025",
+          "cs-person-000024",
+          "cs-person-000021",
+          "cs-person-000023",
+          "cs-person-000022"
+        ],
+        [
+          "cs-person-000031",
+          "cs-person-000032",
+          "cs-person-000033",
+          "cs-person-000034",
+          "cs-person-000035"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "1605040a4431161286d1244e198dcf40746bd80d9770817954c08d594377cbdc",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 14675,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Virtus.pro",
+          "observed_team_name": "Virtus.pro",
+          "players": [
+            {
+              "hltv_id": "302",
+              "nickname": "kUcheR",
+              "profile_url": "https://www.hltv.org/stats/players/302/kucher"
+            },
+            {
+              "hltv_id": "737",
+              "nickname": "Fox",
+              "profile_url": "https://www.hltv.org/stats/players/737/fox"
+            },
+            {
+              "hltv_id": "334",
+              "nickname": "AdreN",
+              "profile_url": "https://www.hltv.org/stats/players/334/adren"
+            },
+            {
+              "hltv_id": "735",
+              "nickname": "Dosia",
+              "profile_url": "https://www.hltv.org/stats/players/735/dosia"
+            },
+            {
+              "hltv_id": "339",
+              "nickname": "ANGE1",
+              "profile_url": "https://www.hltv.org/stats/players/339/ange1"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "k1ck",
+          "observed_team_name": "k1ck",
+          "players": [
+            {
+              "hltv_id": "629",
+              "nickname": "fox",
+              "profile_url": "https://www.hltv.org/stats/players/629/fox"
+            },
+            {
+              "hltv_id": "5873",
+              "nickname": "iNsideR",
+              "profile_url": "https://www.hltv.org/stats/players/5873/insider"
+            },
+            {
+              "hltv_id": "2238",
+              "nickname": "n0rx",
+              "profile_url": "https://www.hltv.org/stats/players/2238/n0rx"
+            },
+            {
+              "hltv_id": "630",
+              "nickname": "MUTiRiS",
+              "profile_url": "https://www.hltv.org/stats/players/630/mutiris"
+            },
+            {
+              "hltv_id": "2241",
+              "nickname": "roman",
+              "profile_url": "https://www.hltv.org/stats/players/2241/roman"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1369155600000,
+      "player_ids": [
+        [
+          "cs-person-000036",
+          "cs-person-000037",
+          "cs-person-000038",
+          "cs-person-000039",
+          "cs-person-000040"
+        ],
+        [
+          "cs-person-000041",
+          "cs-person-000042",
+          "cs-person-000043",
+          "cs-person-000044",
+          "cs-person-000045"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "dfb408ec252b56514ae04e21bc3ab5c5a0e1d202bb4e411d50c59c2fcc1f76a1",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "defer",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "map_id": 23362,
+      "observed_timestamp_ms": 1442079900000,
+      "reason": "原始明细缺失且一方比分为破折号，当前网页同样显示破折号。尚未核实赛果变更原因，不推定为弃权或实际未比赛。",
+      "record_sha256": "cc7ae1a94ed3d1631b38b94a3e9213b6f998a5ea6671e9b7c973e24bdaa5238e",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 28796,
+      "nickname_corrections": [
+        {
+          "corrected": "NaN",
+          "evidence_url": "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg",
+          "group_no": 2,
+          "original": "",
+          "slot": 2
+        }
+      ],
+      "observed_groups": [
+        {
+          "metadata_team_name": "LDDM",
+          "observed_team_name": "LDDM",
+          "players": [
+            {
+              "hltv_id": "10828",
+              "nickname": "dok",
+              "profile_url": "https://www.hltv.org/stats/players/10828/dok"
+            },
+            {
+              "hltv_id": "10826",
+              "nickname": "tony",
+              "profile_url": "https://www.hltv.org/stats/players/10826/tony"
+            },
+            {
+              "hltv_id": "10824",
+              "nickname": "KODIAK",
+              "profile_url": "https://www.hltv.org/stats/players/10824/kodiak"
+            },
+            {
+              "hltv_id": "10825",
+              "nickname": "mcb",
+              "profile_url": "https://www.hltv.org/stats/players/10825/mcb"
+            },
+            {
+              "hltv_id": "10827",
+              "nickname": "prt",
+              "profile_url": "https://www.hltv.org/stats/players/10827/prt"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "TSG",
+          "observed_team_name": "TSG",
+          "players": [
+            {
+              "hltv_id": "10832",
+              "nickname": "ossada",
+              "profile_url": "https://www.hltv.org/stats/players/10832/ossada"
+            },
+            {
+              "hltv_id": "10831",
+              "nickname": "NaN",
+              "profile_url": "https://www.hltv.org/stats/players/10831/nan"
+            },
+            {
+              "hltv_id": "10833",
+              "nickname": "zeziN",
+              "profile_url": "https://www.hltv.org/stats/players/10833/zezin"
+            },
+            {
+              "hltv_id": "10830",
+              "nickname": "DASTAN",
+              "profile_url": "https://www.hltv.org/stats/players/10830/dastan"
+            },
+            {
+              "hltv_id": "10829",
+              "nickname": "jun",
+              "profile_url": "https://www.hltv.org/stats/players/10829/jun"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1457902800000,
+      "player_ids": [
+        [
+          "cs-person-000056",
+          "cs-person-000057",
+          "cs-person-000058",
+          "cs-person-000059",
+          "cs-person-000060"
+        ],
+        [
+          "cs-person-000061",
+          "cs-person-000062",
+          "cs-person-000063",
+          "cs-person-000064",
+          "cs-person-000065"
+        ]
+      ],
+      "reason": "原站 TSG 第二名选手显示昵称 NaN，链接编号 10831；仅修正本图空槽位的审核值，保留空白原值，不把字符串 NaN 当缺失值。",
+      "record_sha256": "8734533a2c7d28532f0055e40a51ca9dbf78bb25e6fdc832fbb69f51ef8f4417",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 54128,
+      "nickname_corrections": [
+        {
+          "corrected": "MICHU",
+          "evidence_url": "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu",
+          "group_no": 1,
+          "original": "Hendre",
+          "slot": 2
+        }
+      ],
+      "observed_groups": [
+        {
+          "metadata_team_name": "Kinguin",
+          "observed_team_name": "Kinguin",
+          "players": [
+            {
+              "hltv_id": "5388",
+              "nickname": "rallen",
+              "profile_url": "https://www.hltv.org/stats/players/5388/rallen"
+            },
+            {
+              "hltv_id": "7356",
+              "nickname": "MICHU",
+              "profile_url": "https://www.hltv.org/stats/players/7356/michu"
+            },
+            {
+              "hltv_id": "14221",
+              "nickname": "kaper",
+              "profile_url": "https://www.hltv.org/stats/players/14221/kaper"
+            },
+            {
+              "hltv_id": "973",
+              "nickname": "SZPERO",
+              "profile_url": "https://www.hltv.org/stats/players/973/szpero"
+            },
+            {
+              "hltv_id": "8323",
+              "nickname": "mouz",
+              "profile_url": "https://www.hltv.org/stats/players/8323/mouz"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "HAVU",
+          "observed_team_name": "HAVU",
+          "players": [
+            {
+              "hltv_id": "11283",
+              "nickname": "ottoNd",
+              "profile_url": "https://www.hltv.org/stats/players/11283/ottond"
+            },
+            {
+              "hltv_id": "9816",
+              "nickname": "Aleksib",
+              "profile_url": "https://www.hltv.org/stats/players/9816/aleksib"
+            },
+            {
+              "hltv_id": "11916",
+              "nickname": "sergej",
+              "profile_url": "https://www.hltv.org/stats/players/11916/sergej"
+            },
+            {
+              "hltv_id": "7537",
+              "nickname": "xartE",
+              "profile_url": "https://www.hltv.org/stats/players/7537/xarte"
+            },
+            {
+              "hltv_id": "971",
+              "nickname": "KHRN",
+              "profile_url": "https://www.hltv.org/stats/players/971/khrn"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1506956400000,
+      "player_ids": [
+        [
+          "cs-person-000066",
+          "cs-person-000067",
+          "cs-person-000068",
+          "cs-person-000069",
+          "cs-person-000070"
+        ],
+        [
+          "cs-person-000071",
+          "cs-person-000072",
+          "cs-person-000073",
+          "cs-person-000074",
+          "cs-person-000075"
+        ]
+      ],
+      "reason": "原站 Kinguin 的全场统计表为 MICHU，链接编号 7356，与 CSV 的 Hendre 不一致。本图按当前来源逐槽修正，保留 Hendre 原值；不建立 Hendre 与 MICHU 的全局别名关系。半场字段冲突保留。",
+      "record_sha256": "6efed2397688cb31a962febf15bc6a1b651d54a8e6b1a4dfe7f305b996dd5aba",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/12848/ninjas-in-pyjamas-vs-verygames"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 12848,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Ninjas in Pyjamas",
+          "observed_team_name": "Ninjas in Pyjamas",
+          "players": [
+            {
+              "hltv_id": "884",
+              "nickname": "Xizt",
+              "profile_url": "https://www.hltv.org/stats/players/884/xizt"
+            },
+            {
+              "hltv_id": "7148",
+              "nickname": "friberg",
+              "profile_url": "https://www.hltv.org/stats/players/7148/friberg"
+            },
+            {
+              "hltv_id": "29",
+              "nickname": "f0rest",
+              "profile_url": "https://www.hltv.org/stats/players/29/f0rest"
+            },
+            {
+              "hltv_id": "39",
+              "nickname": "GeT_RiGhT",
+              "profile_url": "https://www.hltv.org/stats/players/39/get-right"
+            },
+            {
+              "hltv_id": "7147",
+              "nickname": "Fifflaren",
+              "profile_url": "https://www.hltv.org/stats/players/7147/fifflaren"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "VeryGames",
+          "observed_team_name": "VeryGames",
+          "players": [
+            {
+              "hltv_id": "7170",
+              "nickname": "SmithZz",
+              "profile_url": "https://www.hltv.org/stats/players/7170/smithzz"
+            },
+            {
+              "hltv_id": "7168",
+              "nickname": "NBK-",
+              "profile_url": "https://www.hltv.org/stats/players/7168/nbk"
+            },
+            {
+              "hltv_id": "7169",
+              "nickname": "RpK",
+              "profile_url": "https://www.hltv.org/stats/players/7169/rpk"
+            },
+            {
+              "hltv_id": "7166",
+              "nickname": "Ex6TenZ",
+              "profile_url": "https://www.hltv.org/stats/players/7166/ex6tenz"
+            },
+            {
+              "hltv_id": "7167",
+              "nickname": "kennyS",
+              "profile_url": "https://www.hltv.org/stats/players/7167/kennys"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1348401600000,
+      "player_ids": [
+        [
+          "cs-person-000024",
+          "cs-person-000022",
+          "cs-person-000025",
+          "cs-person-000021",
+          "cs-person-000023"
+        ],
+        [
+          "cs-person-000034",
+          "cs-person-000033",
+          "cs-person-000035",
+          "cs-person-000032",
+          "cs-person-000031"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "7e340ab1030b007e4d586616474966aa4b19ddb0e9302af74ac928ecfa8fe0e0",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/13612/wizards-vs-ninjas-in-pyjamas"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 13612,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Wizards",
+          "observed_team_name": "Wizards",
+          "players": [
+            {
+              "hltv_id": "7388",
+              "nickname": "SOKER",
+              "profile_url": "https://www.hltv.org/stats/players/7388/soker"
+            },
+            {
+              "hltv_id": "7467",
+              "nickname": "Pinchos",
+              "profile_url": "https://www.hltv.org/stats/players/7467/pinchos"
+            },
+            {
+              "hltv_id": "7171",
+              "nickname": "Yaba",
+              "profile_url": "https://www.hltv.org/stats/players/7171/yaba"
+            },
+            {
+              "hltv_id": "7466",
+              "nickname": "Kirtash",
+              "profile_url": "https://www.hltv.org/stats/players/7466/kirtash"
+            },
+            {
+              "hltv_id": "7465",
+              "nickname": "JuShTo",
+              "profile_url": "https://www.hltv.org/stats/players/7465/jushto"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "Ninjas in Pyjamas",
+          "observed_team_name": "Ninjas in Pyjamas",
+          "players": [
+            {
+              "hltv_id": "884",
+              "nickname": "Xizt",
+              "profile_url": "https://www.hltv.org/stats/players/884/xizt"
+            },
+            {
+              "hltv_id": "29",
+              "nickname": "f0rest",
+              "profile_url": "https://www.hltv.org/stats/players/29/f0rest"
+            },
+            {
+              "hltv_id": "39",
+              "nickname": "GeT_RiGhT",
+              "profile_url": "https://www.hltv.org/stats/players/39/get-right"
+            },
+            {
+              "hltv_id": "7148",
+              "nickname": "friberg",
+              "profile_url": "https://www.hltv.org/stats/players/7148/friberg"
+            },
+            {
+              "hltv_id": "7147",
+              "nickname": "Fifflaren",
+              "profile_url": "https://www.hltv.org/stats/players/7147/fifflaren"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1357592400000,
+      "player_ids": [
+        [
+          "cs-person-000076",
+          "cs-person-000077",
+          "cs-person-000078",
+          "cs-person-000079",
+          "cs-person-000080"
+        ],
+        [
+          "cs-person-000024",
+          "cs-person-000025",
+          "cs-person-000021",
+          "cs-person-000022",
+          "cs-person-000023"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "60151e5976c802e448750e3dfb5e5fe7ff14caedb8ad036a10a4c968487a3617",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/13613/ninjas-in-pyjamas-vs-wizards"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 13613,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Wizards",
+          "observed_team_name": "Wizards",
+          "players": [
+            {
+              "hltv_id": "7466",
+              "nickname": "Kirtash",
+              "profile_url": "https://www.hltv.org/stats/players/7466/kirtash"
+            },
+            {
+              "hltv_id": "7388",
+              "nickname": "SOKER",
+              "profile_url": "https://www.hltv.org/stats/players/7388/soker"
+            },
+            {
+              "hltv_id": "7467",
+              "nickname": "Pinchos",
+              "profile_url": "https://www.hltv.org/stats/players/7467/pinchos"
+            },
+            {
+              "hltv_id": "7171",
+              "nickname": "Yaba",
+              "profile_url": "https://www.hltv.org/stats/players/7171/yaba"
+            },
+            {
+              "hltv_id": "7465",
+              "nickname": "JuShTo",
+              "profile_url": "https://www.hltv.org/stats/players/7465/jushto"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "Ninjas in Pyjamas",
+          "observed_team_name": "Ninjas in Pyjamas",
+          "players": [
+            {
+              "hltv_id": "884",
+              "nickname": "Xizt",
+              "profile_url": "https://www.hltv.org/stats/players/884/xizt"
+            },
+            {
+              "hltv_id": "39",
+              "nickname": "GeT_RiGhT",
+              "profile_url": "https://www.hltv.org/stats/players/39/get-right"
+            },
+            {
+              "hltv_id": "7148",
+              "nickname": "friberg",
+              "profile_url": "https://www.hltv.org/stats/players/7148/friberg"
+            },
+            {
+              "hltv_id": "29",
+              "nickname": "f0rest",
+              "profile_url": "https://www.hltv.org/stats/players/29/f0rest"
+            },
+            {
+              "hltv_id": "7147",
+              "nickname": "Fifflaren",
+              "profile_url": "https://www.hltv.org/stats/players/7147/fifflaren"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1357592400000,
+      "player_ids": [
+        [
+          "cs-person-000079",
+          "cs-person-000076",
+          "cs-person-000077",
+          "cs-person-000078",
+          "cs-person-000080"
+        ],
+        [
+          "cs-person-000024",
+          "cs-person-000021",
+          "cs-person-000022",
+          "cs-person-000025",
+          "cs-person-000023"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "00f0c91ca657eca199111d2f79d58411661aedcd298953a91b329b583f772b8b",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "showmatch",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "exclude",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2"
+      ],
+      "map_id": 16198,
+      "observed_timestamp_ms": 1390002300000,
+      "reason": "原站赛事明确为 Showmatch CS；按正式赛事实际同队出场范围排除，不生成队友关系。",
+      "record_sha256": "99bfa9753ac8ea8666bd3e953d4ffca73660351eff5ab8764d30f6b26b763a14",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/16202/ibuypower-vs-united5"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 16202,
+      "observed_groups": [
+        {
+          "metadata_team_name": "iBUYPOWER",
+          "observed_team_name": "iBUYPOWER",
+          "players": [
+            {
+              "hltv_id": "7440",
+              "nickname": "Skadoodle",
+              "profile_url": "https://www.hltv.org/stats/players/7440/skadoodle"
+            },
+            {
+              "hltv_id": "7347",
+              "nickname": "DaZeD",
+              "profile_url": "https://www.hltv.org/stats/players/7347/dazed"
+            },
+            {
+              "hltv_id": "7438",
+              "nickname": "anger",
+              "profile_url": "https://www.hltv.org/stats/players/7438/anger"
+            },
+            {
+              "hltv_id": "7434",
+              "nickname": "AZK",
+              "profile_url": "https://www.hltv.org/stats/players/7434/azk"
+            },
+            {
+              "hltv_id": "7433",
+              "nickname": "adreN",
+              "profile_url": "https://www.hltv.org/stats/players/7433/adren"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "United5",
+          "observed_team_name": "United5",
+          "players": [
+            {
+              "hltv_id": "201",
+              "nickname": "Warden",
+              "profile_url": "https://www.hltv.org/stats/players/201/warden"
+            },
+            {
+              "hltv_id": "1331",
+              "nickname": "Xp3",
+              "profile_url": "https://www.hltv.org/stats/players/1331/xp3"
+            },
+            {
+              "hltv_id": "7859",
+              "nickname": "moses",
+              "profile_url": "https://www.hltv.org/stats/players/7859/moses"
+            },
+            {
+              "hltv_id": "7806",
+              "nickname": "TM",
+              "profile_url": "https://www.hltv.org/stats/players/7806/tm"
+            },
+            {
+              "hltv_id": "200",
+              "nickname": "Storm",
+              "profile_url": "https://www.hltv.org/stats/players/200/storm"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1390014000000,
+      "player_ids": [
+        [
+          "cs-person-000090",
+          "cs-person-000086",
+          "cs-person-000091",
+          "cs-person-000085",
+          "cs-person-000092"
+        ],
+        [
+          "cs-person-000084",
+          "cs-person-000087",
+          "cs-person-000093",
+          "cs-person-000094",
+          "cs-person-000095"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "8c71131835f548857a021c36128638e4ad823769523757ed7848527fba30684e",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 18957,
+      "observed_groups": [
+        {
+          "metadata_team_name": "GPlay",
+          "observed_team_name": "GPlay",
+          "players": [
+            {
+              "hltv_id": "3183",
+              "nickname": "spyleadeR",
+              "profile_url": "https://www.hltv.org/stats/players/3183/spyleader"
+            },
+            {
+              "hltv_id": "8412",
+              "nickname": "dream3r",
+              "profile_url": "https://www.hltv.org/stats/players/8412/dream3r"
+            },
+            {
+              "hltv_id": "7834",
+              "nickname": "v1c7oR",
+              "profile_url": "https://www.hltv.org/stats/players/7834/v1c7or"
+            },
+            {
+              "hltv_id": "2799",
+              "nickname": "bubble",
+              "profile_url": "https://www.hltv.org/stats/players/2799/bubble"
+            },
+            {
+              "hltv_id": "5327",
+              "nickname": "nkl",
+              "profile_url": "https://www.hltv.org/stats/players/5327/nkl"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "volgare",
+          "observed_team_name": "volgare",
+          "players": [
+            {
+              "hltv_id": "7925",
+              "nickname": "gabesson",
+              "profile_url": "https://www.hltv.org/stats/players/7925/gabesson"
+            },
+            {
+              "hltv_id": "5440",
+              "nickname": "flashie",
+              "profile_url": "https://www.hltv.org/stats/players/5440/flashie"
+            },
+            {
+              "hltv_id": "8733",
+              "nickname": "bodito",
+              "profile_url": "https://www.hltv.org/stats/players/8733/bodito"
+            },
+            {
+              "hltv_id": "3154",
+              "nickname": "NEY",
+              "profile_url": "https://www.hltv.org/stats/players/3154/ney"
+            },
+            {
+              "hltv_id": "4282",
+              "nickname": "FoDa",
+              "profile_url": "https://www.hltv.org/stats/players/4282/foda"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1420218000000,
+      "player_ids": [
+        [
+          "cs-person-000096",
+          "cs-person-000097",
+          "cs-person-000098",
+          "cs-person-000099",
+          "cs-person-000100"
+        ],
+        [
+          "cs-person-000101",
+          "cs-person-000102",
+          "cs-person-000103",
+          "cs-person-000104",
+          "cs-person-000105"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "71b10c0a5cd3b2c32ed2ed35023d001b9da51ff5e2bff90912bd254be8f96fda",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/18958/volgare-vs-gplay"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 18958,
+      "observed_groups": [
+        {
+          "metadata_team_name": "GPlay",
+          "observed_team_name": "GPlay",
+          "players": [
+            {
+              "hltv_id": "8412",
+              "nickname": "dream3r",
+              "profile_url": "https://www.hltv.org/stats/players/8412/dream3r"
+            },
+            {
+              "hltv_id": "7834",
+              "nickname": "v1c7oR",
+              "profile_url": "https://www.hltv.org/stats/players/7834/v1c7or"
+            },
+            {
+              "hltv_id": "3183",
+              "nickname": "spyleadeR",
+              "profile_url": "https://www.hltv.org/stats/players/3183/spyleader"
+            },
+            {
+              "hltv_id": "2799",
+              "nickname": "bubble",
+              "profile_url": "https://www.hltv.org/stats/players/2799/bubble"
+            },
+            {
+              "hltv_id": "5327",
+              "nickname": "nkl",
+              "profile_url": "https://www.hltv.org/stats/players/5327/nkl"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "volgare",
+          "observed_team_name": "volgare",
+          "players": [
+            {
+              "hltv_id": "3154",
+              "nickname": "NEY",
+              "profile_url": "https://www.hltv.org/stats/players/3154/ney"
+            },
+            {
+              "hltv_id": "5440",
+              "nickname": "flashie",
+              "profile_url": "https://www.hltv.org/stats/players/5440/flashie"
+            },
+            {
+              "hltv_id": "4282",
+              "nickname": "FoDa",
+              "profile_url": "https://www.hltv.org/stats/players/4282/foda"
+            },
+            {
+              "hltv_id": "7925",
+              "nickname": "gabesson",
+              "profile_url": "https://www.hltv.org/stats/players/7925/gabesson"
+            },
+            {
+              "hltv_id": "8733",
+              "nickname": "bodito",
+              "profile_url": "https://www.hltv.org/stats/players/8733/bodito"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1420218000000,
+      "player_ids": [
+        [
+          "cs-person-000097",
+          "cs-person-000098",
+          "cs-person-000096",
+          "cs-person-000099",
+          "cs-person-000100"
+        ],
+        [
+          "cs-person-000104",
+          "cs-person-000102",
+          "cs-person-000105",
+          "cs-person-000101",
+          "cs-person-000103"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "6b8d937a4aa5886a1e04f42d9bfad7ec83d5c809cd8e69651d4838a99a3a8ada",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 27418,
+      "observed_groups": [
+        {
+          "metadata_team_name": "g3x",
+          "observed_team_name": "g3x",
+          "players": [
+            {
+              "hltv_id": "9480",
+              "nickname": "tifa",
+              "profile_url": "https://www.hltv.org/stats/players/9480/tifa"
+            },
+            {
+              "hltv_id": "10560",
+              "nickname": "yel",
+              "profile_url": "https://www.hltv.org/stats/players/10560/yel"
+            },
+            {
+              "hltv_id": "10559",
+              "nickname": "knight",
+              "profile_url": "https://www.hltv.org/stats/players/10559/knight"
+            },
+            {
+              "hltv_id": "6593",
+              "nickname": "PKL",
+              "profile_url": "https://www.hltv.org/stats/players/6593/pkl"
+            },
+            {
+              "hltv_id": "10558",
+              "nickname": "maeda",
+              "profile_url": "https://www.hltv.org/stats/players/10558/maeda"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "Santos.DeX",
+          "observed_team_name": "Santos.DeX",
+          "players": [
+            {
+              "hltv_id": "10557",
+              "nickname": "land1n",
+              "profile_url": "https://www.hltv.org/stats/players/10557/land1n"
+            },
+            {
+              "hltv_id": "558",
+              "nickname": "prd",
+              "profile_url": "https://www.hltv.org/stats/players/558/prd"
+            },
+            {
+              "hltv_id": "10555",
+              "nickname": "dukeN",
+              "profile_url": "https://www.hltv.org/stats/players/10555/duken"
+            },
+            {
+              "hltv_id": "5698",
+              "nickname": "pava",
+              "profile_url": "https://www.hltv.org/stats/players/5698/pava"
+            },
+            {
+              "hltv_id": "10556",
+              "nickname": "will",
+              "profile_url": "https://www.hltv.org/stats/players/10556/will"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1452087000000,
+      "player_ids": [
+        [
+          "cs-person-000106",
+          "cs-person-000107",
+          "cs-person-000108",
+          "cs-person-000109",
+          "cs-person-000110"
+        ],
+        [
+          "cs-person-000111",
+          "cs-person-000112",
+          "cs-person-000113",
+          "cs-person-000114",
+          "cs-person-000115"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "7a951116b6163e00a1b73a3e4ac85c46ade04964fa646a490cedd40642ef5c25",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 27419,
+      "observed_groups": [
+        {
+          "metadata_team_name": "AlienTech",
+          "observed_team_name": "AlienTech",
+          "players": [
+            {
+              "hltv_id": "2517",
+              "nickname": "LuL4",
+              "profile_url": "https://www.hltv.org/stats/players/2517/lul4"
+            },
+            {
+              "hltv_id": "10561",
+              "nickname": "s1",
+              "profile_url": "https://www.hltv.org/stats/players/10561/s1"
+            },
+            {
+              "hltv_id": "7384",
+              "nickname": "zakk",
+              "profile_url": "https://www.hltv.org/stats/players/7384/zakk"
+            },
+            {
+              "hltv_id": "7383",
+              "nickname": "zqkS",
+              "profile_url": "https://www.hltv.org/stats/players/7383/zqks"
+            },
+            {
+              "hltv_id": "5183",
+              "nickname": "fbm",
+              "profile_url": "https://www.hltv.org/stats/players/5183/fbm"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "Games Academy",
+          "observed_team_name": "Games Academy",
+          "players": [
+            {
+              "hltv_id": "9220",
+              "nickname": "SHOOWTiME",
+              "profile_url": "https://www.hltv.org/stats/players/9220/shoowtime"
+            },
+            {
+              "hltv_id": "8568",
+              "nickname": "boltz",
+              "profile_url": "https://www.hltv.org/stats/players/8568/boltz"
+            },
+            {
+              "hltv_id": "9219",
+              "nickname": "felps",
+              "profile_url": "https://www.hltv.org/stats/players/9219/felps"
+            },
+            {
+              "hltv_id": "8566",
+              "nickname": "LUCAS1",
+              "profile_url": "https://www.hltv.org/stats/players/8566/lucas1"
+            },
+            {
+              "hltv_id": "8565",
+              "nickname": "HEN1",
+              "profile_url": "https://www.hltv.org/stats/players/8565/hen1"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1452094200000,
+      "player_ids": [
+        [
+          "cs-person-000116",
+          "cs-person-000117",
+          "cs-person-000118",
+          "cs-person-000119",
+          "cs-person-000120"
+        ],
+        [
+          "cs-person-000121",
+          "cs-person-000122",
+          "cs-person-000123",
+          "cs-person-000124",
+          "cs-person-000125"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "81febcdab7dbf94e54c0fe4c0aeccf12805be394d3a7be141a1943d31685c171",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "community",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "defer",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "map_id": 40406,
+      "observed_timestamp_ms": 1483638300000,
+      "reason": "原站标为 ASUS ROG Community Challenge；十人出场可以确认，但其与职业正式比赛的纳入边界未确定，暂不生成关系。",
+      "record_sha256": "6bb073e9db1d68275c2af11fd3753fdb16061aeb98084046f2a7a781da89044e",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "community",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "defer",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/40407/rog-izakooo-vs-rog-zonixx"
+      ],
+      "map_id": 40407,
+      "observed_timestamp_ms": 1483638300000,
+      "reason": "原站标为 ASUS ROG Community Challenge；十人出场可以确认，但其与职业正式比赛的纳入边界未确定，暂不生成关系。",
+      "record_sha256": "cbcc98f75ff7f4235c6ebd70e47c23f045c3b4705647efeafc45d54c6d87e61b",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 59512,
+      "observed_groups": [
+        {
+          "metadata_team_name": "ViCi",
+          "observed_team_name": "ViCi",
+          "players": [
+            {
+              "hltv_id": "7016",
+              "nickname": "HZ",
+              "profile_url": "https://www.hltv.org/stats/players/7016/hz"
+            },
+            {
+              "hltv_id": "10774",
+              "nickname": "Freeman",
+              "profile_url": "https://www.hltv.org/stats/players/10774/freeman"
+            },
+            {
+              "hltv_id": "180",
+              "nickname": "Savage",
+              "profile_url": "https://www.hltv.org/stats/players/180/savage"
+            },
+            {
+              "hltv_id": "8600",
+              "nickname": "advent",
+              "profile_url": "https://www.hltv.org/stats/players/8600/advent"
+            },
+            {
+              "hltv_id": "8601",
+              "nickname": "zhokiNg",
+              "profile_url": "https://www.hltv.org/stats/players/8601/zhoking"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "New4",
+          "observed_team_name": "New4",
+          "players": [
+            {
+              "hltv_id": "11161",
+              "nickname": "Drea3er",
+              "profile_url": "https://www.hltv.org/stats/players/11161/drea3er"
+            },
+            {
+              "hltv_id": "177",
+              "nickname": "Jewelry",
+              "profile_url": "https://www.hltv.org/stats/players/177/jewelry"
+            },
+            {
+              "hltv_id": "11358",
+              "nickname": "0i",
+              "profile_url": "https://www.hltv.org/stats/players/11358/0i"
+            },
+            {
+              "hltv_id": "10722",
+              "nickname": "gas",
+              "profile_url": "https://www.hltv.org/stats/players/10722/gas"
+            },
+            {
+              "hltv_id": "11574",
+              "nickname": "xiaosaGe",
+              "profile_url": "https://www.hltv.org/stats/players/11574/xiaosage"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1515053700000,
+      "player_ids": [
+        [
+          "cs-person-000136",
+          "cs-person-000137",
+          "cs-person-000138",
+          "cs-person-000139",
+          "cs-person-000140"
+        ],
+        [
+          "cs-person-000141",
+          "cs-person-000142",
+          "cs-person-000143",
+          "cs-person-000144",
+          "cs-person-000145"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "213dac91c7e6d030b5fb7715ee810e17a2d9dbbcb2e29d2d6aeabf12a67b02b6",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/59513/red-wolf-vs-new4"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 59513,
+      "observed_groups": [
+        {
+          "metadata_team_name": "New4",
+          "observed_team_name": "New4",
+          "players": [
+            {
+              "hltv_id": "11574",
+              "nickname": "xiaosaGe",
+              "profile_url": "https://www.hltv.org/stats/players/11574/xiaosage"
+            },
+            {
+              "hltv_id": "177",
+              "nickname": "Jewelry",
+              "profile_url": "https://www.hltv.org/stats/players/177/jewelry"
+            },
+            {
+              "hltv_id": "11161",
+              "nickname": "Drea3er",
+              "profile_url": "https://www.hltv.org/stats/players/11161/drea3er"
+            },
+            {
+              "hltv_id": "10722",
+              "nickname": "gas",
+              "profile_url": "https://www.hltv.org/stats/players/10722/gas"
+            },
+            {
+              "hltv_id": "11358",
+              "nickname": "0i",
+              "profile_url": "https://www.hltv.org/stats/players/11358/0i"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "Red Wolf",
+          "observed_team_name": "Red Wolf",
+          "players": [
+            {
+              "hltv_id": "10236",
+              "nickname": "WyCloud",
+              "profile_url": "https://www.hltv.org/stats/players/10236/wycloud"
+            },
+            {
+              "hltv_id": "10192",
+              "nickname": "DeStRoYeR",
+              "profile_url": "https://www.hltv.org/stats/players/10192/destroyer"
+            },
+            {
+              "hltv_id": "12934",
+              "nickname": "Lieu",
+              "profile_url": "https://www.hltv.org/stats/players/12934/lieu"
+            },
+            {
+              "hltv_id": "16210",
+              "nickname": "Searph",
+              "profile_url": "https://www.hltv.org/stats/players/16210/searph"
+            },
+            {
+              "hltv_id": "12933",
+              "nickname": "Mumu",
+              "profile_url": "https://www.hltv.org/stats/players/12933/mumu"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1515058200000,
+      "player_ids": [
+        [
+          "cs-person-000145",
+          "cs-person-000142",
+          "cs-person-000141",
+          "cs-person-000144",
+          "cs-person-000143"
+        ],
+        [
+          "cs-person-000146",
+          "cs-person-000147",
+          "cs-person-000148",
+          "cs-person-000149",
+          "cs-person-000150"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "e04c62b92dae13fe4d99487e49fd8f31e65cb7bd653ec2c08657b2853f2c8194",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 79922,
+      "observed_groups": [
+        {
+          "metadata_team_name": "PACT",
+          "observed_team_name": "PACT",
+          "players": [
+            {
+              "hltv_id": "16847",
+              "nickname": "mhL",
+              "profile_url": "https://www.hltv.org/stats/players/16847/mhl"
+            },
+            {
+              "hltv_id": "15204",
+              "nickname": "Vegi",
+              "profile_url": "https://www.hltv.org/stats/players/15204/vegi"
+            },
+            {
+              "hltv_id": "11287",
+              "nickname": "darko",
+              "profile_url": "https://www.hltv.org/stats/players/11287/darko"
+            },
+            {
+              "hltv_id": "18068",
+              "nickname": "Miki",
+              "profile_url": "https://www.hltv.org/stats/players/18068/miki"
+            },
+            {
+              "hltv_id": "15697",
+              "nickname": "Sidney",
+              "profile_url": "https://www.hltv.org/stats/players/15697/sidney"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "x-kom",
+          "observed_team_name": "x-kom",
+          "players": [
+            {
+              "hltv_id": "15428",
+              "nickname": "Goofy",
+              "profile_url": "https://www.hltv.org/stats/players/15428/goofy"
+            },
+            {
+              "hltv_id": "8321",
+              "nickname": "oskarish",
+              "profile_url": "https://www.hltv.org/stats/players/8321/oskarish"
+            },
+            {
+              "hltv_id": "14684",
+              "nickname": "jedqr",
+              "profile_url": "https://www.hltv.org/stats/players/14684/jedqr"
+            },
+            {
+              "hltv_id": "12699",
+              "nickname": "STOMP",
+              "profile_url": "https://www.hltv.org/stats/players/12699/stomp"
+            },
+            {
+              "hltv_id": "9916",
+              "nickname": "mono",
+              "profile_url": "https://www.hltv.org/stats/players/9916/mono"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1546617600000,
+      "player_ids": [
+        [
+          "cs-person-000151",
+          "cs-person-000152",
+          "cs-person-000153",
+          "cs-person-000154",
+          "cs-person-000155"
+        ],
+        [
+          "cs-person-000156",
+          "cs-person-000157",
+          "cs-person-000158",
+          "cs-person-000132",
+          "cs-person-000159"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "55a5e10fca7504038a1ca76e6224e00a2c271526d378cae3bf361a37bac71d5c",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/79923/x-kom-vs-pact"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 79923,
+      "observed_groups": [
+        {
+          "metadata_team_name": "PACT",
+          "observed_team_name": "PACT",
+          "players": [
+            {
+              "hltv_id": "16847",
+              "nickname": "mhL",
+              "profile_url": "https://www.hltv.org/stats/players/16847/mhl"
+            },
+            {
+              "hltv_id": "15204",
+              "nickname": "Vegi",
+              "profile_url": "https://www.hltv.org/stats/players/15204/vegi"
+            },
+            {
+              "hltv_id": "15697",
+              "nickname": "Sidney",
+              "profile_url": "https://www.hltv.org/stats/players/15697/sidney"
+            },
+            {
+              "hltv_id": "18068",
+              "nickname": "Miki",
+              "profile_url": "https://www.hltv.org/stats/players/18068/miki"
+            },
+            {
+              "hltv_id": "11287",
+              "nickname": "darko",
+              "profile_url": "https://www.hltv.org/stats/players/11287/darko"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "x-kom",
+          "observed_team_name": "x-kom",
+          "players": [
+            {
+              "hltv_id": "12699",
+              "nickname": "STOMP",
+              "profile_url": "https://www.hltv.org/stats/players/12699/stomp"
+            },
+            {
+              "hltv_id": "15428",
+              "nickname": "Goofy",
+              "profile_url": "https://www.hltv.org/stats/players/15428/goofy"
+            },
+            {
+              "hltv_id": "9916",
+              "nickname": "mono",
+              "profile_url": "https://www.hltv.org/stats/players/9916/mono"
+            },
+            {
+              "hltv_id": "14684",
+              "nickname": "jedqr",
+              "profile_url": "https://www.hltv.org/stats/players/14684/jedqr"
+            },
+            {
+              "hltv_id": "8321",
+              "nickname": "oskarish",
+              "profile_url": "https://www.hltv.org/stats/players/8321/oskarish"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1546617600000,
+      "player_ids": [
+        [
+          "cs-person-000151",
+          "cs-person-000152",
+          "cs-person-000155",
+          "cs-person-000154",
+          "cs-person-000153"
+        ],
+        [
+          "cs-person-000132",
+          "cs-person-000156",
+          "cs-person-000159",
+          "cs-person-000158",
+          "cs-person-000157"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "5e6096cb0bdf14b8255106c1097880c8dde3db3c691baf3df1b34fdc29a921de",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 97401,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Rocketlauncher$",
+          "observed_team_name": "Rocketlauncher$",
+          "players": [
+            {
+              "hltv_id": "10853",
+              "nickname": "EMENK",
+              "profile_url": "https://www.hltv.org/stats/players/10853/emenk"
+            },
+            {
+              "hltv_id": "18749",
+              "nickname": "sausol",
+              "profile_url": "https://www.hltv.org/stats/players/18749/sausol"
+            },
+            {
+              "hltv_id": "13093",
+              "nickname": "DeathZz",
+              "profile_url": "https://www.hltv.org/stats/players/13093/deathzz"
+            },
+            {
+              "hltv_id": "10852",
+              "nickname": "shhhack",
+              "profile_url": "https://www.hltv.org/stats/players/10852/shhhack"
+            },
+            {
+              "hltv_id": "7388",
+              "nickname": "SOKER",
+              "profile_url": "https://www.hltv.org/stats/players/7388/soker"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "Ambush",
+          "observed_team_name": "Ambush",
+          "players": [
+            {
+              "hltv_id": "2898",
+              "nickname": "raalz",
+              "profile_url": "https://www.hltv.org/stats/players/2898/raalz"
+            },
+            {
+              "hltv_id": "7414",
+              "nickname": "smF",
+              "profile_url": "https://www.hltv.org/stats/players/7414/smf"
+            },
+            {
+              "hltv_id": "18640",
+              "nickname": "ckay",
+              "profile_url": "https://www.hltv.org/stats/players/18640/ckay"
+            },
+            {
+              "hltv_id": "921",
+              "nickname": "BERRY",
+              "profile_url": "https://www.hltv.org/stats/players/921/berry"
+            },
+            {
+              "hltv_id": "7932",
+              "nickname": "doktizh",
+              "profile_url": "https://www.hltv.org/stats/players/7932/doktizh"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1577977200000,
+      "player_ids": [
+        [
+          "cs-person-000160",
+          "cs-person-000161",
+          "cs-person-000162",
+          "cs-person-000163",
+          "cs-person-000076"
+        ],
+        [
+          "cs-person-000164",
+          "cs-person-000165",
+          "cs-person-000166",
+          "cs-person-000167",
+          "cs-person-000168"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "58da7c04c5b31bf85654557e729dbee652248b7a82e01d11960dafef1d73de59",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/97402/ambush-vs-rocketlauncher"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 97402,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Rocketlauncher$",
+          "observed_team_name": "Rocketlauncher$",
+          "players": [
+            {
+              "hltv_id": "18749",
+              "nickname": "sausol",
+              "profile_url": "https://www.hltv.org/stats/players/18749/sausol"
+            },
+            {
+              "hltv_id": "7388",
+              "nickname": "SOKER",
+              "profile_url": "https://www.hltv.org/stats/players/7388/soker"
+            },
+            {
+              "hltv_id": "13093",
+              "nickname": "DeathZz",
+              "profile_url": "https://www.hltv.org/stats/players/13093/deathzz"
+            },
+            {
+              "hltv_id": "10853",
+              "nickname": "EMENK",
+              "profile_url": "https://www.hltv.org/stats/players/10853/emenk"
+            },
+            {
+              "hltv_id": "10852",
+              "nickname": "shhhack",
+              "profile_url": "https://www.hltv.org/stats/players/10852/shhhack"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "Ambush",
+          "observed_team_name": "Ambush",
+          "players": [
+            {
+              "hltv_id": "7932",
+              "nickname": "doktizh",
+              "profile_url": "https://www.hltv.org/stats/players/7932/doktizh"
+            },
+            {
+              "hltv_id": "921",
+              "nickname": "BERRY",
+              "profile_url": "https://www.hltv.org/stats/players/921/berry"
+            },
+            {
+              "hltv_id": "18640",
+              "nickname": "ckay",
+              "profile_url": "https://www.hltv.org/stats/players/18640/ckay"
+            },
+            {
+              "hltv_id": "2898",
+              "nickname": "raalz",
+              "profile_url": "https://www.hltv.org/stats/players/2898/raalz"
+            },
+            {
+              "hltv_id": "7414",
+              "nickname": "smF",
+              "profile_url": "https://www.hltv.org/stats/players/7414/smf"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1577977200000,
+      "player_ids": [
+        [
+          "cs-person-000161",
+          "cs-person-000076",
+          "cs-person-000162",
+          "cs-person-000160",
+          "cs-person-000163"
+        ],
+        [
+          "cs-person-000168",
+          "cs-person-000167",
+          "cs-person-000166",
+          "cs-person-000164",
+          "cs-person-000165"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "8ca8e4034b18ae20b8cc635fff5bba169f8d82441c73abf961cd34e746fb9870",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 113641,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Apologis",
+          "observed_team_name": "Apologis",
+          "players": [
+            {
+              "hltv_id": "15118",
+              "nickname": "SBT",
+              "profile_url": "https://www.hltv.org/stats/players/15118/sbt"
+            },
+            {
+              "hltv_id": "19964",
+              "nickname": "SoneSb",
+              "profile_url": "https://www.hltv.org/stats/players/19964/sonesb"
+            },
+            {
+              "hltv_id": "20308",
+              "nickname": "DrqkoN",
+              "profile_url": "https://www.hltv.org/stats/players/20308/drqkon"
+            },
+            {
+              "hltv_id": "19890",
+              "nickname": "Gringo",
+              "profile_url": "https://www.hltv.org/stats/players/19890/gringo"
+            },
+            {
+              "hltv_id": "18731",
+              "nickname": "wasiNk",
+              "profile_url": "https://www.hltv.org/stats/players/18731/wasink"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "UBITEAM",
+          "observed_team_name": "UBITEAM",
+          "players": [
+            {
+              "hltv_id": "20306",
+              "nickname": "Nono2K",
+              "profile_url": "https://www.hltv.org/stats/players/20306/nono2k"
+            },
+            {
+              "hltv_id": "18137",
+              "nickname": "Ninis",
+              "profile_url": "https://www.hltv.org/stats/players/18137/ninis"
+            },
+            {
+              "hltv_id": "20446",
+              "nickname": "red1many",
+              "profile_url": "https://www.hltv.org/stats/players/20446/red1many"
+            },
+            {
+              "hltv_id": "13508",
+              "nickname": "Malikof",
+              "profile_url": "https://www.hltv.org/stats/players/13508/malikof"
+            },
+            {
+              "hltv_id": "20307",
+              "nickname": "Spn",
+              "profile_url": "https://www.hltv.org/stats/players/20307/spn"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1610111400000,
+      "player_ids": [
+        [
+          "cs-person-000169",
+          "cs-person-000170",
+          "cs-person-000171",
+          "cs-person-000172",
+          "cs-person-000173"
+        ],
+        [
+          "cs-person-000174",
+          "cs-person-000175",
+          "cs-person-000176",
+          "cs-person-000177",
+          "cs-person-000178"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "505a3e28455b72017ce6eac3098b52efb5d3ad237502842c2ea9c5c2e715e6f6",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 113642,
+      "observed_groups": [
+        {
+          "metadata_team_name": "TheDice",
+          "observed_team_name": "TheDice",
+          "players": [
+            {
+              "hltv_id": "9646",
+              "nickname": "Polox",
+              "profile_url": "https://www.hltv.org/stats/players/9646/polox"
+            },
+            {
+              "hltv_id": "19926",
+              "nickname": "afro",
+              "profile_url": "https://www.hltv.org/stats/players/19926/afro"
+            },
+            {
+              "hltv_id": "19738",
+              "nickname": "Djoko",
+              "profile_url": "https://www.hltv.org/stats/players/19738/djoko"
+            },
+            {
+              "hltv_id": "8647",
+              "nickname": "XpG",
+              "profile_url": "https://www.hltv.org/stats/players/8647/xpg"
+            },
+            {
+              "hltv_id": "10732",
+              "nickname": "nonick",
+              "profile_url": "https://www.hltv.org/stats/players/10732/nonick"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "Clutch Rayn",
+          "observed_team_name": "Clutch Rayn",
+          "players": [
+            {
+              "hltv_id": "20477",
+              "nickname": "HippoV",
+              "profile_url": "https://www.hltv.org/stats/players/20477/hippov"
+            },
+            {
+              "hltv_id": "20478",
+              "nickname": "SkyOnly",
+              "profile_url": "https://www.hltv.org/stats/players/20478/skyonly"
+            },
+            {
+              "hltv_id": "19937",
+              "nickname": "Diviiii",
+              "profile_url": "https://www.hltv.org/stats/players/19937/diviiii"
+            },
+            {
+              "hltv_id": "7600",
+              "nickname": "MetaL",
+              "profile_url": "https://www.hltv.org/stats/players/7600/metal"
+            },
+            {
+              "hltv_id": "20476",
+              "nickname": "Razn",
+              "profile_url": "https://www.hltv.org/stats/players/20476/razn"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1610116200000,
+      "player_ids": [
+        [
+          "cs-person-000179",
+          "cs-person-000180",
+          "cs-person-000181",
+          "cs-person-000182",
+          "cs-person-000183"
+        ],
+        [
+          "cs-person-000184",
+          "cs-person-000185",
+          "cs-person-000186",
+          "cs-person-000187",
+          "cs-person-000188"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "b9c4f90b3beafc9b1d10166ce83378320e3f08308b3910cec23995603af206e5",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "map_id": 132566,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Checkmate",
+          "observed_team_name": "Checkmate",
+          "players": [
+            {
+              "hltv_id": "19537",
+              "nickname": "cool4st",
+              "profile_url": "https://www.hltv.org/stats/players/19537/cool4st"
+            },
+            {
+              "hltv_id": "12956",
+              "nickname": "hasteka",
+              "profile_url": "https://www.hltv.org/stats/players/12956/hasteka"
+            },
+            {
+              "hltv_id": "20275",
+              "nickname": "Techno",
+              "profile_url": "https://www.hltv.org/stats/players/20275/techno"
+            },
+            {
+              "hltv_id": "19957",
+              "nickname": "Bart4k",
+              "profile_url": "https://www.hltv.org/stats/players/19957/bart4k"
+            },
+            {
+              "hltv_id": "20194",
+              "nickname": "bLitz",
+              "profile_url": "https://www.hltv.org/stats/players/20194/blitz"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "TBC",
+          "observed_team_name": "TBC",
+          "players": [
+            {
+              "hltv_id": "21402",
+              "nickname": "starDUST",
+              "profile_url": "https://www.hltv.org/stats/players/21402/stardust"
+            },
+            {
+              "hltv_id": "19538",
+              "nickname": "MagnumZ",
+              "profile_url": "https://www.hltv.org/stats/players/19538/magnumz"
+            },
+            {
+              "hltv_id": "20903",
+              "nickname": "Senzu",
+              "profile_url": "https://www.hltv.org/stats/players/20903/senzu"
+            },
+            {
+              "hltv_id": "13941",
+              "nickname": "Gun Fu",
+              "profile_url": "https://www.hltv.org/stats/players/13941/gun-fu"
+            },
+            {
+              "hltv_id": "21428",
+              "nickname": "fury5k",
+              "profile_url": "https://www.hltv.org/stats/players/21428/fury5k"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1641103200000,
+      "player_ids": [
+        [
+          "cs-person-000189",
+          "cs-person-000190",
+          "cs-person-000191",
+          "cs-person-000192",
+          "cs-person-000193"
+        ],
+        [
+          "cs-person-000194",
+          "cs-person-000195",
+          "cs-person-000196",
+          "cs-person-000197",
+          "cs-person-000198"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "0f59ebe82328102c450265783927feb0c185a72ad5eb19462b9c119de1aeb854",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/132567/tbc-vs-checkmate"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 132567,
+      "observed_groups": [
+        {
+          "metadata_team_name": "Checkmate",
+          "observed_team_name": "Checkmate",
+          "players": [
+            {
+              "hltv_id": "20194",
+              "nickname": "bLitz",
+              "profile_url": "https://www.hltv.org/stats/players/20194/blitz"
+            },
+            {
+              "hltv_id": "19537",
+              "nickname": "cool4st",
+              "profile_url": "https://www.hltv.org/stats/players/19537/cool4st"
+            },
+            {
+              "hltv_id": "20275",
+              "nickname": "Techno",
+              "profile_url": "https://www.hltv.org/stats/players/20275/techno"
+            },
+            {
+              "hltv_id": "12956",
+              "nickname": "hasteka",
+              "profile_url": "https://www.hltv.org/stats/players/12956/hasteka"
+            },
+            {
+              "hltv_id": "19957",
+              "nickname": "Bart4k",
+              "profile_url": "https://www.hltv.org/stats/players/19957/bart4k"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "TBC",
+          "observed_team_name": "TBC",
+          "players": [
+            {
+              "hltv_id": "21428",
+              "nickname": "fury5k",
+              "profile_url": "https://www.hltv.org/stats/players/21428/fury5k"
+            },
+            {
+              "hltv_id": "19538",
+              "nickname": "MagnumZ",
+              "profile_url": "https://www.hltv.org/stats/players/19538/magnumz"
+            },
+            {
+              "hltv_id": "20903",
+              "nickname": "Senzu",
+              "profile_url": "https://www.hltv.org/stats/players/20903/senzu"
+            },
+            {
+              "hltv_id": "13941",
+              "nickname": "Gun Fu",
+              "profile_url": "https://www.hltv.org/stats/players/13941/gun-fu"
+            },
+            {
+              "hltv_id": "21402",
+              "nickname": "starDUST",
+              "profile_url": "https://www.hltv.org/stats/players/21402/stardust"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1641103200000,
+      "player_ids": [
+        [
+          "cs-person-000193",
+          "cs-person-000189",
+          "cs-person-000191",
+          "cs-person-000190",
+          "cs-person-000192"
+        ],
+        [
+          "cs-person-000198",
+          "cs-person-000195",
+          "cs-person-000196",
+          "cs-person-000197",
+          "cs-person-000194"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "8f42ff6486fa8147d5ce53138c435598ebdace29e179df3dd6345013388e38b9",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "actual_map_played": true,
+      "audit_batch_id": "2026-10-03-cross-year-30",
+      "audit_batch_sha256": "c50f1d6b600210925bdf4bb8954d7f6b7d7ce2d02907f817506908e5763c7a31",
+      "competition_type": "official",
+      "date_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+      "decision": "verify",
+      "evidence_schema_version": 2,
+      "evidence_urls": [
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "map_id": 149173,
+      "observed_groups": [
+        {
+          "metadata_team_name": "REIGN",
+          "observed_team_name": "REIGN",
+          "players": [
+            {
+              "hltv_id": "21813",
+              "nickname": "xaler",
+              "profile_url": "https://www.hltv.org/stats/players/21813/xaler"
+            },
+            {
+              "hltv_id": "20234",
+              "nickname": "Gabe",
+              "profile_url": "https://www.hltv.org/stats/players/20234/gabe"
+            },
+            {
+              "hltv_id": "21743",
+              "nickname": "Fugi",
+              "profile_url": "https://www.hltv.org/stats/players/21743/fugi"
+            },
+            {
+              "hltv_id": "13689",
+              "nickname": "jchancE",
+              "profile_url": "https://www.hltv.org/stats/players/13689/jchance"
+            },
+            {
+              "hltv_id": "22267",
+              "nickname": "mds",
+              "profile_url": "https://www.hltv.org/stats/players/22267/mds"
+            }
+          ]
+        },
+        {
+          "metadata_team_name": "Post Mortem",
+          "observed_team_name": "Post Mortem",
+          "players": [
+            {
+              "hltv_id": "19028",
+              "nickname": "VulcaN",
+              "profile_url": "https://www.hltv.org/stats/players/19028/vulcan"
+            },
+            {
+              "hltv_id": "21555",
+              "nickname": "cypress",
+              "profile_url": "https://www.hltv.org/stats/players/21555/cypress"
+            },
+            {
+              "hltv_id": "22021",
+              "nickname": "FAME",
+              "profile_url": "https://www.hltv.org/stats/players/22021/fame"
+            },
+            {
+              "hltv_id": "17324",
+              "nickname": "Slash",
+              "profile_url": "https://www.hltv.org/stats/players/17324/slash"
+            },
+            {
+              "hltv_id": "22086",
+              "nickname": "N4hSi",
+              "profile_url": "https://www.hltv.org/stats/players/22086/n4hsi"
+            }
+          ]
+        }
+      ],
+      "observed_timestamp_ms": 1673143200000,
+      "player_ids": [
+        [
+          "cs-person-000199",
+          "cs-person-000200",
+          "cs-person-000201",
+          "cs-person-000202",
+          "cs-person-000203"
+        ],
+        [
+          "cs-person-000204",
+          "cs-person-000205",
+          "cs-person-000206",
+          "cs-person-000207",
+          "cs-person-000208"
+        ]
+      ],
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。",
+      "record_sha256": "2931f1918bd9eff8b90363a0fa95f35ab00f6aef7bcc7de4c00e797c6b2fc1e9",
+      "review_method": "primary_source_browser_page_read",
+      "reviewed_by": "assistant",
+      "reviewed_on": "2026-10-03"
+    }
+  ],
+  "schema_version": 1
+}

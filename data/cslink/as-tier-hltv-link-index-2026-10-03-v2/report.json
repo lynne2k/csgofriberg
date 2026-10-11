@@ -1,0 +1,14 @@
+{
+  "ambiguous_map_to_series_links": 3,
+  "input_path": "data/cslink/as-tier-snapshot-2026-10-03/map-id-queue.jsonl",
+  "input_sha256": "e49ac7dd032653b8687369447af91fab8b83ad281a549cbefe976959b5557ecf",
+  "link_method": "HLTV numeric ID routes with /- as a redirecting slug placeholder",
+  "link_status": "constructed_from_liquipedia_id; not individually HTTP-verified",
+  "map_links": 6816,
+  "roster_status": "unverified; links alone do not establish teammate evidence",
+  "schema_version": 1,
+  "series_input_sha256": "a59c20e58d70b18ca2eb66c17c575c012f99c62674ec27a2ff9290ce5ebf19ab",
+  "series_links_total": 3118,
+  "series_links_with_maps": 3097,
+  "series_links_without_maps": 21
+}

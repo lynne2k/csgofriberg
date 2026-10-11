@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   Search,
   Gamepad2,
-  Globe,
   BarChart3,
   Trophy,
   Megaphone,
@@ -13,6 +12,7 @@ import {
   Wrench,
   CalendarDays,
   Soup,
+  ArrowUpRight,
 } from 'lucide-react';
 import MenuCard from '../components/MenuCard';
 import GameRules from '../components/GameRules';
@@ -173,24 +173,46 @@ export default function Home() {
       </div>
       <main className="page-scroll" id="main-content">
         <div className="home-hero">
-          <span className="hero-kicker">CS MAJOR // PLAYER GUESSING</span>
-          <h1>{t('common.brand')}</h1>
-          <p className="hero-subtitle">{t('home.subtitle')}</p>
-          <a
-            className="home-sponsor-link"
-            href="https://www.douyu.com/6979222"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-umami-event="home-wanjiqi-sponsor"
-          >
-            {t('home.titleSponsor')}
-          </a>
-          <GameRules />
-          {initialized && !user && (
-            <p className="muted" style={{ marginTop: 6 }}>
-              {t('home.guestHint')}
-            </p>
-          )}
+          <div className="home-hero-copy">
+            <span className="hero-kicker">CS MAJOR / PLAYER INDEX</span>
+            <h1>{t('common.brand')}</h1>
+            <p className="hero-subtitle">{t('home.subtitle')}</p>
+            <div className="home-hero-meta">
+              <GameRules />
+              <a
+                className="home-sponsor-link"
+                href="https://www.douyu.com/6979222"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-umami-event="home-wanjiqi-sponsor"
+              >
+                {t('home.titleSponsor')}
+              </a>
+            </div>
+            {initialized && !user && <p className="muted home-guest-hint">{t('home.guestHint')}</p>}
+          </div>
+          <nav className="home-hero-routes" aria-label="主要玩法 / Play">
+            <span className="home-hero-routes-heading">PLAY / 01</span>
+            {import.meta.env.DEV && (
+              <a className="home-route-link" href="/cslink/">
+                <span className="home-route-number" aria-hidden="true">01</span>
+                <span className="home-route-copy"><strong>CS Link</strong><small>每日挑战 · 多人对战</small></span>
+                <ArrowUpRight size={20} aria-hidden="true" />
+              </a>
+            )}
+            {import.meta.env.DEV && (
+              <Link className="home-route-link" to="/teammates">
+                <span className="home-route-number" aria-hidden="true">02</span>
+                <span className="home-route-copy"><strong>队友关系</strong><small>查询同队比赛，查看 HLTV 证据</small></span>
+                <ArrowUpRight size={20} aria-hidden="true" />
+              </Link>
+            )}
+            <Link className="home-route-link" to="/multi">
+              <span className="home-route-number" aria-hidden="true">{import.meta.env.DEV ? '03' : '01'}</span>
+              <span className="home-route-copy"><strong>{t('home.multiplayer')}</strong><small>{t('home.multiplayerDescription')}</small></span>
+              <ArrowUpRight size={20} aria-hidden="true" />
+            </Link>
+          </nav>
         </div>
         <div className="menu-grid">
           <MenuCard
@@ -207,13 +229,6 @@ export default function Home() {
             label={t('home.singleMode')}
             description={t('home.singleModeDescription')}
             color="#74e38f"
-          />
-          <MenuCard
-            to="/multi"
-            icon={<Globe size={22} />}
-            label={t('home.multiplayer')}
-            description={t('home.multiplayerDescription')}
-            color="#ffb64e"
           />
           <MenuCard
             to="/search"

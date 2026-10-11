@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "source_id": "tedtay-csgo",
+  "repository": "https://github.com/tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset",
+  "revision": "ce8a5f242a768c5698f8068828eeedc4fc134db1",
+  "rights_status": "unconfirmed",
+  "files": {
+    "README.md": {
+      "url": "https://raw.githubusercontent.com/tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset/ce8a5f242a768c5698f8068828eeedc4fc134db1/README.md",
+      "bytes": 8819,
+      "sha256": "e439bfde5222cc60267c955a6b5902102871aa555d17bb470938e65ea26b5410"
+    },
+    "LICENSE.txt": {
+      "url": "https://raw.githubusercontent.com/tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset/ce8a5f242a768c5698f8068828eeedc4fc134db1/LICENSE.txt",
+      "bytes": 1069,
+      "sha256": "85ce7eda4c1d04cba58e5d9852703b1d978b31c196334bd5fa4dbf146136f285"
+    },
+    "main_gcp_vm.py": {
+      "url": "https://raw.githubusercontent.com/tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset/ce8a5f242a768c5698f8068828eeedc4fc134db1/main_gcp_vm.py",
+      "bytes": 12486,
+      "sha256": "02912c214dbaa1ec9fd2b4acf13859bb4d6224b238cb22f4707458c5b385e5ef"
+    },
+    "combined_data_eda.ipynb": {
+      "url": "https://raw.githubusercontent.com/tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset/ce8a5f242a768c5698f8068828eeedc4fc134db1/combined_data_eda.ipynb",
+      "bytes": 96669,
+      "sha256": "24a1cac9fb0769a2158e1d31a4abd07ca8acdde6d7c821d506eacd65df08e765"
+    },
+    "csgo_pro_games_data.csv": {
+      "url": "https://raw.githubusercontent.com/tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset/ce8a5f242a768c5698f8068828eeedc4fc134db1/csgo_pro_games_data.csv",
+      "bytes": 86898678,
+      "sha256": "963154fa2069c5b0a63de48f0d908373a155363d56d03ad4d62bcdd3c22f7057"
+    },
+    "scraped_data/historic_games_list.csv": {
+      "url": "https://raw.githubusercontent.com/tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset/ce8a5f242a768c5698f8068828eeedc4fc134db1/scraped_data/historic_games_list.csv",
+      "bytes": 20844177,
+      "sha256": "f1db508f0db9311ecd58b83b3477baada1dec1a535fff751569778c6afdc42d9"
+    },
+    "scraped_data/exception_data.csv": {
+      "url": "https://raw.githubusercontent.com/tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset/ce8a5f242a768c5698f8068828eeedc4fc134db1/scraped_data/exception_data.csv",
+      "bytes": 231030,
+      "sha256": "5e9d20d71bfa7e70cfe37b6135546b3b225322b416a4075f4e97aa2092eecbea"
+    },
+    "scraped_data/game_data_rh.csv": {
+      "url": "https://raw.githubusercontent.com/tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset/ce8a5f242a768c5698f8068828eeedc4fc134db1/scraped_data/game_data_rh.csv",
+      "bytes": 66179433,
+      "sha256": "c48c793845b64331c3dd2aaad08d004ba29cac0fb7bc2734fde41012e1a2d258"
+    }
+  }
+}

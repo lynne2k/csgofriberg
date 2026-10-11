@@ -1,0 +1,478 @@
+/* 首页与原有多人玩法：赛事实录式排版，限定在这三个页面，不改变其它玩法。 */
+html:not([data-theme='blast']) :is(.home-page, .multi-lobby-page, .multi-game-page) {
+  --bg: #f1f0e9;
+  --card: #fcfcf8;
+  --card-soft: #f5f5ef;
+  --text: #192019;
+  --text-sec: #4c564e;
+  --text-light: #626e64;
+  --border: rgba(25, 32, 25, 0.17);
+  --border-strong: rgba(25, 32, 25, 0.34);
+  --input-bg: #fff;
+}
+
+html[data-theme='blast'] :is(.home-page, .multi-lobby-page, .multi-game-page) {
+  --bg: #111714;
+  --card: #1a211c;
+  --card-soft: #202922;
+  --text: #f2f3e9;
+  --text-sec: #b8c2b8;
+  --text-light: #a0aca1;
+  --border: rgba(223, 233, 218, 0.17);
+  --border-strong: rgba(223, 233, 218, 0.32);
+  --input-bg: #141b16;
+}
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB',
+    'Noto Sans CJK SC', 'Microsoft YaHei', sans-serif;
+}
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .page-scroll {
+  background: none;
+  gap: 18px;
+}
+
+html:not([data-theme='blast']) :is(.home-page, .multi-lobby-page, .multi-game-page) .page-scroll {
+  background: none;
+}
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .page-scroll > * {
+  animation: none;
+}
+
+html .home-page .page-scroll > *,
+html .multi-lobby-page .page-scroll > * { flex-shrink: 0; }
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .header-bar {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .header-bar::after { content: none; }
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .header-bar .title {
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1.04rem;
+  font-style: normal;
+  font-weight: 680;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+html :is(.multi-lobby-page, .multi-game-page) .header-bar .title::before { content: none; }
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .btn {
+  border-radius: 3px;
+  box-shadow: none;
+  clip-path: none;
+  font-family: inherit;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .btn::after { content: none; }
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .btn:hover:not(:disabled) {
+  box-shadow: none;
+  transform: none;
+}
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .btn-ghost {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .btn-ghost:hover:not(:disabled) {
+  border-color: var(--border-strong);
+  background: var(--card-soft);
+  color: var(--text);
+}
+
+html :is(.multi-lobby-page, .multi-game-page) .btn:not(.btn-ghost):not(.btn-danger):not(.btn-warning) {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #161c12;
+}
+
+html :is(.multi-lobby-page, .multi-game-page) .btn-danger {
+  border: 1px solid color-mix(in srgb, var(--danger) 55%, var(--border));
+  background: transparent;
+  color: var(--danger);
+}
+
+html :is(.multi-lobby-page, .multi-game-page) .btn:disabled { opacity: 0.42; }
+
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .btn:focus-visible,
+html :is(.home-page, .multi-lobby-page, .multi-game-page) a:focus-visible,
+html :is(.home-page, .multi-lobby-page, .multi-game-page) .opt-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* 首页：品牌与主入口采用不居中、不投影的编辑式版面。 */
+html .home-page .page-scroll { padding-top: clamp(22px, 3vw, 36px); }
+html .home-page .home-brand-slashes { font-style: normal; font-size: 1rem; letter-spacing: -0.18em; }
+html .home-page .home-brand-logo { border-radius: 2px; box-shadow: none; }
+html .home-page .header-bar .title { font-size: 1.08rem; }
+html .home-page .header-bar .muted { font-size: 0.88rem; }
+
+html .home-page .home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+  align-items: stretch;
+  gap: clamp(24px, 4vw, 64px);
+  min-height: 0;
+  padding: clamp(30px, 5vw, 58px);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--text);
+  border-radius: 0;
+  background: var(--card);
+  box-shadow: none;
+  clip-path: none;
+  text-align: left;
+}
+
+html .home-page .home-hero::before,
+html .home-page .home-hero::after { content: none; }
+
+.home-hero-copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+
+html .home-page .hero-kicker,
+.multi-lobby-eyebrow,
+.lobby-card-index,
+.home-hero-routes-heading {
+  padding: 0;
+  border: 0;
+  color: var(--text-light);
+  font-family: 'SFMono-Regular', ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+  font-size: 0.71rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  animation: none;
+}
+
+html .home-page .hero-kicker { margin: 0 0 clamp(28px, 6vw, 58px); }
+
+html .home-page .home-hero h1 {
+  margin: 0 0 16px;
+  background: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: clamp(3rem, 6vw, 5.2rem);
+  font-style: normal;
+  font-weight: 760;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+  text-shadow: none;
+  transform: none;
+  animation: none;
+}
+
+html .home-page .home-hero .hero-subtitle {
+  max-width: 31rem;
+  color: var(--text-sec);
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 460;
+  letter-spacing: 0;
+  line-height: 1.6;
+}
+
+.home-hero-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; margin-top: auto; padding-top: 28px; }
+html .home-page .game-rules-trigger {
+  margin: 0;
+  padding: 0 0 2px;
+  border: 0;
+  border-bottom: 1px solid var(--text);
+  border-radius: 0;
+  background: none;
+  color: var(--text);
+  font-size: 0.83rem;
+  font-weight: 600;
+}
+html .home-page .game-rules-trigger:hover { background: none; color: var(--text-sec); }
+html .home-page .home-sponsor-link {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+html .home-page .home-guest-hint { margin: 12px 0 0; font-size: 0.78rem; }
+
+.home-hero-routes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding-left: clamp(20px, 3vw, 42px);
+  border-left: 1px solid var(--border);
+}
+.home-hero-routes-heading { display: block; margin-bottom: 14px; }
+.home-route-link {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) 1.5rem;
+  align-items: start;
+  gap: 10px;
+  min-width: 0;
+  padding: 20px 4px 20px 0;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+  transition: padding-left 0.16s ease, background 0.16s ease;
+}
+.home-route-link:last-child { border-bottom: 1px solid var(--border); }
+.home-route-link:hover { padding-left: 7px; background: var(--card-soft); }
+.home-route-number {
+  padding-top: 4px;
+  color: var(--text-light);
+  font-family: 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+.home-route-copy { display: grid; gap: 6px; min-width: 0; }
+.home-route-copy strong { font-size: clamp(1.15rem, 1.7vw, 1.48rem); font-weight: 680; line-height: 1.25; }
+.home-route-copy small { color: var(--text-sec); font-size: 0.82rem; line-height: 1.5; }
+.home-route-link > svg { margin-top: 3px; color: var(--text-light); }
+.home-route-link:hover > svg { color: var(--primary-strong); }
+
+html .home-page .menu-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-right: 0;
+  border-bottom: 0;
+}
+html .home-page .menu-card {
+  display: grid;
+  grid-template-columns: 1.8rem minmax(0, 1fr) 1.1rem;
+  align-items: start;
+  justify-content: start;
+  gap: 12px;
+  min-height: 138px;
+  padding: 22px 18px;
+  border: 0;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--card);
+  box-shadow: none;
+  clip-path: none;
+  color: var(--text);
+  transform: none;
+}
+html .home-page .menu-card::before,
+html .home-page .menu-card::after { content: none; }
+html .home-page .menu-card:hover {
+  border-color: var(--border);
+  background: var(--card-soft);
+  box-shadow: none;
+  transform: none;
+}
+html .home-page .menu-card .menu-icon {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: auto;
+  height: auto;
+  padding-top: 1px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--text-light);
+  transform: none;
+}
+html .home-page .menu-card .menu-icon svg { width: 20px; height: 20px; stroke-width: 1.65; }
+html .home-page .menu-copy { display: grid; gap: 8px; min-width: 0; padding: 0; text-align: left; }
+html .home-page .menu-card .menu-label {
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 670;
+  letter-spacing: 0;
+}
+html .home-page .menu-description { display: block; color: var(--text-sec); font-size: 0.78rem; line-height: 1.55; }
+html .home-page .menu-arrow { position: static; width: 16px; height: 16px; color: var(--text-light); }
+html .home-page .bottom-bar {
+  justify-content: flex-start;
+  gap: 4px 10px;
+  padding: 6px 0 30px;
+}
+html .home-page .bottom-bar .btn {
+  min-height: 34px;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-sec);
+  font-size: 0.8rem;
+}
+html .home-page .bottom-bar .btn:hover { background: var(--card-soft); color: var(--text); }
+
+/* 大厅：把设置表单整理成三个轻量功能区。 */
+html .multi-lobby-page .page-scroll { padding-top: clamp(22px, 3vw, 38px); }
+.multi-lobby-intro {
+  display: grid;
+  gap: 7px;
+  width: min(61.25rem, 100%);
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.multi-lobby-intro h1 { margin: 0; font-size: clamp(1.9rem, 3.2vw, 2.7rem); font-weight: 720; letter-spacing: -0.04em; line-height: 1.15; }
+.multi-lobby-intro p { margin: 0; color: var(--text-sec); font-size: 0.93rem; }
+html .multi-lobby-page .lobby-grid { gap: 12px; }
+html .multi-lobby-page .card,
+html .multi-game-page .card {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--card);
+  box-shadow: none;
+}
+html .multi-lobby-page .card::before,
+html .multi-game-page .card::before { content: none; }
+html .multi-lobby-page .card h3,
+html .multi-game-page .card h3 {
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1.12rem;
+  font-style: normal;
+  font-weight: 690;
+  letter-spacing: -0.015em;
+}
+html .multi-lobby-page .card h3 > svg { color: var(--text-light); stroke-width: 1.7; }
+html .multi-lobby-page .lobby-card-index { display: block; margin-bottom: 14px; }
+html .multi-lobby-page .multi-lobby-create-card { border-top: 3px solid var(--text); }
+html .multi-lobby-page .multi-lobby-match-card,
+html .multi-lobby-page .multi-lobby-join-card { border-top: 3px solid var(--border-strong); }
+html .multi-lobby-page .option-row { gap: 7px; padding-block: 8px; margin: 0; }
+html .multi-lobby-page .opt-label { min-width: 88px; color: var(--text-sec); font-size: 0.82rem; font-weight: 580; }
+html .multi-lobby-page .opt-btn {
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  box-shadow: none;
+  clip-path: none;
+  color: var(--text-sec);
+  font-family: inherit;
+  font-size: 0.83rem;
+  font-weight: 550;
+}
+html .multi-lobby-page .opt-btn.active,
+html .multi-lobby-page .opt-btn[aria-pressed='true'] {
+  border-color: var(--text);
+  background: var(--text);
+  box-shadow: none;
+  color: var(--bg);
+  font-weight: 650;
+}
+html .multi-lobby-page .opt-btn:hover:not(.active) { border-color: var(--text-light); color: var(--text); }
+html .multi-lobby-page .input { border-radius: 2px; background: var(--input-bg); }
+html .multi-lobby-page .room-more-settings-button { margin-top: 18px; }
+html .multi-lobby-page .multi-lobby-create-action { margin-top: 16px; padding-left: 92px; }
+html .multi-lobby-page .matchmaking-requirement { color: var(--warning); }
+html .multi-lobby-page .room-code-display {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--card-soft);
+  color: var(--text);
+  font-family: 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+html .multi-lobby-page .multi-lobby-created-card,
+html .multi-lobby-page .multi-lobby-message-card { align-items: stretch; text-align: left; }
+html .multi-lobby-page .multi-lobby-message-card h3,
+html .multi-lobby-page .multi-lobby-created-card h3,
+html .multi-lobby-page .multi-lobby-message-actions { justify-content: flex-start; }
+
+/* 原多人房间：状态、比分和棋盘依次呈现。 */
+html .multi-game-page .status-bar {
+  border-bottom: 1px solid var(--border);
+  background: var(--card-soft);
+  color: var(--text-sec);
+  font-size: 0.84rem;
+}
+html .multi-game-page .room-code-toggle { border-radius: 2px; background: var(--card); }
+html .multi-game-page .score-bar {
+  min-height: 82px;
+  border-top: 3px solid var(--text);
+  background: var(--card);
+}
+html .multi-game-page .score-bar .score,
+html .multi-game-page .multiplayer-scoreboard-score,
+html .multi-game-page .countdown {
+  color: var(--text);
+  font-family: 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.035em;
+}
+html .multi-game-page .score-bar .score { font-size: clamp(1.7rem, 3vw, 2.2rem); }
+html .multi-game-page .countdown.urgent { color: var(--danger); animation: none; }
+html .multi-game-page .player-board { border-top: 2px solid var(--border-strong); }
+html .multi-game-page .room-waiting-card { border-top: 3px solid var(--text); text-align: left; }
+html .multi-game-page .room-attributes h3,
+html .multi-game-page .room-attributes ul,
+html .multi-game-page .room-waiting-card .room-player-row,
+html .multi-game-page .room-waiting-card .room-ready-actions { justify-content: flex-start; }
+html .multi-game-page .room-attributes li { border-radius: 2px; background: var(--card-soft); }
+html .multi-game-page .room-player-row { border-top: 1px solid var(--border); }
+html .multi-game-page .room-player-row > b { font-weight: 660; }
+html .multi-game-page .game-table-wrap { background: var(--card-soft); }
+html .multi-game-page .game-table th { background: var(--card-soft); color: var(--text-sec); font-weight: 600; letter-spacing: 0; }
+html .multi-game-page .game-table td:not(.correct):not(.close):not(.wrong) {
+  border-color: var(--border);
+  border-radius: 2px;
+  background: var(--card);
+  color: var(--text);
+}
+html .multi-game-page .compact-player { border-radius: 2px; background: var(--card); }
+html .multi-game-page .compact-player-row:hover { background: var(--card-soft); }
+html .multi-game-page .input-dock { border-top: 1px solid var(--border); background: var(--bg); box-shadow: none; }
+
+@media (max-width: 960px) {
+  html .home-page .home-hero { grid-template-columns: 1fr; gap: 28px; }
+  .home-hero-routes { padding: 20px 0 0; border-top: 1px solid var(--border); border-left: 0; }
+  html .home-page .menu-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  html .home-page .home-hero { padding: 24px 20px; }
+  html .home-page .hero-kicker { margin-bottom: 26px; }
+  html .home-page .home-hero h1 { font-size: clamp(2.8rem, 12vw, 4rem); }
+  html .home-page .menu-card { min-height: 115px; padding: 18px 14px; }
+  html .home-page .bottom-bar { padding-bottom: 20px; }
+  html .multi-lobby-page .multi-lobby-create-action { padding-left: 0; }
+  html .multi-lobby-page .lobby-grid { max-width: 100%; }
+  html .multi-lobby-page .room-more-settings-button { margin-left: 0; }
+}
+
+@media (max-width: 520px) {
+  html .home-page .menu-grid { grid-template-columns: 1fr; }
+  html .home-page .menu-card { min-height: 90px; }
+  html .home-page .menu-card .menu-label { font-size: 0.95rem; }
+  html .home-page .menu-card .menu-icon svg { width: 18px; height: 18px; }
+  .home-route-link { grid-template-columns: 1.6rem minmax(0, 1fr) 1.2rem; gap: 8px; }
+  html .multi-lobby-page .room-player-limit-select { flex: 1 1 160px; width: auto; }
+  html .multi-lobby-page .opt-label { width: 100%; }
+  html .multi-lobby-page .join-room-form { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  html .multi-lobby-page .join-room-form .input { grid-column: 1 / -1; max-width: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-route-link { transition: none; }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "approval_id": "as-tier-109-local-play-2026-10-04",
+  "user_instruction": "新的109届比赛直接合并吧",
+  "approval_kind": "user_batch_scope_approval",
+  "play_scope": "local",
+  "candidate_version": "83b8e177fa2c717a0e7d",
+  "candidate_db_sha256": "83b8e177fa2c717a0e7d5511da44a3d8740e8078762aeff28d1609f36f4635e2",
+  "plan_sha256": "e2753232d5f06043fdc5c4121c21243bc5a72aec66e279770f427de4b810aef6",
+  "audit_report_sha256": "e7b11885b2784eb48e80e84a5a177eb28ef67900af67c83eece083922b253376",
+  "audit_event_review_sha256": "cf8fdd79823615ca410306c585bf3965b7220dd55aa9bc3fdca3a79c2ab588ad",
+  "expected_event_count": 109,
+  "expected_sampled_map_count": 805,
+  "excluded_maps": [
+    {
+      "map_id": 179981,
+      "expected_event_as_displayed": "BetBoom Dacha Belgrade Season 2 Europe Closed Qualifier",
+      "reason": "independent_closed_qualifier_outside_selected_event"
+    },
+    {
+      "map_id": 198346,
+      "expected_event_as_displayed": "Showmatch CS",
+      "reason": "showmatch_outside_formal_event"
+    },
+    {
+      "map_id": 198835,
+      "expected_event_as_displayed": "Showmatch CS",
+      "reason": "showmatch_outside_formal_event"
+    }
+  ]
+}

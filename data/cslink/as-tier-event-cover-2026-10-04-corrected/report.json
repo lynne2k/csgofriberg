@@ -1,0 +1,12 @@
+{
+  "changed_rows": 1,
+  "correction_ledger_sha256": "73eb9779617211ada4916307bc1ee8bd37263488b3ca4cb9cb379d6e4d615617",
+  "effective_plan_sha256": "e2753232d5f06043fdc5c4121c21243bc5a72aec66e279770f427de4b810aef6",
+  "eligible_for_questions": false,
+  "link_review_state": "manual_official_series_link_check",
+  "roster_review_state": "unverified",
+  "schema_version": 1,
+  "selected_series": 805,
+  "source_manifest_sha256": "1ffe74c470c499ef5ae45d4587891758ba2fbd21bab9e49f1bd41429b06c79c3",
+  "source_plan_sha256": "e6c4a5f1ec550fb18b282a13702b9416dfbc7fdf5bb85552209593458194615e"
+}

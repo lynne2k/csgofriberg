@@ -1,0 +1,19 @@
+{
+  "event_candidates": 110,
+  "events_needing_review": 110,
+  "events_sha256": "d9603dad7f61f11ceb589cc32c88886bce5cf386552d43676754b195ccae044c",
+  "events_with_discovered_maps": 109,
+  "map_ids_parsed": 6816,
+  "map_queue_sha256": "e49ac7dd032653b8687369447af91fab8b83ad281a549cbefe976959b5557ecf",
+  "question_eligibility": false,
+  "raw_event_team_labels": 1577,
+  "roster_coverage_status": "none_verified",
+  "schema_version": 1,
+  "selected_initial_maps": 805,
+  "selected_series": 805,
+  "selection_method": "deterministic multi-start greedy matching plus edge cover; not exact minimum",
+  "series_with_maps_parsed": 3097,
+  "source": "frozen Liquipedia MediaWiki API cache",
+  "stratified_pilot_series": 24,
+  "subpage_catalog_sha256": "91c480072fe96882b9315d138dd78c3e322c3356c58047c5ac9c5f05d6fc1224"
+}

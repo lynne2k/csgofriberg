@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CS Link · 房间</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --t: #f5a623; --ink: #0d0f14; --white: #fbfaf6;
+  --felt: #1f3b33; --felt-dark: #0f211c; --wood: #3a2414; --wood-hi: #6b4426;
+  --broke: #e5484d;
+  --seat-w: clamp(92px, 8.4vw, 128px);
+  --display: "Chakra Petch", "Noto Sans SC", sans-serif;
+  --body: "Noto Sans SC", -apple-system, "PingFang SC", sans-serif;
+  --rx: min(160px, 8vw, 14vh); --ry: min(120px, 11vh, 7vw); --rim: clamp(10px, 1.6vmin, 22px);
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+body { background: #120c08; color: var(--white); font-family: var(--body); overflow: hidden; }
+button, input { font: inherit; }
+.room { position: fixed; inset: 0; padding: clamp(8px, 1.4vmin, 18px); background: radial-gradient(ellipse at 50% 0%, #2a1c12, #0b0705 70%); }
+.table { position: relative; height: 100%; border-radius: var(--rx) / var(--ry); background: linear-gradient(160deg, var(--wood-hi), var(--wood) 40%, #22150b); padding: var(--rim); box-shadow: 0 30px 80px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.12); }
+.felt { position: relative; height: 100%; border-radius: max(12px, calc(var(--rx) - var(--rim))) / max(12px, calc(var(--ry) - var(--rim))); overflow: hidden;
+  background: radial-gradient(ellipse at 50% 45%, transparent 40%, rgba(0,0,0,.45) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 50% 40%, #2b5146, var(--felt) 55%, var(--felt-dark));
+  box-shadow: inset 0 0 0 3px rgba(0,0,0,.35), inset 0 10px 40px rgba(0,0,0,.5); }
+.back { position: absolute; top: 34px; left: 64px; z-index: 6; font-family: var(--display); font-weight: 700; letter-spacing: .12em; color: var(--white); opacity: .75; background: none; border: 0; cursor: pointer; padding: 0; }
+.back:hover { opacity: 1; }
+.view { position: absolute; inset: 0; display: none; }
+.view.on { display: block; animation: viewIn .32s cubic-bezier(.2,.8,.2,1); }
+@keyframes viewIn { from { opacity: 0; transform: translateY(10px); } }
+
+.btn { font-family: var(--display); font-weight: 700; font-size: 16px; letter-spacing: .16em; border: 0; cursor: pointer; padding: 12px 26px; color: var(--ink); background: var(--t); border-radius: 10px; box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 4px 0 rgba(0,0,0,.35), 0 10px 20px rgba(0,0,0,.3); white-space: nowrap; transition: transform .12s, box-shadow .12s, filter .12s; }
+.btn:active:not(:disabled) { transform: translateY(3px); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 1px 0 rgba(0,0,0,.35); }
+.btn.main { font-size: 20px; letter-spacing: .3em; padding: 14px 44px 14px 50px; border-radius: 0; clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,.4); }
+.btn.ghost { background: transparent; color: rgba(251,250,246,.7); box-shadow: inset 0 0 0 1px rgba(251,250,246,.22); }
+.btn.ghost:hover { color: var(--white); box-shadow: inset 0 0 0 1px rgba(251,250,246,.5); }
+.btn:hover:not(:disabled) { filter: brightness(1.08); }
+.btn:disabled, .btn.blue:disabled { background: #5d5038; color: #c9ad7c; cursor: not-allowed; }
+.btn.blue { background: #6f86ff; }
+.btn.dark { background: rgba(13,15,20,.9); color: var(--white); }
+.btn.on { background: #2fbf71; color: #06210f; }
+.btn.main:disabled { background: #4a4434; color: #a8977a; }
+.btn:focus-visible, .chip:focus-visible, .code:focus-visible, .copy:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
+
+/* 入口：左橙建房，右蓝进房 */
+.entry { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 44px); padding: clamp(84px, 13vh, 130px) clamp(30px, 7vw, 120px) clamp(40px, 9vh, 90px); }
+.mat { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: clamp(22px, 3.4vw, 46px); border-radius: 18px; background: rgba(8,16,13,.38); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), inset 0 20px 50px rgba(0,0,0,.25); overflow: hidden; }
+.mat.focus { box-shadow: inset 0 0 0 1px rgba(245,166,35,.55), 0 0 0 1px rgba(245,166,35,.25), 0 0 40px rgba(245,166,35,.18), inset 0 20px 50px rgba(0,0,0,.25); }
+.mat::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--side); }
+.mat.t { --side: var(--t); } .mat.ct { --side: #6f86ff; }
+.mat h2 { font-family: var(--display); font-size: clamp(30px, 3.4vw, 50px); letter-spacing: .14em; line-height: 1; color: var(--side); }
+.mat h2 small { display: block; margin-top: 10px; font-family: var(--body); font-size: 14px; letter-spacing: .04em; color: var(--white); opacity: .6; font-weight: 500; }
+.opt { display: grid; gap: 9px; }
+.opt > span { font-family: var(--display); font-size: 11px; letter-spacing: .24em; opacity: .55; }
+.chips { display: flex; gap: 12px; flex-wrap: wrap; }
+/* 选项做成筹码 */
+.chip { width: 66px; height: 66px; border-radius: 50%; border: 0; cursor: pointer; padding: 0; font-family: var(--display); font-weight: 700; font-size: 18px; color: #e7dcc4; display: grid; place-items: center; line-height: 1;
+  background: repeating-conic-gradient(#2a1d14 0 15deg, #3b2a1e 15deg 30deg); box-shadow: inset 0 0 0 6px #23170f, inset 0 0 0 8px rgba(255,255,255,.12), 0 6px 0 #120b06, 0 10px 18px rgba(0,0,0,.4); transition: transform .15s, box-shadow .15s; }
+.chip span { display: grid; place-items: center; align-content: center; width: 44px; height: 44px; border-radius: 50%; background: #2c1f15; }
+.chip small { display: block; font-size: 9px; letter-spacing: .1em; opacity: .7; margin-top: 2px; }
+.chip:hover { transform: translateY(-3px); }
+.chip[aria-pressed="true"] { color: var(--ink); background: repeating-conic-gradient(var(--side) 0 15deg, #fff3d6 15deg 30deg); box-shadow: inset 0 0 0 6px var(--side), 0 6px 0 #120b06, 0 0 22px rgba(255,220,150,.35); transform: translateY(-3px); }
+.chip[aria-pressed="true"] span { background: #fff3d6; }
+.join-in { display: flex; background: rgba(0,0,0,.42); border: 1px solid rgba(143,160,255,.35); border-radius: 6px; }
+.join-in:focus-within { border-color: #8ea0ff; box-shadow: 0 0 0 3px rgba(111,134,255,.2); }
+.join-in input { flex: 1; min-width: 0; background: none; border: 0; color: var(--white); padding: 14px 16px; font-family: var(--display); font-size: 22px; letter-spacing: .18em; }
+.join-in input::placeholder { font-size: 14px; letter-spacing: .06em; color: rgba(255,255,255,.35); }
+.join-in input:focus { outline: none; }
+.err { min-height: 20px; font-size: 14px; color: #ff9a9d; }
+.err code { font-family: var(--display); font-size: 11px; opacity: .6; margin-left: 6px; }
+
+/* 大厅 */
+.plate { position: absolute; top: clamp(22px, 4.5vh, 46px); left: 50%; transform: translateX(-50%) rotate(-1.5deg); z-index: 5; display: flex; align-items: center; gap: 16px; padding: 12px 14px 12px 22px; border-radius: 14px; color: #2a1c10;
+  background: radial-gradient(circle at 20% 0%, rgba(255,255,255,.55), transparent 50%), linear-gradient(#f8f0de, #e3cfa6); box-shadow: inset 0 0 0 5px #f3ead6, inset 0 0 0 6px #8a6a3b, 0 16px 30px rgba(0,0,0,.45); transition: transform .2s; }
+.plate:hover { transform: translateX(-50%) rotate(0deg) translateY(-2px); }
+.plate .lbl { font-family: var(--display); font-weight: 700; font-size: 10px; letter-spacing: .24em; color: #8a6a3b; writing-mode: vertical-rl; }
+.plate .code { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 3.6vw, 46px); letter-spacing: .16em; color: #2a1c10; background: none; border: 0; cursor: copy; line-height: 1; padding: 0; }
+.plate .code::first-letter { color: #c9790a; }
+.plate .copy { white-space: nowrap; font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .14em; color: var(--white); background: #2a1c10; border: 0; border-radius: 8px; cursor: pointer; padding: 10px 14px; min-width: 96px; }
+.plate .copy:hover { background: #3d2a19; }
+.plate .copy.ok { background: #1d8a50; }
+.meta { position: absolute; top: calc(clamp(22px, 4.5vh, 46px) + 86px); left: 50%; transform: translateX(-50%); z-index: 5; font-family: var(--display); font-size: 13px; letter-spacing: .14em; opacity: .62; white-space: nowrap; }
+.ring { position: absolute; left: 50%; top: 56%; width: min(74vw, 980px); height: min(50vh, 470px); transform: translate(-50%, -50%); }
+.seats { position: absolute; inset: 0; }
+.ring::before { content: ""; position: absolute; inset: 14% 12%; border-radius: 50%; border: 2px solid rgba(245,210,140,.14); box-shadow: inset 0 0 0 10px rgba(0,0,0,.08), inset 0 0 60px rgba(0,0,0,.25); }
+.center { position: absolute; left: 50%; top: 55%; transform: translate(-50%, -50%); text-align: center; display: grid; gap: 14px; justify-items: center; z-index: 3; width: min(440px, 60%); }
+.status { font-family: var(--display); font-size: 16px; letter-spacing: .06em; min-height: 22px; text-shadow: 0 2px 8px rgba(0,0,0,.5); }
+.pips { display: flex; gap: 6px; justify-content: center; margin-top: -6px; }
+.pips i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.14); box-shadow: inset 0 1px 2px rgba(0,0,0,.5); transition: background .3s, box-shadow .3s; }
+.pips i.y { background: #2fbf71; box-shadow: 0 0 10px rgba(47,191,113,.7); }
+.status b { color: var(--t); }
+.acts { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; justify-content: center; }
+
+/* 座位是一张牌：没准备是牌背，准备了翻到正面 */
+.seat { position: absolute; width: var(--seat-w); aspect-ratio: 5 / 7; transform: translate(-50%, -50%); perspective: 900px; }
+.seat .in { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.3,.7,.3,1); }
+.seat.ready .in { transform: rotateY(180deg); }
+.seat .f { position: absolute; inset: 0; border-radius: 9px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.seat .bk { color: #f3ead6; background: radial-gradient(circle at 50% 36%, rgba(245,166,35,.2), transparent 50%), repeating-linear-gradient(45deg, #2a1a12 0 9px, #3a2418 9px 18px);
+  box-shadow: inset 0 0 0 6px #2b160c, inset 0 0 0 7px #8a6a3b, 0 14px 24px rgba(0,0,0,.45); }
+.seat .bk::before { content: ""; position: absolute; left: 50%; top: 36%; width: 32%; aspect-ratio: 1; transform: translate(-50%, -50%) rotate(45deg); border: 2px solid rgba(245,166,35,.8); }
+.seat .fr { transform: rotateY(180deg); color: #2a1c10; background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.5), transparent 42%), linear-gradient(#f8f0de, #e6d3ae);
+  box-shadow: inset 0 0 0 6px #f3ead6, inset 0 0 0 7px #8a6a3b, 0 14px 24px rgba(0,0,0,.45); }
+.seat .fr::before { content: "READY"; position: absolute; top: 36%; left: 50%; transform: translate(-50%, -50%) rotate(-12deg); font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: .2em; color: #1d8a50; border: 2px solid #1d8a50; padding: 2px 8px; border-radius: 3px; }
+.seat .nm { position: absolute; left: 8px; right: 8px; bottom: 21%; text-align: center; font-family: var(--display); font-weight: 700; font-size: clamp(13px, 1.1vw, 16px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.seat .st { position: absolute; left: 0; right: 0; bottom: 10%; text-align: center; font-size: 10px; letter-spacing: .12em; opacity: .62; }
+.seat .tag { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; gap: 4px; }
+.seat .tag i { font-style: normal; box-shadow: 0 3px 8px rgba(0,0,0,.4); font-family: var(--display); font-weight: 700; font-size: 10px; letter-spacing: .14em; padding: 3px 8px; border-radius: 999px; background: var(--ink); color: var(--white); white-space: nowrap; }
+.seat .tag i.host { background: var(--t); color: var(--ink); }
+.seat.me .f { outline: 2px solid var(--t); outline-offset: 3px; }
+.seat.me::after { content: ""; position: absolute; left: 50%; bottom: -16px; width: 60%; height: 6px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(rgba(245,166,35,.55), transparent 70%); }
+.seat.off .in { filter: grayscale(.85) brightness(.6); }
+.seat.off .st { color: #ff9a9d; opacity: 1; }
+.seat.empty { border-radius: 9px; background: rgba(0,0,0,.16); box-shadow: inset 0 0 0 2px rgba(245,210,140,.08), inset 0 8px 20px rgba(0,0,0,.25); display: grid; place-items: center; font-family: var(--display); font-size: 12px; letter-spacing: .2em; color: rgba(255,255,255,.3); }
+.seat.deal { animation: deal .5s cubic-bezier(.2,.9,.3,1.15) backwards; }
+@keyframes deal { from { opacity: 0; transform: translate(-50%, -150%) scale(1.15) rotate(-8deg); } }
+
+.count { position: fixed; inset: 0; z-index: 300; display: none; place-items: center; background: rgba(5,6,8,.45); backdrop-filter: blur(2px); pointer-events: none; }
+.count.on { display: grid; }
+.count b { font-family: var(--display); font-weight: 700; font-size: min(34vw, 340px); line-height: 1; color: var(--t); text-shadow: 0 16px 50px rgba(0,0,0,.6); animation: num 1s ease-out both; }
+.count b.go { color: var(--white); font-size: min(18vw, 180px); letter-spacing: .1em; }
+@keyframes num { 0% { transform: scale(1.6); opacity: 0; } 18% { transform: scale(1); opacity: 1; } 80% { opacity: 1; } 100% { transform: scale(.85); opacity: 0; } }
+.count small { position: absolute; bottom: 18vh; font-family: var(--display); font-size: 18px; letter-spacing: .14em; opacity: .8; }
+.toast { position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%) translateY(20px); z-index: 320; padding: 10px 18px; background: rgba(13,15,20,.94); border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(245,166,35,.4), 0 10px 24px rgba(0,0,0,.4); font-size: 14px; opacity: 0; transition: .25s; pointer-events: none; }
+.toast.on { opacity: 1; transform: translateX(-50%); }
+.demo { position: absolute; right: 60px; bottom: 28px; z-index: 6; display: flex; gap: 6px; font-family: var(--display); font-size: 11px; opacity: .5; }
+.demo:hover { opacity: 1; }
+.demo button { background: rgba(0,0,0,.4); color: var(--white); border: 1px solid rgba(255,255,255,.15); border-radius: 6px; padding: 4px 8px; cursor: pointer; }
+
+@media (max-width: 860px) {
+  .back { top: 22px; left: 30px; }
+  .entry { grid-template-columns: 1fr; padding: 64px 22px 26px; gap: 14px; overflow-y: auto; }
+  .mat { gap: 12px; padding: 18px 20px; justify-content: flex-start; }
+  .chip { width: 54px; height: 54px; font-size: 15px; } .chip span { width: 36px; height: 36px; }
+  .plate { top: 52px; padding: 10px 10px 10px 16px; gap: 12px; } .plate .lbl { display: none; } .plate .copy { min-width: 84px; padding: 8px 10px; }
+  .meta { top: 136px; }
+  .meta { top: 128px; font-size: 12px; }
+  .ring { position: static; transform: none; width: auto; height: auto; }
+  .seats { position: absolute; left: 3%; right: 3%; top: 172px; bottom: 190px; }
+  .ring::before { display: none; }
+  .center { top: auto; bottom: 30px; gap: 10px; transform: translateX(-50%); width: 100%; }
+  .demo { display: none; }
+}
+/* ===== 大厅视觉第二版 ===== */
+.felt::after { content: "CS LINK"; position: absolute; left: 50%; top: 56%; transform: translate(-50%, -50%); font-family: var(--display); font-weight: 700; font-size: clamp(60px, 11vw, 168px); letter-spacing: .12em; color: rgba(0,0,0,.16); text-shadow: 0 1px 0 rgba(255,255,255,.05); pointer-events: none; white-space: nowrap; z-index: 0; }
+.view { z-index: 1; }
+.mat { background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.32)); border-radius: 22px; box-shadow: inset 0 0 0 2px rgba(0,0,0,.25), inset 0 0 0 4px rgba(var(--side-rgb), .38), inset 0 30px 60px rgba(0,0,0,.25); gap: 26px; }
+.mat.t { --side-rgb: 245,166,35; } .mat.ct { --side-rgb: 111,134,255; }
+.mat::before { left: 28px; right: 28px; top: 0; bottom: auto; width: auto; height: 4px; border-radius: 0 0 4px 4px; box-shadow: 0 0 18px rgba(var(--side-rgb), .6); }
+.mat h2 { text-shadow: 0 4px 18px rgba(0,0,0,.45); }
+.mat.focus { box-shadow: inset 0 0 0 2px rgba(0,0,0,.25), inset 0 0 0 4px rgba(245,166,35,.8), 0 0 40px rgba(245,166,35,.22), inset 0 30px 60px rgba(0,0,0,.25); }
+.opt > span { opacity: .7; }
+.join-in { background: linear-gradient(#f8f0de, #e3cfa6); border: 0; border-radius: 12px; box-shadow: inset 0 0 0 4px #f3ead6, inset 0 0 0 5px #8a6a3b, 0 10px 22px rgba(0,0,0,.35); transform: rotate(-.6deg); transition: transform .2s, box-shadow .2s; }
+.join-in:focus-within { border: 0; transform: none; box-shadow: inset 0 0 0 4px #f3ead6, inset 0 0 0 5px #6f86ff, 0 0 0 3px rgba(111,134,255,.35), 0 10px 22px rgba(0,0,0,.35); }
+.join-in input { color: #2a1c10; padding: 16px 20px; font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); text-align: center; }
+.join-in input::placeholder { color: rgba(42,28,16,.4); font-weight: 500; }
+.btn { border-radius: 12px; padding: 13px 30px; box-shadow: inset 0 1px 0 rgba(255,255,255,.45), inset 0 -3px 0 rgba(0,0,0,.18), 0 5px 0 rgba(0,0,0,.4), 0 12px 22px rgba(0,0,0,.3); }
+.btn:active:not(:disabled) { transform: translateY(4px); box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 1px 0 rgba(0,0,0,.4); }
+.btn.main { clip-path: none; border-radius: 14px; padding: 15px 46px; font-size: 21px; letter-spacing: .3em; box-shadow: inset 0 1px 0 rgba(255,255,255,.5), inset 0 -3px 0 rgba(0,0,0,.18), 0 6px 0 #8a560a, 0 0 28px rgba(245,166,35,.35), 0 14px 26px rgba(0,0,0,.35); }
+.btn.main:disabled { box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 5px 0 #2a251b; }
+.btn.ghost { box-shadow: inset 0 0 0 1.5px rgba(251,250,246,.25); }
+.btn.on { box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 5px 0 #136b3c, 0 0 22px rgba(47,191,113,.4); }
+.meta { opacity: 1; display: flex; gap: 8px; }
+.meta span { padding: 5px 12px; border-radius: 999px; background: rgba(0,0,0,.35); box-shadow: inset 0 0 0 1px rgba(245,210,140,.22); font-size: 12px; letter-spacing: .12em; color: rgba(251,250,246,.82); }
+.meta span b { color: var(--t); font-weight: 700; margin-right: 3px; }
+.ring::before { border: 1.5px solid rgba(245,210,140,.22); box-shadow: 0 0 0 10px rgba(0,0,0,.06), inset 0 0 0 10px rgba(0,0,0,.06), inset 0 0 0 11px rgba(245,210,140,.08), inset 0 0 70px rgba(0,0,0,.25); }
+.seat.empty { cursor: pointer; border-radius: 10px; color: rgba(245,220,170,.45); background: radial-gradient(circle at 50% 40%, rgba(255,255,255,.04), rgba(0,0,0,.2)); box-shadow: inset 0 0 0 1.5px rgba(245,210,140,.16), inset 0 10px 24px rgba(0,0,0,.35); align-content: center; gap: 8px; font-size: 11px; letter-spacing: .2em; transition: color .2s, box-shadow .2s, transform .2s; }
+.seat.empty .plus { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; line-height: 1; letter-spacing: 0; box-shadow: inset 0 0 0 1.5px currentColor; }
+.seat.empty:hover, .seat.empty:focus-visible { outline: none; color: var(--t); transform: translate(-50%, -54%); box-shadow: inset 0 0 0 1.5px rgba(245,166,35,.6), 0 0 26px rgba(245,166,35,.2), inset 0 10px 24px rgba(0,0,0,.35); }
+.seat .bk::after { content: "CS"; position: absolute; left: 50%; top: 36%; transform: translate(-50%, -50%); font-family: var(--display); font-weight: 700; font-size: clamp(12px, 1vw, 15px); color: var(--t); }
+.status { font-size: 17px; padding: 6px 18px; border-radius: 999px; background: rgba(0,0,0,.28); }
+.status:empty { display: none; }
+@media (max-width: 860px) { .felt::after { top: 40%; font-size: 64px; } .seat.empty .plus { width: 26px; height: 26px; font-size: 17px; } }
+@media (prefers-reduced-motion: reduce) { .seat .in { transition: none; } .seat.deal, .count b, .view.on { animation: none; } }
+</style>
+</head>
+<body>
+<div class="room"><div class="table"><main class="felt">
+<button class="back" id="back" type="button">◂ 返回</button>
+
+<section class="view" id="vEntry" aria-label="建房或进房">
+  <div class="entry">
+    <form class="mat t" id="fCreate">
+      <h2>开个房<small>开好把房间号发给兄弟</small></h2>
+      <div class="opt"><span>每局时长</span><div class="chips" data-k="durationSeconds">
+        <button type="button" class="chip" data-v="20" aria-pressed="true"><span>20<small>秒</small></span></button>
+      </div></div>
+      <div class="opt"><span>最多人数</span><div class="chips" data-k="maxPlayers">
+        <button type="button" class="chip" data-v="2" aria-pressed="false"><span>2<small>人</small></span></button>
+        <button type="button" class="chip" data-v="4" aria-pressed="true"><span>4<small>人</small></span></button>
+        <button type="button" class="chip" data-v="8" aria-pressed="false"><span>8<small>人</small></span></button>
+      </div></div>
+      <div><button class="btn" type="submit">建房</button></div>
+      <div class="err" id="eCreate" role="alert"></div>
+    </form>
+    <form class="mat ct" id="fJoin">
+      <h2>进房<small>输房间号，或者直接贴兄弟发来的链接</small></h2>
+      <div class="opt"><span>房间号</span>
+        <label class="join-in"><input id="joinIn" placeholder="LA3F9C 或 邀请链接" autocomplete="off" spellcheck="false" aria-label="房间号或邀请链接" /></label>
+      </div>
+      <div><button class="btn blue" type="submit">进房</button></div>
+      <div class="err" id="eJoin" role="alert"></div>
+    </form>
+  </div>
+</section>
+
+<section class="view" id="vLobby" aria-label="房间大厅">
+  <div class="plate">
+    <span class="lbl">房间号</span>
+    <button class="code" id="code" type="button" title="点一下复制邀请链接"></button>
+    <button class="copy" id="copy" type="button">复制链接</button>
+  </div>
+  <div class="meta" id="meta"></div>
+  <div class="ring"><div class="seats" id="ring"></div>
+    <div class="center">
+      <div class="status" id="status" role="status"></div>
+      <div class="pips" id="pips" aria-hidden="true"></div>
+      <div class="acts" id="acts"></div>
+      <div class="err" id="eLobby" role="alert"></div>
+    </div>
+  </div>
+</section>
+
+<div class="count" id="count" aria-live="assertive"><b id="countN"></b><small id="countS"></small></div>
+<div class="toast" id="toast" role="status"></div>
+</main></div></div>
+<script>
+/* 真实房间：CSNET 由 /src/cslink/net.ts 提供（正式站同一条 socket、同一套访客身份） */
+var Q = new URLSearchParams(location.search);
+var ME = "", offset = 0;
+function rpc(event, p) { return window.CSNET ? CSNET.rpc(event, p || {}) : Promise.resolve({ code: "NETWORK_ERROR" }); }
+function now() { return Date.now() + offset; }
+function withNet(fn) { if (window.CSNET) fn(); else window.addEventListener("csnet", fn, { once: true }); }
+
+/* ===== 客户端：流程对应 CsLinkDuel.tsx ===== */
+var $ = function (id) { return document.getElementById(id); };
+var view = "", busy = false, latestRev = 0, shown = null, dealt = {}, counting = false;
+function duelError(code, reason) { return window.CSNET ? CSNET.error(code, reason) : "连接中…"; }
+function showErr(id, code, reason) { $(id).innerHTML = code ? esc(duelError(code, reason)) + "<code>" + code + "</code>" : ""; }
+/* 规则同 parseDuelRoomInput，多做一步转大写，手机上输小写也能进 */
+function parseRoom(v) {
+  var t = v.trim(), id;
+  try { var u = new URL(t); id = u.searchParams.get("room") || decodeURIComponent((u.pathname.match(/\/teammates\/duel\/([^/]+)\/?$/) || [])[1] || ""); }
+  catch (e) { id = t.replace(/^\/teammates\/duel\//, "").replace(/\/$/, ""); }
+  return id.trim().toUpperCase();
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+function toast(msg) { var t = $("toast"); t.textContent = msg; t.className = "toast on"; clearTimeout(t._t); t._t = setTimeout(function () { t.className = "toast"; }, 2200); }
+function go(v) { view = v; $("vEntry").classList.toggle("on", v === "entry"); $("vLobby").classList.toggle("on", v === "lobby"); }
+
+function accept(res) {
+  if (!res) return;
+  if (res.meKey) ME = res.meKey;
+  if (res.serverNowMs) offset = res.serverNowMs - Date.now();
+  if (res.room === null) { latestRev = 0; shown = null; dealt = {}; history.replaceState(null, "", location.pathname); go("entry"); return; }
+  if (!res.room) return;
+  if (shown && shown.id === res.room.id && res.room.revision < latestRev) return; /* 丢弃旧 revision */
+  latestRev = res.room.revision; shown = res.room;
+  if (Q.get("room") !== res.room.id) { history.replaceState(null, "", "?room=" + res.room.id); Q = new URLSearchParams(location.search); }
+  if (view !== "lobby") go("lobby");
+  render(res.room);
+}
+withNet(function () {
+  CSNET.on(function (res) { if (res && res.room && shown && res.room.id !== shown.id) return; accept(res); });
+  CSNET.onConnect(function () { if (booted) restore(); });
+  CSNET.onDisconnect(function () { toast(duelError("NETWORK_ERROR")); });
+  CSNET.onConnectError(function (code) { toast(duelError(code)); });
+});
+
+/* 入口 */
+document.querySelectorAll(".chips").forEach(function (g) {
+  g.addEventListener("click", function (e) {
+    var b = e.target.closest(".chip"); if (!b) return;
+    g.querySelectorAll(".chip").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+  });
+});
+function pick(k) { return Number(document.querySelector('.chips[data-k="' + k + '"] [aria-pressed="true"]').dataset.v); }
+/* create / join 之外的事件都带上当前房间号，和 CsLinkDuel.tsx 一致 */
+async function call(event, payload, errId) {
+  if (busy) return null; busy = true; showErr(errId);
+  var body = Object.assign({}, payload || {});
+  if (event !== "create" && event !== "join" && shown) body.roomId = shown.id;
+  var res = await rpc(event, body); busy = false;
+  if (res.code) { showErr(errId, res.code, res.reason); return null; }
+  accept(res); return res;
+}
+$("fCreate").onsubmit = function (e) { e.preventDefault(); call("create", { durationSeconds: pick("durationSeconds"), maxPlayers: pick("maxPlayers") }, "eCreate"); };
+$("fJoin").onsubmit = function (e) {
+  e.preventDefault(); var id = parseRoom($("joinIn").value);
+  if (!id) return showErr("eJoin", "ROOM_NOT_FOUND");
+  call("join", { roomId: id }, "eJoin");
+};
+$("joinIn").addEventListener("input", function () { showErr("eJoin"); });
+
+/* 大厅：座位沿椭圆排开，自己在正下方 */
+function seatPos(i, n) {
+  var a = Math.PI / 2 + (i / n) * Math.PI * 2, narrow = innerWidth <= 860;
+  return { x: 50 + Math.cos(a) * (narrow ? 36 : 43), y: 50 + Math.sin(a) * (narrow ? 34 : 40) };
+}
+function blocker(r) {
+  var act = r.players.filter(function (x) { return !x.left; });
+  if (act.length < 2) return "等兄弟进房，至少 2 人";
+  var off = act.filter(function (x) { return !x.connected; });
+  if (off.length) return "<b>" + esc(off[0].name) + "</b> 掉线了，等他回来";
+  var nr = act.filter(function (x) { return !x.ready; });
+  if (nr.length) return "还有 <b>" + nr.length + "</b> 人没准备";
+  return "";
+}
+function render(r) {
+  var act = r.players.filter(function (x) { return !x.left; });
+  var me = act.find(function (x) { return x.key === ME; }), isHost = r.hostKey === ME;
+  $("code").textContent = r.id;
+  $("meta").innerHTML = "<span><b>" + r.durationSeconds + "</b>秒一局</span><span><b>" + act.length + "</b>/ " + r.maxPlayers + " 人</span>";
+  var ring = $("ring");
+  ring.querySelectorAll(".seat").forEach(function (s) { s.remove(); });
+  var order = (me ? [me] : []).concat(act.filter(function (x) { return x !== me; }));
+  for (var i = 0; i < r.maxPlayers; i++) {
+    var p = order[i], pos = seatPos(i, r.maxPlayers), s = document.createElement("div");
+    s.className = "seat"; s.style.left = pos.x + "%"; s.style.top = pos.y + "%";
+    if (!p) {
+      /* 空位点一下就复制邀请链接 */
+      s.classList.add("empty"); s.innerHTML = '<span class="plus" aria-hidden="true">+</span>邀请';
+      s.setAttribute("role", "button"); s.tabIndex = 0; s.setAttribute("aria-label", "空位，点一下复制邀请链接");
+      s.onclick = copyLink; s.onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); copyLink(); } };
+      ring.appendChild(s); continue;
+    }
+    if (p.ready) s.classList.add("ready");
+    if (p.key === ME) s.classList.add("me");
+    if (!p.connected) s.classList.add("off");
+    if (!dealt[p.key]) { s.classList.add("deal"); s.style.animationDelay = (i * 0.06) + "s"; dealt[p.key] = 1; }
+    var st = !p.connected ? "掉线中" : p.ready ? "已准备" : "没准备";
+    var tags = (p.key === r.hostKey ? '<i class="host">房主</i>' : "") + (p.key === ME ? "<i>你</i>" : "");
+    var face = '<span class="nm">' + esc(p.name) + '</span><span class="st">' + st + '</span>';
+    s.innerHTML = '<div class="tag">' + tags + '</div><div class="in"><div class="f bk">' + face + '</div><div class="f fr">' + face + '</div></div>';
+    s.setAttribute("role", "img");
+    s.setAttribute("aria-label", p.name + (p.key === r.hostKey ? "，房主" : "") + "，" + st);
+    ring.appendChild(s);
+  }
+  $("pips").innerHTML = r.status === "lobby" ? act.map(function (x) { return "<i" + (x.ready && x.connected ? ' class="y"' : "") + "></i>"; }).join("") : "";
+  var acts = $("acts"); acts.innerHTML = "";
+  if (r.status === "playing") { $("status").innerHTML = "开打"; countdown(r); return; }
+  if (r.status === "finished") {
+    $("status").innerHTML = isHost ? "这局打完了" : "等房主开下一局";
+    if (isHost) { var rm = document.createElement("button"); rm.type = "button"; rm.className = "btn main"; rm.textContent = "再来一局";
+      rm.onclick = function () { call("rematch", {}, "eLobby"); }; acts.appendChild(rm); }
+    var lv = document.createElement("button"); lv.type = "button"; lv.className = "btn ghost"; lv.textContent = "退出";
+    lv.onclick = function () { call("leave", {}, "eLobby"); }; acts.appendChild(lv);
+    return;
+  }
+  var why = blocker(r), ready = !!(me && me.ready);
+  $("status").innerHTML = why || (isHost ? "人齐了，开吧" : "人齐了，等房主开");
+  var rb = document.createElement("button");
+  rb.type = "button"; rb.className = "btn" + (ready ? " on" : "");
+  rb.textContent = ready ? "已准备 ✓" : "准备"; rb.setAttribute("aria-pressed", String(ready));
+  if (ready) rb.title = "再点一次取消准备";
+  rb.onclick = function () { call("ready", { ready: !ready }, "eLobby"); };
+  acts.appendChild(rb);
+  if (isHost) {
+    var sb = document.createElement("button");
+    sb.type = "button"; sb.className = "btn main"; sb.textContent = "开始";
+    sb.disabled = !!why; if (why) sb.title = why.replace(/<[^>]+>/g, "");
+    sb.onclick = function () { call("start", {}, "eLobby"); };
+    acts.appendChild(sb);
+  }
+  var lb = document.createElement("button");
+  lb.type = "button"; lb.className = "btn ghost"; lb.textContent = "退出";
+  lb.onclick = function () { call("leave", {}, "eLobby"); };
+  acts.appendChild(lb);
+}
+
+/* 邀请链接直接进牌桌大厅 */
+async function copyLink() {
+  if (!shown) return;
+  var url = location.origin + "/cslink/lobby.html?room=" + shown.id, ok = false;
+  try { await navigator.clipboard.writeText(url); ok = true; } catch (e) {
+    var ta = document.createElement("textarea"); ta.value = url; document.body.appendChild(ta); ta.select();
+    try { ok = document.execCommand("copy"); } catch (e2) {} ta.remove();
+  }
+  var b = $("copy"); b.textContent = ok ? "已复制 ✓" : "复制失败"; b.classList.toggle("ok", ok);
+  clearTimeout(b._t); b._t = setTimeout(function () { b.textContent = "复制链接"; b.classList.remove("ok"); }, 1800);
+  if (ok) toast("链接已复制，发给兄弟就能进");
+}
+$("copy").onclick = copyLink; $("code").onclick = copyLink;
+$("back").onclick = function () { if (view === "lobby") call("leave", {}, "eLobby"); else if (window.CSWipe) CSWipe.go("/cslink/", "home"); else location.href = "/cslink/"; };
+
+/* 倒计时按服务端的 serverStartedAtMs 走，所有人同时归零 */
+function countdown(r) {
+  if (counting) return; counting = true;
+  var c = $("count"), n = $("countN"), last = null;
+  $("countS").textContent = r.round.start.nickname + " → " + r.round.end.nickname;
+  c.classList.add("on");
+  (function step() {
+    var left = Math.ceil((r.round.serverStartedAtMs - now()) / 1000);
+    if (left !== last) {
+      last = left; n.className = left <= 0 ? "go" : ""; n.textContent = left <= 0 ? "GO" : left;
+      void n.offsetWidth; n.style.animation = "none"; void n.offsetWidth; n.style.animation = "";
+    }
+    if (left <= -0) {
+      return setTimeout(function () {
+        var dUrl = "duel.html?room=" + r.id;
+        if (window.CSWipe) CSWipe.go(dUrl, "ink"); else location.href = dUrl;
+      }, 650);
+    }
+    setTimeout(step, 80);
+  })();
+}
+
+var booted = false;
+/* 连接要先拿访客身份，可能要几秒：先把入口摆出来，连上后再按 sync 结果切换 */
+if (!Q.get("room")) go("entry"); else toast("正在进房…");
+/* 先 sync 恢复房间；地址里带了别的房间号就 join（同 CsLinkDuel.tsx 的 restore） */
+async function restore() {
+  var want = (Q.get("room") || "").toUpperCase();
+  var res = await rpc("sync", {});
+  if (!res.code && want && (!res.room || res.room.id !== want)) {
+    if (res.room) { accept(res); return showErr("eLobby", "ALREADY_IN_ROOM"); }
+    res = await rpc("join", { roomId: want });
+  }
+  if (res.code || !res.room) { accept(res.code ? { meKey: res.meKey, serverNowMs: res.serverNowMs } : res); go("entry"); if (want) showErr("eJoin", res.code, res.reason); return; }
+  accept(res);
+  /* 对局结束后从 duel.html 回来：房主直接开下一局，其他人在大厅等 */
+  if (Q.get("rematch") && res.room.status === "finished" && res.room.hostKey === ME) await call("rematch", {}, "eLobby");
+  if (Q.get("rematch")) history.replaceState(null, "", "?room=" + res.room.id);
+}
+withNet(async function boot() {
+  if (Q.get("create") && !Q.get("room")) {
+    history.replaceState(null, "", location.pathname);
+    var res = await rpc("sync", {});
+    if (!res.code && res.room) { booted = true; return accept(res); }
+    go("entry"); $("fCreate").classList.add("focus");
+    var cb = $("fCreate").querySelector(".chip[aria-pressed=true]"); if (cb) cb.focus({ preventScroll: true });
+    booted = true; return;
+  }
+  await restore(); booted = true;
+});
+</script>
+<script src="/cslink/wipe.js"></script>
+<script type="module" src="/src/cslink/net.ts"></script>
+</body>
+</html>
+

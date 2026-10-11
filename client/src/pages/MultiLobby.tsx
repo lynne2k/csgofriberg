@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Globe,
   House,
@@ -67,12 +67,14 @@ function OptionGroup<T extends string | number>({
   format: (v: T) => string;
 }) {
   return (
-    <div className="option-row">
+    <div className="option-row" role="group" aria-label={label}>
       <span className="opt-label">{label}</span>
       {options.map((opt) => (
         <button
           key={String(opt)}
+          type="button"
           className={`opt-btn ${opt === value ? 'active' : ''}`}
+          aria-pressed={opt === value}
           onClick={() => onChange(opt)}
         >
           {format(opt)}
@@ -536,9 +538,16 @@ export default function MultiLobby() {
   };
 
   return (
-    <Page title={t('multi.title')} icon={<Globe size={17} />}>
+    <Page title={t('multi.title')} className="multi-lobby-page" icon={<Globe size={17} />}
+      actions={import.meta.env.DEV ? <Link to="/teammates/duel" className="btn btn-sm">连通对战</Link> : undefined}>
+      <div className="multi-lobby-intro">
+        <span className="multi-lobby-eyebrow">MATCH LOBBY / 01</span>
+        <h1>{t('multi.title')}</h1>
+        <p>{t('home.multiplayerDescription')}</p>
+      </div>
       {currentRoom && (
         <div className="card multi-lobby-message-card" style={{ borderColor: 'var(--warning)' }}>
+          <span className="lobby-card-index" aria-hidden="true">ACTIVE ROOM / 00</span>
           <h3>
             <Rocket size={16} color="var(--warning)" />
             {t('multi.unfinished')}
@@ -575,6 +584,7 @@ export default function MultiLobby() {
 
       {createdRoom ? (
         <div className="card multi-lobby-created-card">
+          <span className="lobby-card-index" aria-hidden="true">ROOM CODE / 01</span>
           <h3>
             <Check size={16} color="var(--success)" />
             {t('multi.roomCreated')}
@@ -602,6 +612,7 @@ export default function MultiLobby() {
       ) : (
         <div className="lobby-grid">
           <div className="card multi-lobby-create-card" style={{ margin: 0 }}>
+            <span className="lobby-card-index" aria-hidden="true">CUSTOM ROOM / 01</span>
             <h3>
               <House size={16} />
               {t('multi.createRoom')}
@@ -846,7 +857,7 @@ export default function MultiLobby() {
                 </div>
               </ModalPortal>
             )}
-            <div style={{ textAlign: 'center', marginTop: 14 }}>
+            <div className="multi-lobby-create-action">
               <button
                 className="btn btn-lg"
                 onClick={() => void create()}
@@ -859,6 +870,7 @@ export default function MultiLobby() {
           </div>
 
           <div className="card multi-lobby-match-card" style={{ margin: 0 }}>
+            <span className="lobby-card-index" aria-hidden="true">QUICK MATCH / 02</span>
             <h3>
               <Dices size={16} />
               {t('multi.randomMatch')}
@@ -896,6 +908,7 @@ export default function MultiLobby() {
           </div>
 
           <div className="card multi-lobby-join-card" style={{ margin: 0 }}>
+            <span className="lobby-card-index" aria-hidden="true">ROOM CODE / 03</span>
             <h3>
               <DoorOpen size={16} />
               {t('multi.joinExisting')}

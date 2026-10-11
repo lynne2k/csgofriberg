@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CS Link</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+<style>
+  @property --s { syntax: '<number>'; inherits: true; initial-value: 50; }
+  :root {
+    --t: #f5a623;      /* T 方橙 */
+    --t-deep: #d9860b;
+    --ct: #23348f;     /* CT 方蓝 */
+    --ct-deep: #18246b;
+    --ink: #0d0f14;
+    --white: #fbfaf6;
+    --slant: 7;        /* 分割线倾斜量(%) */
+    --display: 'Chakra Petch', 'Noto Sans SC', sans-serif;
+    --body: 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; background: var(--ink); color: var(--white); font-family: var(--body); overflow: hidden; }
+
+  /* 顶栏 */
+  .topbar {
+    position: fixed; inset: 0 0 auto 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 40px; pointer-events: none;
+  }
+  .brand { font-family: var(--display); font-weight: 700; font-size: 22px; letter-spacing: .08em; display: flex; gap: 10px; align-items: center; pointer-events: auto; }
+  .brand i { width: 14px; height: 14px; background: linear-gradient(135deg, var(--t) 50%, var(--ct) 50%); transform: skewX(-12deg); border: 2px solid var(--white); }
+  .nav { display: flex; gap: 28px; font-family: var(--display); font-size: 14px; letter-spacing: .14em; pointer-events: auto; }
+  .nav a { color: var(--white); text-decoration: none; opacity: .8; }
+  .nav a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+
+  /* 主分屏 */
+  .split { position: relative; height: 100dvh; --s: 50; transition: --s .55s cubic-bezier(.2,.8,.2,1); }
+  .split:has(.left:hover, .left:focus-within)  { --s: 62; }
+  .split:has(.right:hover, .right:focus-within) { --s: 38; }
+
+  .panel { position: absolute; inset: 0; overflow: hidden; }
+  .left {
+    background:
+      repeating-linear-gradient(-62deg, transparent 0 22px, rgba(0,0,0,.035) 22px 24px),
+      radial-gradient(circle at 20% 80%, var(--t) 0, var(--t-deep) 90%);
+    clip-path: polygon(0 0, calc((var(--s) + var(--slant)) * 1%) 0, calc((var(--s) - var(--slant)) * 1%) 100%, 0 100%);
+  }
+  .right {
+    background:
+      repeating-linear-gradient(-62deg, transparent 0 22px, rgba(255,255,255,.03) 22px 24px),
+      radial-gradient(circle at 80% 20%, #2f45b5 0, var(--ct-deep) 90%);
+    clip-path: polygon(calc((var(--s) + var(--slant)) * 1%) 0, 100% 0, 100% 100%, calc((var(--s) - var(--slant)) * 1%) 100%);
+  }
+  /* 白色分割带 */
+  .seam {
+    position: absolute; inset: 0; pointer-events: none; z-index: 3; background: var(--white);
+    clip-path: polygon(calc((var(--s) + var(--slant) - .35) * 1%) 0, calc((var(--s) + var(--slant) + .35) * 1%) 0,
+                       calc((var(--s) - var(--slant) + .35) * 1%) 100%, calc((var(--s) - var(--slant) - .35) * 1%) 100%);
+  }
+
+  /* 背景大字 */
+  .ghost {
+    position: absolute; font-family: var(--display); font-weight: 700; font-size: 12.5vw; line-height: .78;
+    letter-spacing: -.01em; pointer-events: none; user-select: none; white-space: nowrap;
+    transition: transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .left .ghost { left: 3vw; bottom: 52px; color: rgba(13,15,20,.10); -webkit-text-stroke: 2px rgba(13,15,20,.28); }
+  .right .ghost { right: 3vw; top: 7vw; color: rgba(255,255,255,.07); -webkit-text-stroke: 2px rgba(255,255,255,.30); }
+  .left:hover .ghost { transform: translateX(1vw); }
+  .right:hover .ghost { transform: translateX(-1vw); }
+
+  /* 内容区 */
+  .content {
+    position: absolute; top: calc(50% + 12px); width: min(32vw, 620px);
+    transform: translateY(-50%) scale(1); transition: transform .55s cubic-bezier(.2,.8,.2,1), opacity .4s;
+  }
+  .left .content { left: 6vw; transform-origin: left center; color: var(--ink); }
+  .right .content { right: 6vw; transform-origin: right center; text-align: right; }
+  .left:hover .content, .left:focus-within .content,
+  .right:hover .content, .right:focus-within .content { transform: translateY(-50%) scale(1.05); }
+  .split:has(.right:hover, .right:focus-within) .left .content,
+  .split:has(.left:hover, .left:focus-within) .right .content { opacity: .45; transform: translateY(-50%) scale(.94); }
+
+  .tag { display: inline-block; font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: .24em; padding: 5px 12px; clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); }
+  .left .tag { background: var(--ink); color: var(--t); }
+  .right .tag { background: var(--white); color: var(--ct); }
+  h2 { font-family: var(--body); font-weight: 900; font-size: clamp(56px, 6.4vw, 124px); line-height: 1; margin: 0 0 12px; letter-spacing: .02em; white-space: nowrap; }
+  .en { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: .3em; opacity: .7; }
+  .desc { margin-top: 20px; font-size: 20px; line-height: 1.5; font-weight: 500; opacity: .9; }
+  .desc b { font-weight: 900; }
+
+  /* 题面预览 */
+  .chain { margin-top: 26px; display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 20px; }
+  .right .chain { justify-content: flex-end; }
+  .node { padding: 8px 14px; background: rgba(13,15,20,.9); color: var(--white); clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%); }
+  .node.q { background: transparent; color: var(--ink); outline: 2px dashed var(--ink); outline-offset: -2px; clip-path: none; min-width: 52px; text-align: center; }
+  .arrow { opacity: .6; }
+
+  .meta { margin-top: 22px; display: flex; gap: 26px; font-family: var(--display); }
+  .right .meta { justify-content: flex-end; }
+  .meta b { display: block; font-size: 30px; line-height: 1; }
+  .meta span { font-size: 12px; letter-spacing: .16em; opacity: .7; }
+
+  /* 按钮 */
+  .cta {
+    margin-top: 32px; display: inline-flex; align-items: center; gap: 12px; border: 0; cursor: pointer;
+    font-family: var(--body); font-weight: 900; font-size: 20px; letter-spacing: .1em; padding: 16px 34px;
+    clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+    transition: transform .15s, filter .15s;
+  }
+  .cta:hover { filter: brightness(1.12); transform: translateY(-2px); }
+  .cta:active { transform: translateY(1px); }
+  .cta:focus-visible { outline: 3px solid var(--white); outline-offset: 4px; }
+  .left .cta { background: var(--ink); color: var(--t); }
+  .right .cta { background: var(--white); color: var(--ct); }
+  .row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px; }
+  .row .cta { margin-top: 0; }
+  .cta.ghostbtn { background: transparent; color: var(--white); box-shadow: inset 0 0 0 2px var(--white); clip-path: none; }
+  .code { width: 150px; padding: 0 14px; background: rgba(255,255,255,.1); border: 2px solid rgba(255,255,255,.5); color: var(--white); font-family: var(--display); font-size: 18px; letter-spacing: .2em; text-transform: uppercase; }
+  .code::placeholder { color: rgba(255,255,255,.55); }
+  .code:focus { outline: none; border-color: var(--white); }
+
+  /* 中心徽标:跟随分割线 */
+  .emblem {
+    position: absolute; z-index: 4; top: 50%; left: calc(var(--s) * 1%);
+    width: 96px; height: 96px; transform: translate(-50%, -50%) rotate(45deg);
+    background: var(--ink); border: 4px solid var(--white); display: grid; place-items: center; pointer-events: none;
+  }
+  .emblem span { transform: rotate(-45deg); font-family: var(--display); font-weight: 700; font-size: 26px; letter-spacing: .02em; }
+  .emblem span em { font-style: normal; color: var(--t); }
+  .emblem span strong { color: #6f8cff; }
+
+  /* 底部滚动条 */
+  .ticker { position: fixed; inset: auto 0 0 0; z-index: 10; height: 38px; background: var(--ink); border-top: 2px solid var(--white); overflow: hidden; font-family: var(--display); font-size: 14px; letter-spacing: .1em; }
+  .ticker div { display: flex; gap: 48px; white-space: nowrap; height: 100%; align-items: center; animation: run 40s linear infinite; width: max-content; padding-left: 40px; }
+  .ticker b { color: var(--t); margin-right: 8px; }
+  .ticker .c { color: #8ea4ff; }
+  @keyframes run { to { transform: translateX(-50%); } }
+
+  @media (max-height: 800px) and (min-width: 821px) {
+    h2 { font-size: clamp(52px, 5.8vw, 104px); margin: 0 0 10px; }
+    .desc { margin-top: 14px; font-size: 18px; }
+    .chain, .meta { margin-top: 16px; }
+    .cta, .row { margin-top: 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .split, .content, .ghost { transition: none; }
+    .ticker div { animation: none; }
+  }
+
+  /* 窄屏:上下堆叠,取消斜切与放大 */
+  @media (max-width: 820px) {
+    html, body { overflow: auto; }
+    .split { height: auto; display: grid; }
+    .panel, .seam, .emblem { position: relative; clip-path: none; }
+    .seam, .emblem { display: none; }
+    .panel { min-height: 88dvh; }
+    .content, .left .content, .right .content { position: relative; top: auto; left: auto; right: auto; width: auto; padding: 110px 24px 80px; transform: none !important; opacity: 1 !important; }
+    .nav { display: none; }
+    .topbar { padding: 18px 24px; }
+    .ghost { font-size: 22vw; }
+    .left .ghost { left: 24px; bottom: 24px; }
+    .right .ghost { right: 24px; top: 72px; }
+    .chain { flex-wrap: wrap; font-size: 17px; gap: 8px; }
+    .right .content { text-align: left; }
+    .right .chain, .right .meta, .row { justify-content: flex-start; }
+    .meta { gap: 20px; }
+    .code { flex: 1; min-width: 0; width: auto; height: 54px; }
+    .cta { white-space: nowrap; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><i></i>CS LINK</div>
+    <nav class="nav"><a href="/teammates">选手库</a><a href="/teammates/practice">练习</a><a href="/">原站</a></nav>
+  </header>
+
+  <main class="split">
+    <section class="panel left" aria-labelledby="daily-title">
+      <div class="ghost" aria-hidden="true">DAILY</div>
+      <div class="content">
+        <h2 id="daily-title">每日挑战</h2>
+        <div class="en">DAILY CHALLENGE</div>
+        <p class="desc"><b>老尼</b>和<b>老汤</b>差了几个身位？</p>
+        <div class="chain" id="chain" aria-label="今日题目">
+          <span class="node" id="dStart">…</span><span class="arrow">→</span><span class="node q">?</span><span class="arrow">→</span><span class="node" id="dEnd">…</span>
+        </div>
+        <div class="meta">
+          <div><b id="dNo">#–</b><span>今日题号</span></div>
+          <div><b id="dLeft">--:--:--</b><span>距离刷新</span></div>
+        </div>
+        <button class="cta">开始挑战 ▸</button>
+      </div>
+    </section>
+
+    <section class="panel right" aria-labelledby="duel-title">
+      <div class="ghost" aria-hidden="true">VERSUS</div>
+      <div class="content">
+        <h2 id="duel-title">多人对战</h2>
+        <div class="en">VERSUS ROOM</div>
+        <p class="desc">谁是真正的链接仙人</p>
+        <div class="meta">
+          <div><b>0:20</b><span>回合时限</span></div>
+          <div><b>2–8</b><span>房间人数</span></div>
+          <div><b id="dDone">–</b><span>今日已连通</span></div>
+        </div>
+        <div class="row">
+          <input class="code" placeholder="房间码" maxlength="6" aria-label="输入房间码" />
+          <button class="cta ghostbtn">加入</button>
+        </div>
+        <div class="row"><button class="cta">创建房间 ▸</button></div>
+      </div>
+    </section>
+
+    <div class="seam" aria-hidden="true"></div>
+    <div class="emblem" aria-hidden="true"><span><em>C</em><strong>S</strong></span></div>
+  </main>
+  <script src="/cslink/wipe.js"></script>
+  <script type="module" src="/src/cslink/daily.ts"></script>
+  <script>
+  (function () {
+    var G = "/cslink/", split = document.querySelector(".split");
+    function wipe(url, side) {
+      /* 先把点中的半屏推满，同时盖遮罩 */
+      split.style.setProperty("--s", side === "t" ? "96" : "4");
+      if (window.CSWipe) CSWipe.go(url, side); else location.href = url;
+    }
+    var start = document.querySelector(".left .cta");
+    var code = document.querySelector(".right .code");
+    var join = document.querySelector(".right .ghostbtn");
+    var create = document.querySelector(".right .cta:not(.ghostbtn)");
+    start.addEventListener("click", function () { wipe(G + "daily.html", "t"); });
+    create.addEventListener("click", function () { wipe(G + "lobby.html?create=1", "ct"); });
+    function doJoin() {
+      var v = code.value.trim().toUpperCase();
+      if (!v) { code.focus(); return; }
+      wipe(G + "lobby.html?room=" + encodeURIComponent(v), "ct");
+    }
+    join.addEventListener("click", doJoin);
+    code.addEventListener("keydown", function (e) { if (e.key === "Enter") doJoin(); });
+    /* 今日题目、刷新倒计时、已连通人数：来自 /api/cslink/daily */
+    var refreshAt = 0, off = 0;
+    function pad(n) { return String(n).padStart(2, "0"); }
+    setInterval(function () {
+      if (!refreshAt) return;
+      var t = Math.max(0, Math.floor((refreshAt - Date.now() - off) / 1000));
+      document.getElementById("dLeft").textContent = pad(Math.floor(t / 3600)) + ":" + pad(Math.floor(t / 60) % 60) + ":" + pad(t % 60);
+      if (t === 0) { refreshAt = 0; setTimeout(load, 1500); }
+    }, 1000);
+    function load() {
+      CSDAILY.today().then(function (d) {
+        if (!d || d.code) return;
+        refreshAt = d.nextRefreshAt;
+        document.getElementById("dNo").textContent = "#" + d.no;
+        document.getElementById("dStart").textContent = d.start.nickname;
+        document.getElementById("dEnd").textContent = d.end.nickname;
+        document.getElementById("chain").setAttribute("aria-label", "今日题目：" + d.start.nickname + " 到 " + d.end.nickname);
+      });
+      CSDAILY.leaderboard(1).then(function (b) {
+        if (b && !b.code) { document.getElementById("dDone").textContent = String(b.finished); off = b.serverNowMs - Date.now(); }
+      });
+    }
+    if (window.CSDAILY) load(); else window.addEventListener("csdaily", load, { once: true });
+  })();
+  </script>
+</body>
+</html>

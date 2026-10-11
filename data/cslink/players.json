@@ -1,0 +1,2713 @@
+{
+  "distinct_player_pairs": [
+    [
+      "cs-person-000001",
+      "cs-person-000002"
+    ],
+    [
+      "cs-person-000041",
+      "cs-person-000037"
+    ],
+    [
+      "cs-person-000038",
+      "cs-person-000092"
+    ]
+  ],
+  "players": [
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/player/3741/niko"
+      ],
+      "external_ids": {
+        "hltv": "3741"
+      },
+      "identity_verified_on": "2026-09-30",
+      "name": "Nikola Kovač",
+      "nickname": "NiKo",
+      "player_id": "cs-person-000001"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/player/10264/niko"
+      ],
+      "external_ids": {
+        "hltv": "10264"
+      },
+      "identity_verified_on": "2026-09-30",
+      "name": "Nikolaj Kristensen",
+      "nickname": "niko",
+      "player_id": "cs-person-000002"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10096/hooxi"
+      ],
+      "external_ids": {
+        "hltv": "10096"
+      },
+      "identity_verified_on": "2026-09-30",
+      "name": "Rasmus Nielsen",
+      "nickname": "HooXi",
+      "player_id": "cs-person-000003"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/4679/jks"
+      ],
+      "external_ids": {
+        "hltv": "4679"
+      },
+      "identity_verified_on": "2026-09-30",
+      "name": "Justin Savage",
+      "nickname": "jks",
+      "player_id": "cs-person-000004"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19230/m0nesy"
+      ],
+      "external_ids": {
+        "hltv": "19230"
+      },
+      "identity_verified_on": "2026-09-30",
+      "name": "Ilya Osipov",
+      "nickname": "m0NESY",
+      "player_id": "cs-person-000005"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/3972/hunter"
+      ],
+      "external_ids": {
+        "hltv": "3972"
+      },
+      "identity_verified_on": "2026-09-30",
+      "name": "Nemanja Kovač",
+      "nickname": "huNter-",
+      "player_id": "cs-person-000006"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20123/regali"
+      ],
+      "external_ids": {
+        "hltv": "20123"
+      },
+      "identity_verified_on": "2026-09-30",
+      "name": "Iulian Harjău",
+      "nickname": "regali",
+      "player_id": "cs-person-000007"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/16693/flamez"
+      ],
+      "external_ids": {
+        "hltv": "16693"
+      },
+      "identity_verified_on": "2026-09-30",
+      "name": "Shahar Shushan",
+      "nickname": "flameZ",
+      "player_id": "cs-person-000008"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19044/f1ku"
+      ],
+      "external_ids": {
+        "hltv": "19044"
+      },
+      "identity_verified_on": "2026-09-30",
+      "name": "Maciej Miklas",
+      "nickname": "F1KU",
+      "player_id": "cs-person-000009"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/15821/neofrag"
+      ],
+      "external_ids": {
+        "hltv": "15821"
+      },
+      "identity_verified_on": "2026-09-30",
+      "name": "Adam Zouhar",
+      "nickname": "NEOFRAG",
+      "player_id": "cs-person-000010"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9031/valde",
+        "https://www.hltv.org/stats/matches/mapstatsid/38757/mouz-vs-heroic"
+      ],
+      "external_ids": {
+        "hltv": "9031"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "valde",
+      "player_id": "cs-person-000011"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/545/moddii",
+        "https://www.hltv.org/stats/matches/mapstatsid/38757/mouz-vs-heroic"
+      ],
+      "external_ids": {
+        "hltv": "545"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "MODDII",
+      "player_id": "cs-person-000012"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7/friis",
+        "https://www.hltv.org/stats/matches/mapstatsid/38757/mouz-vs-heroic"
+      ],
+      "external_ids": {
+        "hltv": "7"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Friis",
+      "player_id": "cs-person-000013"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/922/snappi",
+        "https://www.hltv.org/stats/matches/mapstatsid/38757/mouz-vs-heroic"
+      ],
+      "external_ids": {
+        "hltv": "922"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Snappi",
+      "player_id": "cs-person-000014"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/2730/chrisj",
+        "https://www.hltv.org/stats/matches/mapstatsid/38757/mouz-vs-heroic"
+      ],
+      "external_ids": {
+        "hltv": "2730"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "chrisJ",
+      "player_id": "cs-person-000015"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/3997/lowel",
+        "https://www.hltv.org/stats/matches/mapstatsid/38757/mouz-vs-heroic"
+      ],
+      "external_ids": {
+        "hltv": "3997"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "loWel",
+      "player_id": "cs-person-000016"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7511/denis",
+        "https://www.hltv.org/stats/matches/mapstatsid/38757/mouz-vs-heroic"
+      ],
+      "external_ids": {
+        "hltv": "7511"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "denis",
+      "player_id": "cs-person-000017"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7499/spiidi",
+        "https://www.hltv.org/stats/matches/mapstatsid/38757/mouz-vs-heroic"
+      ],
+      "external_ids": {
+        "hltv": "7499"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Spiidi",
+      "player_id": "cs-person-000018"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7964/cadian",
+        "https://www.hltv.org/stats/matches/mapstatsid/41274/mouz-vs-heroic"
+      ],
+      "external_ids": {
+        "hltv": "7964"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "cadiaN",
+      "player_id": "cs-person-000019"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/798/oskar",
+        "https://www.hltv.org/stats/matches/mapstatsid/41274/mouz-vs-heroic"
+      ],
+      "external_ids": {
+        "hltv": "798"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "oskar",
+      "player_id": "cs-person-000020"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/39/get-right",
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "external_ids": {
+        "hltv": "39"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "GeT_RiGhT",
+      "player_id": "cs-person-000021"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7148/friberg",
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "external_ids": {
+        "hltv": "7148"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "friberg",
+      "player_id": "cs-person-000022"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7147/fifflaren",
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "external_ids": {
+        "hltv": "7147"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Fifflaren",
+      "player_id": "cs-person-000023"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/884/xizt",
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "external_ids": {
+        "hltv": "884"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Xizt",
+      "player_id": "cs-person-000024"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/29/f0rest",
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "external_ids": {
+        "hltv": "29"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "f0rest",
+      "player_id": "cs-person-000025"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7151/zn0pe",
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "external_ids": {
+        "hltv": "7151"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "zn0pe",
+      "player_id": "cs-person-000026"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7149/ankk",
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "external_ids": {
+        "hltv": "7149"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "ANKK",
+      "player_id": "cs-person-000027"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7152/whammy",
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "external_ids": {
+        "hltv": "7152"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "whammy",
+      "player_id": "cs-person-000028"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7153/ker",
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "external_ids": {
+        "hltv": "7153"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "KeR",
+      "player_id": "cs-person-000029"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7150/rejin",
+        "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime"
+      ],
+      "external_ids": {
+        "hltv": "7150"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Rejin",
+      "player_id": "cs-person-000030"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7167/kennys",
+        "https://www.hltv.org/stats/matches/mapstatsid/12849/verygames-vs-ninjas-in-pyjamas"
+      ],
+      "external_ids": {
+        "hltv": "7167"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "kennyS",
+      "player_id": "cs-person-000031"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7166/ex6tenz",
+        "https://www.hltv.org/stats/matches/mapstatsid/12849/verygames-vs-ninjas-in-pyjamas"
+      ],
+      "external_ids": {
+        "hltv": "7166"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Ex6TenZ",
+      "player_id": "cs-person-000032"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7168/nbk",
+        "https://www.hltv.org/stats/matches/mapstatsid/12849/verygames-vs-ninjas-in-pyjamas"
+      ],
+      "external_ids": {
+        "hltv": "7168"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "NBK-",
+      "player_id": "cs-person-000033"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7170/smithzz",
+        "https://www.hltv.org/stats/matches/mapstatsid/12849/verygames-vs-ninjas-in-pyjamas"
+      ],
+      "external_ids": {
+        "hltv": "7170"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "SmithZz",
+      "player_id": "cs-person-000034"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7169/rpk",
+        "https://www.hltv.org/stats/matches/mapstatsid/12849/verygames-vs-ninjas-in-pyjamas"
+      ],
+      "external_ids": {
+        "hltv": "7169"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "RpK",
+      "player_id": "cs-person-000035"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/302/kucher",
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "external_ids": {
+        "hltv": "302"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "kUcheR",
+      "player_id": "cs-person-000036"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/737/fox",
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "external_ids": {
+        "hltv": "737"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Fox",
+      "player_id": "cs-person-000037"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/334/adren",
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "external_ids": {
+        "hltv": "334"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "AdreN",
+      "player_id": "cs-person-000038"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/735/dosia",
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "external_ids": {
+        "hltv": "735"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Dosia",
+      "player_id": "cs-person-000039"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/339/ange1",
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "external_ids": {
+        "hltv": "339"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "ANGE1",
+      "player_id": "cs-person-000040"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/629/fox",
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "external_ids": {
+        "hltv": "629"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "fox",
+      "player_id": "cs-person-000041"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/5873/insider",
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "external_ids": {
+        "hltv": "5873"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "iNsideR",
+      "player_id": "cs-person-000042"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/2238/n0rx",
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "external_ids": {
+        "hltv": "2238"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "n0rx",
+      "player_id": "cs-person-000043"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/630/mutiris",
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "external_ids": {
+        "hltv": "630"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "MUTiRiS",
+      "player_id": "cs-person-000044"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/2241/roman",
+        "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro"
+      ],
+      "external_ids": {
+        "hltv": "2241"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "roman",
+      "player_id": "cs-person-000045"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9146/nilsson",
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "external_ids": {
+        "hltv": "9146"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "niLssoN",
+      "player_id": "cs-person-000046"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7521/z4pper",
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "external_ids": {
+        "hltv": "7521"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "z4pper",
+      "player_id": "cs-person-000047"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9610/marci",
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "external_ids": {
+        "hltv": "9610"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "MARCI",
+      "player_id": "cs-person-000048"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/2851/pod",
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "external_ids": {
+        "hltv": "2851"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Pod",
+      "player_id": "cs-person-000049"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9611/mrtn",
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "external_ids": {
+        "hltv": "9611"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "mrtn",
+      "player_id": "cs-person-000050"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9412/krewmer",
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "external_ids": {
+        "hltv": "9412"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Krewmer",
+      "player_id": "cs-person-000051"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9251/st",
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "external_ids": {
+        "hltv": "9251"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "st^",
+      "player_id": "cs-person-000052"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9252/anton",
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "external_ids": {
+        "hltv": "9252"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "ANTON",
+      "player_id": "cs-person-000053"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9250/momentplz",
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "external_ids": {
+        "hltv": "9250"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "MomentPlz",
+      "player_id": "cs-person-000054"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8611/es3tag",
+        "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid"
+      ],
+      "external_ids": {
+        "hltv": "8611"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "es3tag",
+      "player_id": "cs-person-000055"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10828/dok",
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "external_ids": {
+        "hltv": "10828"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "dok",
+      "player_id": "cs-person-000056"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10826/tony",
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "external_ids": {
+        "hltv": "10826"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "tony",
+      "player_id": "cs-person-000057"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10824/kodiak",
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "external_ids": {
+        "hltv": "10824"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "KODIAK",
+      "player_id": "cs-person-000058"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10825/mcb",
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "external_ids": {
+        "hltv": "10825"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "mcb",
+      "player_id": "cs-person-000059"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10827/prt",
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "external_ids": {
+        "hltv": "10827"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "prt",
+      "player_id": "cs-person-000060"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10832/ossada",
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "external_ids": {
+        "hltv": "10832"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "ossada",
+      "player_id": "cs-person-000061"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10831/nan",
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "external_ids": {
+        "hltv": "10831"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "NaN",
+      "player_id": "cs-person-000062"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10833/zezin",
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "external_ids": {
+        "hltv": "10833"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "zeziN",
+      "player_id": "cs-person-000063"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10830/dastan",
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "external_ids": {
+        "hltv": "10830"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "DASTAN",
+      "player_id": "cs-person-000064"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10829/jun",
+        "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+      ],
+      "external_ids": {
+        "hltv": "10829"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "jun",
+      "player_id": "cs-person-000065"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/5388/rallen",
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "external_ids": {
+        "hltv": "5388"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "rallen",
+      "player_id": "cs-person-000066"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7356/michu",
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "external_ids": {
+        "hltv": "7356"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "MICHU",
+      "player_id": "cs-person-000067"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/14221/kaper",
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "external_ids": {
+        "hltv": "14221"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "kaper",
+      "player_id": "cs-person-000068"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/973/szpero",
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "external_ids": {
+        "hltv": "973"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "SZPERO",
+      "player_id": "cs-person-000069"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8323/mouz",
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "external_ids": {
+        "hltv": "8323"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "mouz",
+      "player_id": "cs-person-000070"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/11283/ottond",
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "external_ids": {
+        "hltv": "11283"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "ottoNd",
+      "player_id": "cs-person-000071"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9816/aleksib",
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "external_ids": {
+        "hltv": "9816"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Aleksib",
+      "player_id": "cs-person-000072"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/11916/sergej",
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "external_ids": {
+        "hltv": "11916"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "sergej",
+      "player_id": "cs-person-000073"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7537/xarte",
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "external_ids": {
+        "hltv": "7537"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "xartE",
+      "player_id": "cs-person-000074"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/971/khrn",
+        "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+      ],
+      "external_ids": {
+        "hltv": "971"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "KHRN",
+      "player_id": "cs-person-000075"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7388/soker",
+        "https://www.hltv.org/stats/matches/mapstatsid/13612/wizards-vs-ninjas-in-pyjamas"
+      ],
+      "external_ids": {
+        "hltv": "7388"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "SOKER",
+      "player_id": "cs-person-000076"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7467/pinchos",
+        "https://www.hltv.org/stats/matches/mapstatsid/13612/wizards-vs-ninjas-in-pyjamas"
+      ],
+      "external_ids": {
+        "hltv": "7467"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Pinchos",
+      "player_id": "cs-person-000077"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7171/yaba",
+        "https://www.hltv.org/stats/matches/mapstatsid/13612/wizards-vs-ninjas-in-pyjamas"
+      ],
+      "external_ids": {
+        "hltv": "7171"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Yaba",
+      "player_id": "cs-person-000078"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7466/kirtash",
+        "https://www.hltv.org/stats/matches/mapstatsid/13612/wizards-vs-ninjas-in-pyjamas"
+      ],
+      "external_ids": {
+        "hltv": "7466"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Kirtash",
+      "player_id": "cs-person-000079"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7465/jushto",
+        "https://www.hltv.org/stats/matches/mapstatsid/13612/wizards-vs-ninjas-in-pyjamas"
+      ],
+      "external_ids": {
+        "hltv": "7465"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "JuShTo",
+      "player_id": "cs-person-000080"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/1225/shox",
+        "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2"
+      ],
+      "external_ids": {
+        "hltv": "1225"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "shox",
+      "player_id": "cs-person-000081"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/203/n0thing",
+        "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2"
+      ],
+      "external_ids": {
+        "hltv": "203"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "n0thing",
+      "player_id": "cs-person-000082"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7808/freakazoid",
+        "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2"
+      ],
+      "external_ids": {
+        "hltv": "7808"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "freakazoid",
+      "player_id": "cs-person-000083"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/201/warden",
+        "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2"
+      ],
+      "external_ids": {
+        "hltv": "201"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Warden",
+      "player_id": "cs-person-000084"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7434/azk",
+        "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2"
+      ],
+      "external_ids": {
+        "hltv": "7434"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "AZK",
+      "player_id": "cs-person-000085"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7347/dazed",
+        "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2"
+      ],
+      "external_ids": {
+        "hltv": "7347"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "DaZeD",
+      "player_id": "cs-person-000086"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/1331/xp3",
+        "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2"
+      ],
+      "external_ids": {
+        "hltv": "1331"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Xp3",
+      "player_id": "cs-person-000087"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/2644/hiko",
+        "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2"
+      ],
+      "external_ids": {
+        "hltv": "2644"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Hiko",
+      "player_id": "cs-person-000088"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/1940/slip",
+        "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2"
+      ],
+      "external_ids": {
+        "hltv": "1940"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "sLip",
+      "player_id": "cs-person-000089"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7440/skadoodle",
+        "https://www.hltv.org/stats/matches/mapstatsid/16202/ibuypower-vs-united5"
+      ],
+      "external_ids": {
+        "hltv": "7440"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Skadoodle",
+      "player_id": "cs-person-000090"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7438/anger",
+        "https://www.hltv.org/stats/matches/mapstatsid/16202/ibuypower-vs-united5"
+      ],
+      "external_ids": {
+        "hltv": "7438"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "anger",
+      "player_id": "cs-person-000091"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7433/adren",
+        "https://www.hltv.org/stats/matches/mapstatsid/16202/ibuypower-vs-united5"
+      ],
+      "external_ids": {
+        "hltv": "7433"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "adreN",
+      "player_id": "cs-person-000092"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7859/moses",
+        "https://www.hltv.org/stats/matches/mapstatsid/16202/ibuypower-vs-united5"
+      ],
+      "external_ids": {
+        "hltv": "7859"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "moses",
+      "player_id": "cs-person-000093"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7806/tm",
+        "https://www.hltv.org/stats/matches/mapstatsid/16202/ibuypower-vs-united5"
+      ],
+      "external_ids": {
+        "hltv": "7806"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "TM",
+      "player_id": "cs-person-000094"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/200/storm",
+        "https://www.hltv.org/stats/matches/mapstatsid/16202/ibuypower-vs-united5"
+      ],
+      "external_ids": {
+        "hltv": "200"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Storm",
+      "player_id": "cs-person-000095"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/3183/spyleader",
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "external_ids": {
+        "hltv": "3183"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "spyleadeR",
+      "player_id": "cs-person-000096"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8412/dream3r",
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "external_ids": {
+        "hltv": "8412"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "dream3r",
+      "player_id": "cs-person-000097"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7834/v1c7or",
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "external_ids": {
+        "hltv": "7834"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "v1c7oR",
+      "player_id": "cs-person-000098"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/2799/bubble",
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "external_ids": {
+        "hltv": "2799"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "bubble",
+      "player_id": "cs-person-000099"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/5327/nkl",
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "external_ids": {
+        "hltv": "5327"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "nkl",
+      "player_id": "cs-person-000100"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7925/gabesson",
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "external_ids": {
+        "hltv": "7925"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "gabesson",
+      "player_id": "cs-person-000101"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/5440/flashie",
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "external_ids": {
+        "hltv": "5440"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "flashie",
+      "player_id": "cs-person-000102"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8733/bodito",
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "external_ids": {
+        "hltv": "8733"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "bodito",
+      "player_id": "cs-person-000103"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/3154/ney",
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "external_ids": {
+        "hltv": "3154"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "NEY",
+      "player_id": "cs-person-000104"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/4282/foda",
+        "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay"
+      ],
+      "external_ids": {
+        "hltv": "4282"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "FoDa",
+      "player_id": "cs-person-000105"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9480/tifa",
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "external_ids": {
+        "hltv": "9480"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "tifa",
+      "player_id": "cs-person-000106"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10560/yel",
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "external_ids": {
+        "hltv": "10560"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "yel",
+      "player_id": "cs-person-000107"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10559/knight",
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "external_ids": {
+        "hltv": "10559"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "knight",
+      "player_id": "cs-person-000108"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/6593/pkl",
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "external_ids": {
+        "hltv": "6593"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "PKL",
+      "player_id": "cs-person-000109"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10558/maeda",
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "external_ids": {
+        "hltv": "10558"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "maeda",
+      "player_id": "cs-person-000110"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10557/land1n",
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "external_ids": {
+        "hltv": "10557"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "land1n",
+      "player_id": "cs-person-000111"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/558/prd",
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "external_ids": {
+        "hltv": "558"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "prd",
+      "player_id": "cs-person-000112"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10555/duken",
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "external_ids": {
+        "hltv": "10555"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "dukeN",
+      "player_id": "cs-person-000113"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/5698/pava",
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "external_ids": {
+        "hltv": "5698"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "pava",
+      "player_id": "cs-person-000114"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10556/will",
+        "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex"
+      ],
+      "external_ids": {
+        "hltv": "10556"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "will",
+      "player_id": "cs-person-000115"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/2517/lul4",
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "external_ids": {
+        "hltv": "2517"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "LuL4",
+      "player_id": "cs-person-000116"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10561/s1",
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "external_ids": {
+        "hltv": "10561"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "s1",
+      "player_id": "cs-person-000117"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7384/zakk",
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "external_ids": {
+        "hltv": "7384"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "zakk",
+      "player_id": "cs-person-000118"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7383/zqks",
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "external_ids": {
+        "hltv": "7383"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "zqkS",
+      "player_id": "cs-person-000119"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/5183/fbm",
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "external_ids": {
+        "hltv": "5183"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "fbm",
+      "player_id": "cs-person-000120"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9220/shoowtime",
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "external_ids": {
+        "hltv": "9220"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "SHOOWTiME",
+      "player_id": "cs-person-000121"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8568/boltz",
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "external_ids": {
+        "hltv": "8568"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "boltz",
+      "player_id": "cs-person-000122"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9219/felps",
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "external_ids": {
+        "hltv": "9219"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "felps",
+      "player_id": "cs-person-000123"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8566/lucas1",
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "external_ids": {
+        "hltv": "8566"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "LUCAS1",
+      "player_id": "cs-person-000124"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8565/hen1",
+        "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech"
+      ],
+      "external_ids": {
+        "hltv": "8565"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "HEN1",
+      "player_id": "cs-person-000125"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/13127/trashhero",
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "external_ids": {
+        "hltv": "13127"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Trashhero",
+      "player_id": "cs-person-000126"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/102/zonixx",
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "external_ids": {
+        "hltv": "102"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "zonixx",
+      "player_id": "cs-person-000127"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/13126/iamsan",
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "external_ids": {
+        "hltv": "13126"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "IamSan",
+      "player_id": "cs-person-000128"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/13128/drewin",
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "external_ids": {
+        "hltv": "13128"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "DrewiN",
+      "player_id": "cs-person-000129"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/13125/moon",
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "external_ids": {
+        "hltv": "13125"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "MooN",
+      "player_id": "cs-person-000130"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8543/neex",
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "external_ids": {
+        "hltv": "8543"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "NEEX",
+      "player_id": "cs-person-000131"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/12699/stomp",
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "external_ids": {
+        "hltv": "12699"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "STOMP",
+      "player_id": "cs-person-000132"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7353/izak",
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "external_ids": {
+        "hltv": "7353"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "izak",
+      "player_id": "cs-person-000133"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9567/luuliguzman",
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "external_ids": {
+        "hltv": "9567"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "LUULIGUZMAN",
+      "player_id": "cs-person-000134"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/13124/leh",
+        "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx"
+      ],
+      "external_ids": {
+        "hltv": "13124"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Leh",
+      "player_id": "cs-person-000135"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7016/hz",
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "7016"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "HZ",
+      "player_id": "cs-person-000136"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10774/freeman",
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "10774"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Freeman",
+      "player_id": "cs-person-000137"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/180/savage",
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "180"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Savage",
+      "player_id": "cs-person-000138"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8600/advent",
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "8600"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "advent",
+      "player_id": "cs-person-000139"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8601/zhoking",
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "8601"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "zhokiNg",
+      "player_id": "cs-person-000140"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/11161/drea3er",
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "11161"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Drea3er",
+      "player_id": "cs-person-000141"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/177/jewelry",
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "177"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Jewelry",
+      "player_id": "cs-person-000142"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/11358/0i",
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "11358"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "0i",
+      "player_id": "cs-person-000143"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10722/gas",
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "10722"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "gas",
+      "player_id": "cs-person-000144"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/11574/xiaosage",
+        "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "11574"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "xiaosaGe",
+      "player_id": "cs-person-000145"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10236/wycloud",
+        "https://www.hltv.org/stats/matches/mapstatsid/59513/red-wolf-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "10236"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "WyCloud",
+      "player_id": "cs-person-000146"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10192/destroyer",
+        "https://www.hltv.org/stats/matches/mapstatsid/59513/red-wolf-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "10192"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "DeStRoYeR",
+      "player_id": "cs-person-000147"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/12934/lieu",
+        "https://www.hltv.org/stats/matches/mapstatsid/59513/red-wolf-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "12934"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Lieu",
+      "player_id": "cs-person-000148"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/16210/searph",
+        "https://www.hltv.org/stats/matches/mapstatsid/59513/red-wolf-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "16210"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Searph",
+      "player_id": "cs-person-000149"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/12933/mumu",
+        "https://www.hltv.org/stats/matches/mapstatsid/59513/red-wolf-vs-new4"
+      ],
+      "external_ids": {
+        "hltv": "12933"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Mumu",
+      "player_id": "cs-person-000150"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/16847/mhl",
+        "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom"
+      ],
+      "external_ids": {
+        "hltv": "16847"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "mhL",
+      "player_id": "cs-person-000151"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/15204/vegi",
+        "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom"
+      ],
+      "external_ids": {
+        "hltv": "15204"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Vegi",
+      "player_id": "cs-person-000152"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/11287/darko",
+        "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom"
+      ],
+      "external_ids": {
+        "hltv": "11287"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "darko",
+      "player_id": "cs-person-000153"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/18068/miki",
+        "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom"
+      ],
+      "external_ids": {
+        "hltv": "18068"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Miki",
+      "player_id": "cs-person-000154"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/15697/sidney",
+        "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom"
+      ],
+      "external_ids": {
+        "hltv": "15697"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Sidney",
+      "player_id": "cs-person-000155"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/15428/goofy",
+        "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom"
+      ],
+      "external_ids": {
+        "hltv": "15428"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Goofy",
+      "player_id": "cs-person-000156"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8321/oskarish",
+        "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom"
+      ],
+      "external_ids": {
+        "hltv": "8321"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "oskarish",
+      "player_id": "cs-person-000157"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/14684/jedqr",
+        "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom"
+      ],
+      "external_ids": {
+        "hltv": "14684"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "jedqr",
+      "player_id": "cs-person-000158"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9916/mono",
+        "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom"
+      ],
+      "external_ids": {
+        "hltv": "9916"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "mono",
+      "player_id": "cs-person-000159"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10853/emenk",
+        "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush"
+      ],
+      "external_ids": {
+        "hltv": "10853"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "EMENK",
+      "player_id": "cs-person-000160"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/18749/sausol",
+        "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush"
+      ],
+      "external_ids": {
+        "hltv": "18749"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "sausol",
+      "player_id": "cs-person-000161"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/13093/deathzz",
+        "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush"
+      ],
+      "external_ids": {
+        "hltv": "13093"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "DeathZz",
+      "player_id": "cs-person-000162"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10852/shhhack",
+        "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush"
+      ],
+      "external_ids": {
+        "hltv": "10852"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "shhhack",
+      "player_id": "cs-person-000163"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/2898/raalz",
+        "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush"
+      ],
+      "external_ids": {
+        "hltv": "2898"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "raalz",
+      "player_id": "cs-person-000164"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7414/smf",
+        "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush"
+      ],
+      "external_ids": {
+        "hltv": "7414"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "smF",
+      "player_id": "cs-person-000165"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/18640/ckay",
+        "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush"
+      ],
+      "external_ids": {
+        "hltv": "18640"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "ckay",
+      "player_id": "cs-person-000166"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/921/berry",
+        "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush"
+      ],
+      "external_ids": {
+        "hltv": "921"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "BERRY",
+      "player_id": "cs-person-000167"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7932/doktizh",
+        "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush"
+      ],
+      "external_ids": {
+        "hltv": "7932"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "doktizh",
+      "player_id": "cs-person-000168"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/15118/sbt",
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "external_ids": {
+        "hltv": "15118"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "SBT",
+      "player_id": "cs-person-000169"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19964/sonesb",
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "external_ids": {
+        "hltv": "19964"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "SoneSb",
+      "player_id": "cs-person-000170"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20308/drqkon",
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "external_ids": {
+        "hltv": "20308"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "DrqkoN",
+      "player_id": "cs-person-000171"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19890/gringo",
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "external_ids": {
+        "hltv": "19890"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Gringo",
+      "player_id": "cs-person-000172"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/18731/wasink",
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "external_ids": {
+        "hltv": "18731"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "wasiNk",
+      "player_id": "cs-person-000173"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20306/nono2k",
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "external_ids": {
+        "hltv": "20306"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Nono2K",
+      "player_id": "cs-person-000174"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/18137/ninis",
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "external_ids": {
+        "hltv": "18137"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Ninis",
+      "player_id": "cs-person-000175"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20446/red1many",
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "external_ids": {
+        "hltv": "20446"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "red1many",
+      "player_id": "cs-person-000176"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/13508/malikof",
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "external_ids": {
+        "hltv": "13508"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Malikof",
+      "player_id": "cs-person-000177"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20307/spn",
+        "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis"
+      ],
+      "external_ids": {
+        "hltv": "20307"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Spn",
+      "player_id": "cs-person-000178"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/9646/polox",
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "external_ids": {
+        "hltv": "9646"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Polox",
+      "player_id": "cs-person-000179"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19926/afro",
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "external_ids": {
+        "hltv": "19926"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "afro",
+      "player_id": "cs-person-000180"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19738/djoko",
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "external_ids": {
+        "hltv": "19738"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Djoko",
+      "player_id": "cs-person-000181"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/8647/xpg",
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "external_ids": {
+        "hltv": "8647"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "XpG",
+      "player_id": "cs-person-000182"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/10732/nonick",
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "external_ids": {
+        "hltv": "10732"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "nonick",
+      "player_id": "cs-person-000183"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20477/hippov",
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "external_ids": {
+        "hltv": "20477"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "HippoV",
+      "player_id": "cs-person-000184"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20478/skyonly",
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "external_ids": {
+        "hltv": "20478"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "SkyOnly",
+      "player_id": "cs-person-000185"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19937/diviiii",
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "external_ids": {
+        "hltv": "19937"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Diviiii",
+      "player_id": "cs-person-000186"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/7600/metal",
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "external_ids": {
+        "hltv": "7600"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "MetaL",
+      "player_id": "cs-person-000187"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20476/razn",
+        "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice"
+      ],
+      "external_ids": {
+        "hltv": "20476"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Razn",
+      "player_id": "cs-person-000188"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19537/cool4st",
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "external_ids": {
+        "hltv": "19537"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "cool4st",
+      "player_id": "cs-person-000189"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/12956/hasteka",
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "external_ids": {
+        "hltv": "12956"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "hasteka",
+      "player_id": "cs-person-000190"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20275/techno",
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "external_ids": {
+        "hltv": "20275"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Techno",
+      "player_id": "cs-person-000191"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19957/bart4k",
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "external_ids": {
+        "hltv": "19957"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Bart4k",
+      "player_id": "cs-person-000192"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20194/blitz",
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "external_ids": {
+        "hltv": "20194"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "bLitz",
+      "player_id": "cs-person-000193"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/21402/stardust",
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "external_ids": {
+        "hltv": "21402"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "starDUST",
+      "player_id": "cs-person-000194"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19538/magnumz",
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "external_ids": {
+        "hltv": "19538"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "MagnumZ",
+      "player_id": "cs-person-000195"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20903/senzu",
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "external_ids": {
+        "hltv": "20903"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Senzu",
+      "player_id": "cs-person-000196"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/13941/gun-fu",
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "external_ids": {
+        "hltv": "13941"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Gun Fu",
+      "player_id": "cs-person-000197"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/21428/fury5k",
+        "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc"
+      ],
+      "external_ids": {
+        "hltv": "21428"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "fury5k",
+      "player_id": "cs-person-000198"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/21813/xaler",
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "external_ids": {
+        "hltv": "21813"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "xaler",
+      "player_id": "cs-person-000199"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/20234/gabe",
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "external_ids": {
+        "hltv": "20234"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Gabe",
+      "player_id": "cs-person-000200"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/21743/fugi",
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "external_ids": {
+        "hltv": "21743"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Fugi",
+      "player_id": "cs-person-000201"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/13689/jchance",
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "external_ids": {
+        "hltv": "13689"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "jchancE",
+      "player_id": "cs-person-000202"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/22267/mds",
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "external_ids": {
+        "hltv": "22267"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "mds",
+      "player_id": "cs-person-000203"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/19028/vulcan",
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "external_ids": {
+        "hltv": "19028"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "VulcaN",
+      "player_id": "cs-person-000204"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/21555/cypress",
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "external_ids": {
+        "hltv": "21555"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "cypress",
+      "player_id": "cs-person-000205"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/22021/fame",
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "external_ids": {
+        "hltv": "22021"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "FAME",
+      "player_id": "cs-person-000206"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/17324/slash",
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "external_ids": {
+        "hltv": "17324"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "Slash",
+      "player_id": "cs-person-000207"
+    },
+    {
+      "evidence_urls": [
+        "https://www.hltv.org/stats/players/22086/n4hsi",
+        "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign"
+      ],
+      "external_ids": {
+        "hltv": "22086"
+      },
+      "identity_review_method": "primary_source_map_profile_link",
+      "identity_verified_on": "2026-10-03",
+      "nickname": "N4hSi",
+      "player_id": "cs-person-000208"
+    }
+  ],
+  "schema_version": 1
+}

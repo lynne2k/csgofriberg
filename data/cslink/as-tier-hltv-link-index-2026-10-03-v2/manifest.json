@@ -1,0 +1,20 @@
+{
+  "files": {
+    "map-links.jsonl": {
+      "bytes": 4869832,
+      "sha256": "eafcd26603b20c82d3994f51025a641e560c8a776b6ea8ea9a5b8944ceae65d5"
+    },
+    "report.json": {
+      "bytes": 690,
+      "sha256": "ce7be681404a80c8f58d5c35b6486fde8f6fbdc1a6bdb05e1215379386d88de3"
+    },
+    "series-links.jsonl": {
+      "bytes": 1789296,
+      "sha256": "016f5aee84011a93dd02092d1cbdb2c2c7152b49f65190e6924a573e6d1a6318"
+    },
+    "series-map-conflicts.jsonl": {
+      "bytes": 279,
+      "sha256": "c3278ec73dd7204888a0035aedd1e2ef1b88d84e6bed579b5b0bbeab3646b2e4"
+    }
+  }
+}

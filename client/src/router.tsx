@@ -6,6 +6,12 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import EmailVerify from './pages/EmailVerify';
 import Search from './pages/Search';
+import Teammates from './pages/Teammates';
+import TeammatesMerged from './pages/TeammatesMerged';
+import TeammateLibrary from './pages/TeammateLibrary';
+import TeammatePractice from './pages/TeammatePractice';
+import TeammatePlay from './pages/TeammatePlay';
+import CsLinkDuel from './pages/CsLinkDuel';
 import SingleGame from './pages/SingleGame';
 import SingleLobby from './pages/SingleLobby';
 import MultiLobby from './pages/MultiLobby';
@@ -46,6 +52,13 @@ export const router = createBrowserRouter([
       { path: '/login', element: <Login /> },
       { path: '/email-verify', element: <EmailVerify /> },
       { path: '/search', element: <Search /> },
+      ...(import.meta.env.DEV ? [{ path: '/teammates', element: <TeammatesMerged /> },
+        { path: '/teammates/reviewed', element: <Teammates /> },
+        { path: '/teammates/library', element: <TeammateLibrary /> },
+        { path: '/teammates/practice', element: <TeammatePlay /> },
+        { path: '/teammates/duel', element: <CsLinkDuel /> },
+        { path: '/teammates/duel/:roomId', element: <CsLinkDuel /> },
+        { path: '/teammates/practice/legacy', element: <TeammatePractice /> }] : []),
       { path: '/single', element: <SingleLobby /> },
       { path: '/turtle-soup', element: <TurtleSoupLobby /> },
       { path: '/turtle-soup/:mode', element: <TurtleSoupGame /> },

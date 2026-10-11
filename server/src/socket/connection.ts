@@ -4,7 +4,8 @@ import { consumeRateLimit } from '../middleware/rateLimit';
 import { evalCommandScript, redis, redisKey } from '../redis';
 import { ONLINE_STALE_MS } from '../services/presence';
 
-const MAX_CONNECTIONS_PER_IDENTITY = 3;
+/* 线上默认 3；本地调试会同时开好几个标签页，local-mac.py 用环境变量放宽 */
+const MAX_CONNECTIONS_PER_IDENTITY = Math.max(1, Number(process.env.SOCKET_MAX_CONNECTIONS_PER_IDENTITY) || 3);
 const MAX_CONNECTIONS_PER_IP = 20;
 const LOCAL_GUESS_LIMIT = 12;
 const LOCAL_GUESS_WINDOW_MS = 10_000;

@@ -1,0 +1,25 @@
+{
+  "event_candidates": 110,
+  "event_pages_cached": 110,
+  "finished_maps_without_stats_id": 6,
+  "invalid_stats_references": 8,
+  "map_id_candidates": 6816,
+  "new_map_id_candidates": 6811,
+  "old_matches_file": ".local-data/cslink/versions/69d3bb14fb82e70ea452/matches.jsonl",
+  "old_matches_sha256": "a154a8ec0479086bd58765c726d6578c4538538e2563b493438ee47b83b8a77d",
+  "old_snapshot_overlap": 5,
+  "overlap_map_ids": [
+    159569,
+    159572,
+    159576,
+    159579,
+    159581
+  ],
+  "result_subpages_cached": 17,
+  "roster_review_state": "none; all map IDs are discovery candidates",
+  "schema_version": 1,
+  "series_with_map_ids": 3097,
+  "snapshot_date": "2026-10-03",
+  "source": "Liquipedia Counter-Strike MediaWiki API; see README.md for attribution and terms",
+  "tier_review_state": "index_and_infobox_agree; per-event scope review pending"
+}

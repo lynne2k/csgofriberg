@@ -1,0 +1,2490 @@
+{
+  "schema_version": 1,
+  "batch_id": "2026-10-03-cross-year-30",
+  "reviewed_on": "2026-10-03",
+  "reviewed_by": "assistant",
+  "review_method": "primary_source_browser_page_read",
+  "source_version": "a5fdf6b003121e3826a9",
+  "scope": "固定 30 张样本逐页复核；不是全库核验，也不是用户人工验收。只保留比赛事实与选手链接，不保存整页网页。",
+  "time_note": "observed_timestamp_ms 来自页面可见日期元素的 data-unix 属性；原始 CSV 时间和未知时区不覆盖。浏览器显示时间为本机 Asia/Shanghai。",
+  "maps": [
+    {
+      "map_id": 38757,
+      "record_sha256": "ff80874802585067da9b0d678e3afb16b1ddf4a6a1f6f88968b94d54a81e44eb",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/38757/mouz-vs-heroic",
+      "observed_map": "Cobblestone",
+      "observed_timestamp_ms": 1479423600000,
+      "observed_score": [
+        16,
+        11
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "HEROIC",
+          "metadata_team_name": "Heroic",
+          "players": [
+            {
+              "nickname": "valde",
+              "hltv_id": "9031",
+              "profile_url": "https://www.hltv.org/stats/players/9031/valde"
+            },
+            {
+              "nickname": "MODDII",
+              "hltv_id": "545",
+              "profile_url": "https://www.hltv.org/stats/players/545/moddii"
+            },
+            {
+              "nickname": "Friis",
+              "hltv_id": "7",
+              "profile_url": "https://www.hltv.org/stats/players/7/friis"
+            },
+            {
+              "nickname": "niko",
+              "hltv_id": "10264",
+              "profile_url": "https://www.hltv.org/stats/players/10264/niko"
+            },
+            {
+              "nickname": "Snappi",
+              "hltv_id": "922",
+              "profile_url": "https://www.hltv.org/stats/players/922/snappi"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "MOUZ",
+          "metadata_team_name": "MOUZ",
+          "players": [
+            {
+              "nickname": "chrisJ",
+              "hltv_id": "2730",
+              "profile_url": "https://www.hltv.org/stats/players/2730/chrisj"
+            },
+            {
+              "nickname": "loWel",
+              "hltv_id": "3997",
+              "profile_url": "https://www.hltv.org/stats/players/3997/lowel"
+            },
+            {
+              "nickname": "denis",
+              "hltv_id": "7511",
+              "profile_url": "https://www.hltv.org/stats/players/7511/denis"
+            },
+            {
+              "nickname": "Spiidi",
+              "hltv_id": "7499",
+              "profile_url": "https://www.hltv.org/stats/players/7499/spiidi"
+            },
+            {
+              "nickname": "NiKo",
+              "hltv_id": "3741",
+              "profile_url": "https://www.hltv.org/stats/players/3741/niko"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 41274,
+      "record_sha256": "2f4910a5db446129cedfe6b50b381435d3ce2e1293a33fb4361e53eba14d4934",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/41274/mouz-vs-heroic",
+      "observed_map": "Dust2",
+      "observed_timestamp_ms": 1486317000000,
+      "observed_score": [
+        8,
+        16
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "HEROIC",
+          "metadata_team_name": "Heroic",
+          "players": [
+            {
+              "nickname": "cadiaN",
+              "hltv_id": "7964",
+              "profile_url": "https://www.hltv.org/stats/players/7964/cadian"
+            },
+            {
+              "nickname": "valde",
+              "hltv_id": "9031",
+              "profile_url": "https://www.hltv.org/stats/players/9031/valde"
+            },
+            {
+              "nickname": "niko",
+              "hltv_id": "10264",
+              "profile_url": "https://www.hltv.org/stats/players/10264/niko"
+            },
+            {
+              "nickname": "Snappi",
+              "hltv_id": "922",
+              "profile_url": "https://www.hltv.org/stats/players/922/snappi"
+            },
+            {
+              "nickname": "MODDII",
+              "hltv_id": "545",
+              "profile_url": "https://www.hltv.org/stats/players/545/moddii"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "MOUZ",
+          "metadata_team_name": "MOUZ",
+          "players": [
+            {
+              "nickname": "loWel",
+              "hltv_id": "3997",
+              "profile_url": "https://www.hltv.org/stats/players/3997/lowel"
+            },
+            {
+              "nickname": "NiKo",
+              "hltv_id": "3741",
+              "profile_url": "https://www.hltv.org/stats/players/3741/niko"
+            },
+            {
+              "nickname": "oskar",
+              "hltv_id": "798",
+              "profile_url": "https://www.hltv.org/stats/players/798/oskar"
+            },
+            {
+              "nickname": "Spiidi",
+              "hltv_id": "7499",
+              "profile_url": "https://www.hltv.org/stats/players/7499/spiidi"
+            },
+            {
+              "nickname": "denis",
+              "hltv_id": "7511",
+              "profile_url": "https://www.hltv.org/stats/players/7511/denis"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 12838,
+      "record_sha256": "2adb162f3ce459c5322cc44c04e096fab5dd71a6358717235d6d523a73acf052",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/12838/ninjas-in-pyjamas-vs-prime",
+      "observed_map": "Inferno_se",
+      "observed_timestamp_ms": 1347562800000,
+      "observed_score": [
+        16,
+        3
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Ninjas in Pyjamas",
+          "metadata_team_name": "Ninjas in Pyjamas",
+          "players": [
+            {
+              "nickname": "GeT_RiGhT",
+              "hltv_id": "39",
+              "profile_url": "https://www.hltv.org/stats/players/39/get-right"
+            },
+            {
+              "nickname": "friberg",
+              "hltv_id": "7148",
+              "profile_url": "https://www.hltv.org/stats/players/7148/friberg"
+            },
+            {
+              "nickname": "Fifflaren",
+              "hltv_id": "7147",
+              "profile_url": "https://www.hltv.org/stats/players/7147/fifflaren"
+            },
+            {
+              "nickname": "Xizt",
+              "hltv_id": "884",
+              "profile_url": "https://www.hltv.org/stats/players/884/xizt"
+            },
+            {
+              "nickname": "f0rest",
+              "hltv_id": "29",
+              "profile_url": "https://www.hltv.org/stats/players/29/f0rest"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "PRiME",
+          "metadata_team_name": "PRiME",
+          "players": [
+            {
+              "nickname": "zn0pe",
+              "hltv_id": "7151",
+              "profile_url": "https://www.hltv.org/stats/players/7151/zn0pe"
+            },
+            {
+              "nickname": "ANKK",
+              "hltv_id": "7149",
+              "profile_url": "https://www.hltv.org/stats/players/7149/ankk"
+            },
+            {
+              "nickname": "whammy",
+              "hltv_id": "7152",
+              "profile_url": "https://www.hltv.org/stats/players/7152/whammy"
+            },
+            {
+              "nickname": "KeR",
+              "hltv_id": "7153",
+              "profile_url": "https://www.hltv.org/stats/players/7153/ker"
+            },
+            {
+              "nickname": "Rejin",
+              "hltv_id": "7150",
+              "profile_url": "https://www.hltv.org/stats/players/7150/rejin"
+            }
+          ]
+        }
+      ],
+      "decision": "defer",
+      "competition_type": "official",
+      "reason": "原始明细完全缺失；网页有十人阵容，已保存为补录候选。先保持隔离，待新增独立来源记录，不伪造原 CSV 槽位。"
+    },
+    {
+      "map_id": 12849,
+      "record_sha256": "1605040a4431161286d1244e198dcf40746bd80d9770817954c08d594377cbdc",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/12849/verygames-vs-ninjas-in-pyjamas",
+      "observed_map": "Train_se",
+      "observed_timestamp_ms": 1348401600000,
+      "observed_score": [
+        16,
+        12
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Ninjas in Pyjamas",
+          "metadata_team_name": "Ninjas in Pyjamas",
+          "players": [
+            {
+              "nickname": "f0rest",
+              "hltv_id": "29",
+              "profile_url": "https://www.hltv.org/stats/players/29/f0rest"
+            },
+            {
+              "nickname": "Xizt",
+              "hltv_id": "884",
+              "profile_url": "https://www.hltv.org/stats/players/884/xizt"
+            },
+            {
+              "nickname": "GeT_RiGhT",
+              "hltv_id": "39",
+              "profile_url": "https://www.hltv.org/stats/players/39/get-right"
+            },
+            {
+              "nickname": "Fifflaren",
+              "hltv_id": "7147",
+              "profile_url": "https://www.hltv.org/stats/players/7147/fifflaren"
+            },
+            {
+              "nickname": "friberg",
+              "hltv_id": "7148",
+              "profile_url": "https://www.hltv.org/stats/players/7148/friberg"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "VeryGames",
+          "metadata_team_name": "VeryGames",
+          "players": [
+            {
+              "nickname": "kennyS",
+              "hltv_id": "7167",
+              "profile_url": "https://www.hltv.org/stats/players/7167/kennys"
+            },
+            {
+              "nickname": "Ex6TenZ",
+              "hltv_id": "7166",
+              "profile_url": "https://www.hltv.org/stats/players/7166/ex6tenz"
+            },
+            {
+              "nickname": "NBK-",
+              "hltv_id": "7168",
+              "profile_url": "https://www.hltv.org/stats/players/7168/nbk"
+            },
+            {
+              "nickname": "SmithZz",
+              "hltv_id": "7170",
+              "profile_url": "https://www.hltv.org/stats/players/7170/smithzz"
+            },
+            {
+              "nickname": "RpK",
+              "hltv_id": "7169",
+              "profile_url": "https://www.hltv.org/stats/players/7169/rpk"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 14675,
+      "record_sha256": "dfb408ec252b56514ae04e21bc3ab5c5a0e1d202bb4e411d50c59c2fcc1f76a1",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/14675/k1ck-vs-virtuspro",
+      "observed_map": "Dust2_se",
+      "observed_timestamp_ms": 1369155600000,
+      "observed_score": [
+        16,
+        12
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Virtus.pro",
+          "metadata_team_name": "Virtus.pro",
+          "players": [
+            {
+              "nickname": "kUcheR",
+              "hltv_id": "302",
+              "profile_url": "https://www.hltv.org/stats/players/302/kucher"
+            },
+            {
+              "nickname": "Fox",
+              "hltv_id": "737",
+              "profile_url": "https://www.hltv.org/stats/players/737/fox"
+            },
+            {
+              "nickname": "AdreN",
+              "hltv_id": "334",
+              "profile_url": "https://www.hltv.org/stats/players/334/adren"
+            },
+            {
+              "nickname": "Dosia",
+              "hltv_id": "735",
+              "profile_url": "https://www.hltv.org/stats/players/735/dosia"
+            },
+            {
+              "nickname": "ANGE1",
+              "hltv_id": "339",
+              "profile_url": "https://www.hltv.org/stats/players/339/ange1"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "k1ck",
+          "metadata_team_name": "k1ck",
+          "players": [
+            {
+              "nickname": "fox",
+              "hltv_id": "629",
+              "profile_url": "https://www.hltv.org/stats/players/629/fox"
+            },
+            {
+              "nickname": "iNsideR",
+              "hltv_id": "5873",
+              "profile_url": "https://www.hltv.org/stats/players/5873/insider"
+            },
+            {
+              "nickname": "n0rx",
+              "hltv_id": "2238",
+              "profile_url": "https://www.hltv.org/stats/players/2238/n0rx"
+            },
+            {
+              "nickname": "MUTiRiS",
+              "hltv_id": "630",
+              "profile_url": "https://www.hltv.org/stats/players/630/mutiris"
+            },
+            {
+              "nickname": "roman",
+              "hltv_id": "2241",
+              "profile_url": "https://www.hltv.org/stats/players/2241/roman"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 23362,
+      "record_sha256": "cc7ae1a94ed3d1631b38b94a3e9213b6f998a5ea6671e9b7c973e24bdaa5238e",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/23362/kappakappa-vs-night-raid",
+      "observed_map": "Inferno",
+      "observed_timestamp_ms": 1442079900000,
+      "observed_score": [
+        "-",
+        13
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Night Raid",
+          "metadata_team_name": "Night Raid",
+          "players": [
+            {
+              "nickname": "niLssoN",
+              "hltv_id": "9146",
+              "profile_url": "https://www.hltv.org/stats/players/9146/nilsson"
+            },
+            {
+              "nickname": "z4pper",
+              "hltv_id": "7521",
+              "profile_url": "https://www.hltv.org/stats/players/7521/z4pper"
+            },
+            {
+              "nickname": "MARCI",
+              "hltv_id": "9610",
+              "profile_url": "https://www.hltv.org/stats/players/9610/marci"
+            },
+            {
+              "nickname": "Pod",
+              "hltv_id": "2851",
+              "profile_url": "https://www.hltv.org/stats/players/2851/pod"
+            },
+            {
+              "nickname": "mrtn",
+              "hltv_id": "9611",
+              "profile_url": "https://www.hltv.org/stats/players/9611/mrtn"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "KappaKappa",
+          "metadata_team_name": "KappaKappa",
+          "players": [
+            {
+              "nickname": "Krewmer",
+              "hltv_id": "9412",
+              "profile_url": "https://www.hltv.org/stats/players/9412/krewmer"
+            },
+            {
+              "nickname": "st^",
+              "hltv_id": "9251",
+              "profile_url": "https://www.hltv.org/stats/players/9251/st"
+            },
+            {
+              "nickname": "ANTON",
+              "hltv_id": "9252",
+              "profile_url": "https://www.hltv.org/stats/players/9252/anton"
+            },
+            {
+              "nickname": "MomentPlz",
+              "hltv_id": "9250",
+              "profile_url": "https://www.hltv.org/stats/players/9250/momentplz"
+            },
+            {
+              "nickname": "es3tag",
+              "hltv_id": "8611",
+              "profile_url": "https://www.hltv.org/stats/players/8611/es3tag"
+            }
+          ]
+        }
+      ],
+      "decision": "defer",
+      "competition_type": "official",
+      "reason": "原始明细缺失且一方比分为破折号，当前网页同样显示破折号。尚未核实赛果变更原因，不推定为弃权或实际未比赛。"
+    },
+    {
+      "map_id": 28796,
+      "record_sha256": "8734533a2c7d28532f0055e40a51ca9dbf78bb25e6fdc832fbb69f51ef8f4417",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg",
+      "observed_map": "Cobblestone",
+      "observed_timestamp_ms": 1457902800000,
+      "observed_score": [
+        16,
+        5
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "LDDM",
+          "metadata_team_name": "LDDM",
+          "players": [
+            {
+              "nickname": "dok",
+              "hltv_id": "10828",
+              "profile_url": "https://www.hltv.org/stats/players/10828/dok"
+            },
+            {
+              "nickname": "tony",
+              "hltv_id": "10826",
+              "profile_url": "https://www.hltv.org/stats/players/10826/tony"
+            },
+            {
+              "nickname": "KODIAK",
+              "hltv_id": "10824",
+              "profile_url": "https://www.hltv.org/stats/players/10824/kodiak"
+            },
+            {
+              "nickname": "mcb",
+              "hltv_id": "10825",
+              "profile_url": "https://www.hltv.org/stats/players/10825/mcb"
+            },
+            {
+              "nickname": "prt",
+              "hltv_id": "10827",
+              "profile_url": "https://www.hltv.org/stats/players/10827/prt"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "TSG",
+          "metadata_team_name": "TSG",
+          "players": [
+            {
+              "nickname": "ossada",
+              "hltv_id": "10832",
+              "profile_url": "https://www.hltv.org/stats/players/10832/ossada"
+            },
+            {
+              "nickname": "NaN",
+              "hltv_id": "10831",
+              "profile_url": "https://www.hltv.org/stats/players/10831/nan"
+            },
+            {
+              "nickname": "zeziN",
+              "hltv_id": "10833",
+              "profile_url": "https://www.hltv.org/stats/players/10833/zezin"
+            },
+            {
+              "nickname": "DASTAN",
+              "hltv_id": "10830",
+              "profile_url": "https://www.hltv.org/stats/players/10830/dastan"
+            },
+            {
+              "nickname": "jun",
+              "hltv_id": "10829",
+              "profile_url": "https://www.hltv.org/stats/players/10829/jun"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "原站 TSG 第二名选手显示昵称 NaN，链接编号 10831；仅修正本图空槽位的审核值，保留空白原值，不把字符串 NaN 当缺失值。",
+      "nickname_corrections": [
+        {
+          "group_no": 2,
+          "slot": 2,
+          "original": "",
+          "corrected": "NaN",
+          "evidence_url": "https://www.hltv.org/stats/matches/mapstatsid/28796/lddm-vs-tsg"
+        }
+      ]
+    },
+    {
+      "map_id": 54128,
+      "record_sha256": "6efed2397688cb31a962febf15bc6a1b651d54a8e6b1a4dfe7f305b996dd5aba",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu",
+      "observed_map": "Overpass",
+      "observed_timestamp_ms": 1506956400000,
+      "observed_score": [
+        11,
+        16
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Kinguin",
+          "metadata_team_name": "Kinguin",
+          "players": [
+            {
+              "nickname": "rallen",
+              "hltv_id": "5388",
+              "profile_url": "https://www.hltv.org/stats/players/5388/rallen"
+            },
+            {
+              "nickname": "MICHU",
+              "hltv_id": "7356",
+              "profile_url": "https://www.hltv.org/stats/players/7356/michu"
+            },
+            {
+              "nickname": "kaper",
+              "hltv_id": "14221",
+              "profile_url": "https://www.hltv.org/stats/players/14221/kaper"
+            },
+            {
+              "nickname": "SZPERO",
+              "hltv_id": "973",
+              "profile_url": "https://www.hltv.org/stats/players/973/szpero"
+            },
+            {
+              "nickname": "mouz",
+              "hltv_id": "8323",
+              "profile_url": "https://www.hltv.org/stats/players/8323/mouz"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "HAVU",
+          "metadata_team_name": "HAVU",
+          "players": [
+            {
+              "nickname": "ottoNd",
+              "hltv_id": "11283",
+              "profile_url": "https://www.hltv.org/stats/players/11283/ottond"
+            },
+            {
+              "nickname": "Aleksib",
+              "hltv_id": "9816",
+              "profile_url": "https://www.hltv.org/stats/players/9816/aleksib"
+            },
+            {
+              "nickname": "sergej",
+              "hltv_id": "11916",
+              "profile_url": "https://www.hltv.org/stats/players/11916/sergej"
+            },
+            {
+              "nickname": "xartE",
+              "hltv_id": "7537",
+              "profile_url": "https://www.hltv.org/stats/players/7537/xarte"
+            },
+            {
+              "nickname": "KHRN",
+              "hltv_id": "971",
+              "profile_url": "https://www.hltv.org/stats/players/971/khrn"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "原站 Kinguin 的全场统计表为 MICHU，链接编号 7356，与 CSV 的 Hendre 不一致。本图按当前来源逐槽修正，保留 Hendre 原值；不建立 Hendre 与 MICHU 的全局别名关系。半场字段冲突保留。",
+      "nickname_corrections": [
+        {
+          "group_no": 1,
+          "slot": 2,
+          "original": "Hendre",
+          "corrected": "MICHU",
+          "evidence_url": "https://www.hltv.org/stats/matches/mapstatsid/54128/kinguin-vs-havu"
+        }
+      ]
+    },
+    {
+      "map_id": 12848,
+      "record_sha256": "7e340ab1030b007e4d586616474966aa4b19ddb0e9302af74ac928ecfa8fe0e0",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/12848/ninjas-in-pyjamas-vs-verygames",
+      "observed_map": "Nuke_se",
+      "observed_timestamp_ms": 1348401600000,
+      "observed_score": [
+        16,
+        10
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Ninjas in Pyjamas",
+          "metadata_team_name": "Ninjas in Pyjamas",
+          "players": [
+            {
+              "nickname": "Xizt",
+              "hltv_id": "884",
+              "profile_url": "https://www.hltv.org/stats/players/884/xizt"
+            },
+            {
+              "nickname": "friberg",
+              "hltv_id": "7148",
+              "profile_url": "https://www.hltv.org/stats/players/7148/friberg"
+            },
+            {
+              "nickname": "f0rest",
+              "hltv_id": "29",
+              "profile_url": "https://www.hltv.org/stats/players/29/f0rest"
+            },
+            {
+              "nickname": "GeT_RiGhT",
+              "hltv_id": "39",
+              "profile_url": "https://www.hltv.org/stats/players/39/get-right"
+            },
+            {
+              "nickname": "Fifflaren",
+              "hltv_id": "7147",
+              "profile_url": "https://www.hltv.org/stats/players/7147/fifflaren"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "VeryGames",
+          "metadata_team_name": "VeryGames",
+          "players": [
+            {
+              "nickname": "SmithZz",
+              "hltv_id": "7170",
+              "profile_url": "https://www.hltv.org/stats/players/7170/smithzz"
+            },
+            {
+              "nickname": "NBK-",
+              "hltv_id": "7168",
+              "profile_url": "https://www.hltv.org/stats/players/7168/nbk"
+            },
+            {
+              "nickname": "RpK",
+              "hltv_id": "7169",
+              "profile_url": "https://www.hltv.org/stats/players/7169/rpk"
+            },
+            {
+              "nickname": "Ex6TenZ",
+              "hltv_id": "7166",
+              "profile_url": "https://www.hltv.org/stats/players/7166/ex6tenz"
+            },
+            {
+              "nickname": "kennyS",
+              "hltv_id": "7167",
+              "profile_url": "https://www.hltv.org/stats/players/7167/kennys"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 13612,
+      "record_sha256": "60151e5976c802e448750e3dfb5e5fe7ff14caedb8ad036a10a4c968487a3617",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/13612/wizards-vs-ninjas-in-pyjamas",
+      "observed_map": "Mirage_ce",
+      "observed_timestamp_ms": 1357592400000,
+      "observed_score": [
+        4,
+        16
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Wizards",
+          "metadata_team_name": "Wizards",
+          "players": [
+            {
+              "nickname": "SOKER",
+              "hltv_id": "7388",
+              "profile_url": "https://www.hltv.org/stats/players/7388/soker"
+            },
+            {
+              "nickname": "Pinchos",
+              "hltv_id": "7467",
+              "profile_url": "https://www.hltv.org/stats/players/7467/pinchos"
+            },
+            {
+              "nickname": "Yaba",
+              "hltv_id": "7171",
+              "profile_url": "https://www.hltv.org/stats/players/7171/yaba"
+            },
+            {
+              "nickname": "Kirtash",
+              "hltv_id": "7466",
+              "profile_url": "https://www.hltv.org/stats/players/7466/kirtash"
+            },
+            {
+              "nickname": "JuShTo",
+              "hltv_id": "7465",
+              "profile_url": "https://www.hltv.org/stats/players/7465/jushto"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "Ninjas in Pyjamas",
+          "metadata_team_name": "Ninjas in Pyjamas",
+          "players": [
+            {
+              "nickname": "Xizt",
+              "hltv_id": "884",
+              "profile_url": "https://www.hltv.org/stats/players/884/xizt"
+            },
+            {
+              "nickname": "f0rest",
+              "hltv_id": "29",
+              "profile_url": "https://www.hltv.org/stats/players/29/f0rest"
+            },
+            {
+              "nickname": "GeT_RiGhT",
+              "hltv_id": "39",
+              "profile_url": "https://www.hltv.org/stats/players/39/get-right"
+            },
+            {
+              "nickname": "friberg",
+              "hltv_id": "7148",
+              "profile_url": "https://www.hltv.org/stats/players/7148/friberg"
+            },
+            {
+              "nickname": "Fifflaren",
+              "hltv_id": "7147",
+              "profile_url": "https://www.hltv.org/stats/players/7147/fifflaren"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 13613,
+      "record_sha256": "00f0c91ca657eca199111d2f79d58411661aedcd298953a91b329b583f772b8b",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/13613/ninjas-in-pyjamas-vs-wizards",
+      "observed_map": "Inferno_se",
+      "observed_timestamp_ms": 1357592400000,
+      "observed_score": [
+        5,
+        16
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Wizards",
+          "metadata_team_name": "Wizards",
+          "players": [
+            {
+              "nickname": "Kirtash",
+              "hltv_id": "7466",
+              "profile_url": "https://www.hltv.org/stats/players/7466/kirtash"
+            },
+            {
+              "nickname": "SOKER",
+              "hltv_id": "7388",
+              "profile_url": "https://www.hltv.org/stats/players/7388/soker"
+            },
+            {
+              "nickname": "Pinchos",
+              "hltv_id": "7467",
+              "profile_url": "https://www.hltv.org/stats/players/7467/pinchos"
+            },
+            {
+              "nickname": "Yaba",
+              "hltv_id": "7171",
+              "profile_url": "https://www.hltv.org/stats/players/7171/yaba"
+            },
+            {
+              "nickname": "JuShTo",
+              "hltv_id": "7465",
+              "profile_url": "https://www.hltv.org/stats/players/7465/jushto"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "Ninjas in Pyjamas",
+          "metadata_team_name": "Ninjas in Pyjamas",
+          "players": [
+            {
+              "nickname": "Xizt",
+              "hltv_id": "884",
+              "profile_url": "https://www.hltv.org/stats/players/884/xizt"
+            },
+            {
+              "nickname": "GeT_RiGhT",
+              "hltv_id": "39",
+              "profile_url": "https://www.hltv.org/stats/players/39/get-right"
+            },
+            {
+              "nickname": "friberg",
+              "hltv_id": "7148",
+              "profile_url": "https://www.hltv.org/stats/players/7148/friberg"
+            },
+            {
+              "nickname": "f0rest",
+              "hltv_id": "29",
+              "profile_url": "https://www.hltv.org/stats/players/29/f0rest"
+            },
+            {
+              "nickname": "Fifflaren",
+              "hltv_id": "7147",
+              "profile_url": "https://www.hltv.org/stats/players/7147/fifflaren"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 16198,
+      "record_sha256": "99bfa9753ac8ea8666bd3e953d4ffca73660351eff5ab8764d30f6b26b763a14",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/16198/esea-all-stars-1-vs-esea-all-stars-2",
+      "observed_map": "Dust2",
+      "observed_timestamp_ms": 1390002300000,
+      "observed_score": [
+        16,
+        3
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "ESEA All-Stars #2",
+          "metadata_team_name": "ESEA All-Stars #2",
+          "players": [
+            {
+              "nickname": "shox",
+              "hltv_id": "1225",
+              "profile_url": "https://www.hltv.org/stats/players/1225/shox"
+            },
+            {
+              "nickname": "n0thing",
+              "hltv_id": "203",
+              "profile_url": "https://www.hltv.org/stats/players/203/n0thing"
+            },
+            {
+              "nickname": "freakazoid",
+              "hltv_id": "7808",
+              "profile_url": "https://www.hltv.org/stats/players/7808/freakazoid"
+            },
+            {
+              "nickname": "Warden",
+              "hltv_id": "201",
+              "profile_url": "https://www.hltv.org/stats/players/201/warden"
+            },
+            {
+              "nickname": "AZK",
+              "hltv_id": "7434",
+              "profile_url": "https://www.hltv.org/stats/players/7434/azk"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "ESEA All-Stars #1",
+          "metadata_team_name": "ESEA All-Stars #1",
+          "players": [
+            {
+              "nickname": "DaZeD",
+              "hltv_id": "7347",
+              "profile_url": "https://www.hltv.org/stats/players/7347/dazed"
+            },
+            {
+              "nickname": "Xp3",
+              "hltv_id": "1331",
+              "profile_url": "https://www.hltv.org/stats/players/1331/xp3"
+            },
+            {
+              "nickname": "NBK-",
+              "hltv_id": "7168",
+              "profile_url": "https://www.hltv.org/stats/players/7168/nbk"
+            },
+            {
+              "nickname": "Hiko",
+              "hltv_id": "2644",
+              "profile_url": "https://www.hltv.org/stats/players/2644/hiko"
+            },
+            {
+              "nickname": "sLip",
+              "hltv_id": "1940",
+              "profile_url": "https://www.hltv.org/stats/players/1940/slip"
+            }
+          ]
+        }
+      ],
+      "decision": "exclude",
+      "competition_type": "showmatch",
+      "reason": "原站赛事明确为 Showmatch CS；按正式赛事实际同队出场范围排除，不生成队友关系。"
+    },
+    {
+      "map_id": 16202,
+      "record_sha256": "8c71131835f548857a021c36128638e4ad823769523757ed7848527fba30684e",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/16202/ibuypower-vs-united5",
+      "observed_map": "Cache",
+      "observed_timestamp_ms": 1390014000000,
+      "observed_score": [
+        16,
+        10
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "iBUYPOWER",
+          "metadata_team_name": "iBUYPOWER",
+          "players": [
+            {
+              "nickname": "Skadoodle",
+              "hltv_id": "7440",
+              "profile_url": "https://www.hltv.org/stats/players/7440/skadoodle"
+            },
+            {
+              "nickname": "DaZeD",
+              "hltv_id": "7347",
+              "profile_url": "https://www.hltv.org/stats/players/7347/dazed"
+            },
+            {
+              "nickname": "anger",
+              "hltv_id": "7438",
+              "profile_url": "https://www.hltv.org/stats/players/7438/anger"
+            },
+            {
+              "nickname": "AZK",
+              "hltv_id": "7434",
+              "profile_url": "https://www.hltv.org/stats/players/7434/azk"
+            },
+            {
+              "nickname": "adreN",
+              "hltv_id": "7433",
+              "profile_url": "https://www.hltv.org/stats/players/7433/adren"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "United5",
+          "metadata_team_name": "United5",
+          "players": [
+            {
+              "nickname": "Warden",
+              "hltv_id": "201",
+              "profile_url": "https://www.hltv.org/stats/players/201/warden"
+            },
+            {
+              "nickname": "Xp3",
+              "hltv_id": "1331",
+              "profile_url": "https://www.hltv.org/stats/players/1331/xp3"
+            },
+            {
+              "nickname": "moses",
+              "hltv_id": "7859",
+              "profile_url": "https://www.hltv.org/stats/players/7859/moses"
+            },
+            {
+              "nickname": "TM",
+              "hltv_id": "7806",
+              "profile_url": "https://www.hltv.org/stats/players/7806/tm"
+            },
+            {
+              "nickname": "Storm",
+              "hltv_id": "200",
+              "profile_url": "https://www.hltv.org/stats/players/200/storm"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 18957,
+      "record_sha256": "71b10c0a5cd3b2c32ed2ed35023d001b9da51ff5e2bff90912bd254be8f96fda",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/18957/volgare-vs-gplay",
+      "observed_map": "Inferno",
+      "observed_timestamp_ms": 1420218000000,
+      "observed_score": [
+        13,
+        16
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "GPlay",
+          "metadata_team_name": "GPlay",
+          "players": [
+            {
+              "nickname": "spyleadeR",
+              "hltv_id": "3183",
+              "profile_url": "https://www.hltv.org/stats/players/3183/spyleader"
+            },
+            {
+              "nickname": "dream3r",
+              "hltv_id": "8412",
+              "profile_url": "https://www.hltv.org/stats/players/8412/dream3r"
+            },
+            {
+              "nickname": "v1c7oR",
+              "hltv_id": "7834",
+              "profile_url": "https://www.hltv.org/stats/players/7834/v1c7or"
+            },
+            {
+              "nickname": "bubble",
+              "hltv_id": "2799",
+              "profile_url": "https://www.hltv.org/stats/players/2799/bubble"
+            },
+            {
+              "nickname": "nkl",
+              "hltv_id": "5327",
+              "profile_url": "https://www.hltv.org/stats/players/5327/nkl"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "volgare",
+          "metadata_team_name": "volgare",
+          "players": [
+            {
+              "nickname": "gabesson",
+              "hltv_id": "7925",
+              "profile_url": "https://www.hltv.org/stats/players/7925/gabesson"
+            },
+            {
+              "nickname": "flashie",
+              "hltv_id": "5440",
+              "profile_url": "https://www.hltv.org/stats/players/5440/flashie"
+            },
+            {
+              "nickname": "bodito",
+              "hltv_id": "8733",
+              "profile_url": "https://www.hltv.org/stats/players/8733/bodito"
+            },
+            {
+              "nickname": "NEY",
+              "hltv_id": "3154",
+              "profile_url": "https://www.hltv.org/stats/players/3154/ney"
+            },
+            {
+              "nickname": "FoDa",
+              "hltv_id": "4282",
+              "profile_url": "https://www.hltv.org/stats/players/4282/foda"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 18958,
+      "record_sha256": "6b8d937a4aa5886a1e04f42d9bfad7ec83d5c809cd8e69651d4838a99a3a8ada",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/18958/volgare-vs-gplay",
+      "observed_map": "Mirage",
+      "observed_timestamp_ms": 1420218000000,
+      "observed_score": [
+        16,
+        11
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "GPlay",
+          "metadata_team_name": "GPlay",
+          "players": [
+            {
+              "nickname": "dream3r",
+              "hltv_id": "8412",
+              "profile_url": "https://www.hltv.org/stats/players/8412/dream3r"
+            },
+            {
+              "nickname": "v1c7oR",
+              "hltv_id": "7834",
+              "profile_url": "https://www.hltv.org/stats/players/7834/v1c7or"
+            },
+            {
+              "nickname": "spyleadeR",
+              "hltv_id": "3183",
+              "profile_url": "https://www.hltv.org/stats/players/3183/spyleader"
+            },
+            {
+              "nickname": "bubble",
+              "hltv_id": "2799",
+              "profile_url": "https://www.hltv.org/stats/players/2799/bubble"
+            },
+            {
+              "nickname": "nkl",
+              "hltv_id": "5327",
+              "profile_url": "https://www.hltv.org/stats/players/5327/nkl"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "volgare",
+          "metadata_team_name": "volgare",
+          "players": [
+            {
+              "nickname": "NEY",
+              "hltv_id": "3154",
+              "profile_url": "https://www.hltv.org/stats/players/3154/ney"
+            },
+            {
+              "nickname": "flashie",
+              "hltv_id": "5440",
+              "profile_url": "https://www.hltv.org/stats/players/5440/flashie"
+            },
+            {
+              "nickname": "FoDa",
+              "hltv_id": "4282",
+              "profile_url": "https://www.hltv.org/stats/players/4282/foda"
+            },
+            {
+              "nickname": "gabesson",
+              "hltv_id": "7925",
+              "profile_url": "https://www.hltv.org/stats/players/7925/gabesson"
+            },
+            {
+              "nickname": "bodito",
+              "hltv_id": "8733",
+              "profile_url": "https://www.hltv.org/stats/players/8733/bodito"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 27418,
+      "record_sha256": "7a951116b6163e00a1b73a3e4ac85c46ade04964fa646a490cedd40642ef5c25",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/27418/g3x-vs-santosdex",
+      "observed_map": "Mirage",
+      "observed_timestamp_ms": 1452087000000,
+      "observed_score": [
+        16,
+        14
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "g3x",
+          "metadata_team_name": "g3x",
+          "players": [
+            {
+              "nickname": "tifa",
+              "hltv_id": "9480",
+              "profile_url": "https://www.hltv.org/stats/players/9480/tifa"
+            },
+            {
+              "nickname": "yel",
+              "hltv_id": "10560",
+              "profile_url": "https://www.hltv.org/stats/players/10560/yel"
+            },
+            {
+              "nickname": "knight",
+              "hltv_id": "10559",
+              "profile_url": "https://www.hltv.org/stats/players/10559/knight"
+            },
+            {
+              "nickname": "PKL",
+              "hltv_id": "6593",
+              "profile_url": "https://www.hltv.org/stats/players/6593/pkl"
+            },
+            {
+              "nickname": "maeda",
+              "hltv_id": "10558",
+              "profile_url": "https://www.hltv.org/stats/players/10558/maeda"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "Santos.DeX",
+          "metadata_team_name": "Santos.DeX",
+          "players": [
+            {
+              "nickname": "land1n",
+              "hltv_id": "10557",
+              "profile_url": "https://www.hltv.org/stats/players/10557/land1n"
+            },
+            {
+              "nickname": "prd",
+              "hltv_id": "558",
+              "profile_url": "https://www.hltv.org/stats/players/558/prd"
+            },
+            {
+              "nickname": "dukeN",
+              "hltv_id": "10555",
+              "profile_url": "https://www.hltv.org/stats/players/10555/duken"
+            },
+            {
+              "nickname": "pava",
+              "hltv_id": "5698",
+              "profile_url": "https://www.hltv.org/stats/players/5698/pava"
+            },
+            {
+              "nickname": "will",
+              "hltv_id": "10556",
+              "profile_url": "https://www.hltv.org/stats/players/10556/will"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 27419,
+      "record_sha256": "81febcdab7dbf94e54c0fe4c0aeccf12805be394d3a7be141a1943d31685c171",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/27419/games-academy-vs-alientech",
+      "observed_map": "Cobblestone",
+      "observed_timestamp_ms": 1452094200000,
+      "observed_score": [
+        16,
+        14
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "AlienTech",
+          "metadata_team_name": "AlienTech",
+          "players": [
+            {
+              "nickname": "LuL4",
+              "hltv_id": "2517",
+              "profile_url": "https://www.hltv.org/stats/players/2517/lul4"
+            },
+            {
+              "nickname": "s1",
+              "hltv_id": "10561",
+              "profile_url": "https://www.hltv.org/stats/players/10561/s1"
+            },
+            {
+              "nickname": "zakk",
+              "hltv_id": "7384",
+              "profile_url": "https://www.hltv.org/stats/players/7384/zakk"
+            },
+            {
+              "nickname": "zqkS",
+              "hltv_id": "7383",
+              "profile_url": "https://www.hltv.org/stats/players/7383/zqks"
+            },
+            {
+              "nickname": "fbm",
+              "hltv_id": "5183",
+              "profile_url": "https://www.hltv.org/stats/players/5183/fbm"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "Games Academy",
+          "metadata_team_name": "Games Academy",
+          "players": [
+            {
+              "nickname": "SHOOWTiME",
+              "hltv_id": "9220",
+              "profile_url": "https://www.hltv.org/stats/players/9220/shoowtime"
+            },
+            {
+              "nickname": "boltz",
+              "hltv_id": "8568",
+              "profile_url": "https://www.hltv.org/stats/players/8568/boltz"
+            },
+            {
+              "nickname": "felps",
+              "hltv_id": "9219",
+              "profile_url": "https://www.hltv.org/stats/players/9219/felps"
+            },
+            {
+              "nickname": "LUCAS1",
+              "hltv_id": "8566",
+              "profile_url": "https://www.hltv.org/stats/players/8566/lucas1"
+            },
+            {
+              "nickname": "HEN1",
+              "hltv_id": "8565",
+              "profile_url": "https://www.hltv.org/stats/players/8565/hen1"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 40406,
+      "record_sha256": "6bb073e9db1d68275c2af11fd3753fdb16061aeb98084046f2a7a781da89044e",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/40406/rog-izakooo-vs-rog-zonixx",
+      "observed_map": "Cache",
+      "observed_timestamp_ms": 1483638300000,
+      "observed_score": [
+        7,
+        16
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "ROG zonixx",
+          "metadata_team_name": "ROG zonixx",
+          "players": [
+            {
+              "nickname": "Trashhero",
+              "hltv_id": "13127",
+              "profile_url": "https://www.hltv.org/stats/players/13127/trashhero"
+            },
+            {
+              "nickname": "zonixx",
+              "hltv_id": "102",
+              "profile_url": "https://www.hltv.org/stats/players/102/zonixx"
+            },
+            {
+              "nickname": "IamSan",
+              "hltv_id": "13126",
+              "profile_url": "https://www.hltv.org/stats/players/13126/iamsan"
+            },
+            {
+              "nickname": "DrewiN",
+              "hltv_id": "13128",
+              "profile_url": "https://www.hltv.org/stats/players/13128/drewin"
+            },
+            {
+              "nickname": "MooN",
+              "hltv_id": "13125",
+              "profile_url": "https://www.hltv.org/stats/players/13125/moon"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "ROG IzakOOO",
+          "metadata_team_name": "ROG IzakOOO",
+          "players": [
+            {
+              "nickname": "NEEX",
+              "hltv_id": "8543",
+              "profile_url": "https://www.hltv.org/stats/players/8543/neex"
+            },
+            {
+              "nickname": "STOMP",
+              "hltv_id": "12699",
+              "profile_url": "https://www.hltv.org/stats/players/12699/stomp"
+            },
+            {
+              "nickname": "izak",
+              "hltv_id": "7353",
+              "profile_url": "https://www.hltv.org/stats/players/7353/izak"
+            },
+            {
+              "nickname": "LUULIGUZMAN",
+              "hltv_id": "9567",
+              "profile_url": "https://www.hltv.org/stats/players/9567/luuliguzman"
+            },
+            {
+              "nickname": "Leh",
+              "hltv_id": "13124",
+              "profile_url": "https://www.hltv.org/stats/players/13124/leh"
+            }
+          ]
+        }
+      ],
+      "decision": "defer",
+      "competition_type": "community",
+      "reason": "原站标为 ASUS ROG Community Challenge；十人出场可以确认，但其与职业正式比赛的纳入边界未确定，暂不生成关系。"
+    },
+    {
+      "map_id": 40407,
+      "record_sha256": "cbcc98f75ff7f4235c6ebd70e47c23f045c3b4705647efeafc45d54c6d87e61b",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/40407/rog-izakooo-vs-rog-zonixx",
+      "observed_map": "Mirage",
+      "observed_timestamp_ms": 1483638300000,
+      "observed_score": [
+        16,
+        14
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "ROG zonixx",
+          "metadata_team_name": "ROG zonixx",
+          "players": [
+            {
+              "nickname": "zonixx",
+              "hltv_id": "102",
+              "profile_url": "https://www.hltv.org/stats/players/102/zonixx"
+            },
+            {
+              "nickname": "IamSan",
+              "hltv_id": "13126",
+              "profile_url": "https://www.hltv.org/stats/players/13126/iamsan"
+            },
+            {
+              "nickname": "DrewiN",
+              "hltv_id": "13128",
+              "profile_url": "https://www.hltv.org/stats/players/13128/drewin"
+            },
+            {
+              "nickname": "MooN",
+              "hltv_id": "13125",
+              "profile_url": "https://www.hltv.org/stats/players/13125/moon"
+            },
+            {
+              "nickname": "Trashhero",
+              "hltv_id": "13127",
+              "profile_url": "https://www.hltv.org/stats/players/13127/trashhero"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "ROG IzakOOO",
+          "metadata_team_name": "ROG IzakOOO",
+          "players": [
+            {
+              "nickname": "izak",
+              "hltv_id": "7353",
+              "profile_url": "https://www.hltv.org/stats/players/7353/izak"
+            },
+            {
+              "nickname": "STOMP",
+              "hltv_id": "12699",
+              "profile_url": "https://www.hltv.org/stats/players/12699/stomp"
+            },
+            {
+              "nickname": "Leh",
+              "hltv_id": "13124",
+              "profile_url": "https://www.hltv.org/stats/players/13124/leh"
+            },
+            {
+              "nickname": "LUULIGUZMAN",
+              "hltv_id": "9567",
+              "profile_url": "https://www.hltv.org/stats/players/9567/luuliguzman"
+            },
+            {
+              "nickname": "NEEX",
+              "hltv_id": "8543",
+              "profile_url": "https://www.hltv.org/stats/players/8543/neex"
+            }
+          ]
+        }
+      ],
+      "decision": "defer",
+      "competition_type": "community",
+      "reason": "原站标为 ASUS ROG Community Challenge；十人出场可以确认，但其与职业正式比赛的纳入边界未确定，暂不生成关系。"
+    },
+    {
+      "map_id": 59512,
+      "record_sha256": "213dac91c7e6d030b5fb7715ee810e17a2d9dbbcb2e29d2d6aeabf12a67b02b6",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/59512/vici-vs-new4",
+      "observed_map": "Inferno",
+      "observed_timestamp_ms": 1515053700000,
+      "observed_score": [
+        16,
+        6
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "ViCi",
+          "metadata_team_name": "ViCi",
+          "players": [
+            {
+              "nickname": "HZ",
+              "hltv_id": "7016",
+              "profile_url": "https://www.hltv.org/stats/players/7016/hz"
+            },
+            {
+              "nickname": "Freeman",
+              "hltv_id": "10774",
+              "profile_url": "https://www.hltv.org/stats/players/10774/freeman"
+            },
+            {
+              "nickname": "Savage",
+              "hltv_id": "180",
+              "profile_url": "https://www.hltv.org/stats/players/180/savage"
+            },
+            {
+              "nickname": "advent",
+              "hltv_id": "8600",
+              "profile_url": "https://www.hltv.org/stats/players/8600/advent"
+            },
+            {
+              "nickname": "zhokiNg",
+              "hltv_id": "8601",
+              "profile_url": "https://www.hltv.org/stats/players/8601/zhoking"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "New4",
+          "metadata_team_name": "New4",
+          "players": [
+            {
+              "nickname": "Drea3er",
+              "hltv_id": "11161",
+              "profile_url": "https://www.hltv.org/stats/players/11161/drea3er"
+            },
+            {
+              "nickname": "Jewelry",
+              "hltv_id": "177",
+              "profile_url": "https://www.hltv.org/stats/players/177/jewelry"
+            },
+            {
+              "nickname": "0i",
+              "hltv_id": "11358",
+              "profile_url": "https://www.hltv.org/stats/players/11358/0i"
+            },
+            {
+              "nickname": "gas",
+              "hltv_id": "10722",
+              "profile_url": "https://www.hltv.org/stats/players/10722/gas"
+            },
+            {
+              "nickname": "xiaosaGe",
+              "hltv_id": "11574",
+              "profile_url": "https://www.hltv.org/stats/players/11574/xiaosage"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 59513,
+      "record_sha256": "e04c62b92dae13fe4d99487e49fd8f31e65cb7bd653ec2c08657b2853f2c8194",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/59513/red-wolf-vs-new4",
+      "observed_map": "Cache",
+      "observed_timestamp_ms": 1515058200000,
+      "observed_score": [
+        16,
+        1
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "New4",
+          "metadata_team_name": "New4",
+          "players": [
+            {
+              "nickname": "xiaosaGe",
+              "hltv_id": "11574",
+              "profile_url": "https://www.hltv.org/stats/players/11574/xiaosage"
+            },
+            {
+              "nickname": "Jewelry",
+              "hltv_id": "177",
+              "profile_url": "https://www.hltv.org/stats/players/177/jewelry"
+            },
+            {
+              "nickname": "Drea3er",
+              "hltv_id": "11161",
+              "profile_url": "https://www.hltv.org/stats/players/11161/drea3er"
+            },
+            {
+              "nickname": "gas",
+              "hltv_id": "10722",
+              "profile_url": "https://www.hltv.org/stats/players/10722/gas"
+            },
+            {
+              "nickname": "0i",
+              "hltv_id": "11358",
+              "profile_url": "https://www.hltv.org/stats/players/11358/0i"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "Red Wolf",
+          "metadata_team_name": "Red Wolf",
+          "players": [
+            {
+              "nickname": "WyCloud",
+              "hltv_id": "10236",
+              "profile_url": "https://www.hltv.org/stats/players/10236/wycloud"
+            },
+            {
+              "nickname": "DeStRoYeR",
+              "hltv_id": "10192",
+              "profile_url": "https://www.hltv.org/stats/players/10192/destroyer"
+            },
+            {
+              "nickname": "Lieu",
+              "hltv_id": "12934",
+              "profile_url": "https://www.hltv.org/stats/players/12934/lieu"
+            },
+            {
+              "nickname": "Searph",
+              "hltv_id": "16210",
+              "profile_url": "https://www.hltv.org/stats/players/16210/searph"
+            },
+            {
+              "nickname": "Mumu",
+              "hltv_id": "12933",
+              "profile_url": "https://www.hltv.org/stats/players/12933/mumu"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 79922,
+      "record_sha256": "55a5e10fca7504038a1ca76e6224e00a2c271526d378cae3bf361a37bac71d5c",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/79922/pact-vs-x-kom",
+      "observed_map": "Inferno",
+      "observed_timestamp_ms": 1546617600000,
+      "observed_score": [
+        11,
+        16
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "PACT",
+          "metadata_team_name": "PACT",
+          "players": [
+            {
+              "nickname": "mhL",
+              "hltv_id": "16847",
+              "profile_url": "https://www.hltv.org/stats/players/16847/mhl"
+            },
+            {
+              "nickname": "Vegi",
+              "hltv_id": "15204",
+              "profile_url": "https://www.hltv.org/stats/players/15204/vegi"
+            },
+            {
+              "nickname": "darko",
+              "hltv_id": "11287",
+              "profile_url": "https://www.hltv.org/stats/players/11287/darko"
+            },
+            {
+              "nickname": "Miki",
+              "hltv_id": "18068",
+              "profile_url": "https://www.hltv.org/stats/players/18068/miki"
+            },
+            {
+              "nickname": "Sidney",
+              "hltv_id": "15697",
+              "profile_url": "https://www.hltv.org/stats/players/15697/sidney"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "x-kom",
+          "metadata_team_name": "x-kom",
+          "players": [
+            {
+              "nickname": "Goofy",
+              "hltv_id": "15428",
+              "profile_url": "https://www.hltv.org/stats/players/15428/goofy"
+            },
+            {
+              "nickname": "oskarish",
+              "hltv_id": "8321",
+              "profile_url": "https://www.hltv.org/stats/players/8321/oskarish"
+            },
+            {
+              "nickname": "jedqr",
+              "hltv_id": "14684",
+              "profile_url": "https://www.hltv.org/stats/players/14684/jedqr"
+            },
+            {
+              "nickname": "STOMP",
+              "hltv_id": "12699",
+              "profile_url": "https://www.hltv.org/stats/players/12699/stomp"
+            },
+            {
+              "nickname": "mono",
+              "hltv_id": "9916",
+              "profile_url": "https://www.hltv.org/stats/players/9916/mono"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 79923,
+      "record_sha256": "5e6096cb0bdf14b8255106c1097880c8dde3db3c691baf3df1b34fdc29a921de",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/79923/x-kom-vs-pact",
+      "observed_map": "Mirage",
+      "observed_timestamp_ms": 1546617600000,
+      "observed_score": [
+        9,
+        16
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "PACT",
+          "metadata_team_name": "PACT",
+          "players": [
+            {
+              "nickname": "mhL",
+              "hltv_id": "16847",
+              "profile_url": "https://www.hltv.org/stats/players/16847/mhl"
+            },
+            {
+              "nickname": "Vegi",
+              "hltv_id": "15204",
+              "profile_url": "https://www.hltv.org/stats/players/15204/vegi"
+            },
+            {
+              "nickname": "Sidney",
+              "hltv_id": "15697",
+              "profile_url": "https://www.hltv.org/stats/players/15697/sidney"
+            },
+            {
+              "nickname": "Miki",
+              "hltv_id": "18068",
+              "profile_url": "https://www.hltv.org/stats/players/18068/miki"
+            },
+            {
+              "nickname": "darko",
+              "hltv_id": "11287",
+              "profile_url": "https://www.hltv.org/stats/players/11287/darko"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "x-kom",
+          "metadata_team_name": "x-kom",
+          "players": [
+            {
+              "nickname": "STOMP",
+              "hltv_id": "12699",
+              "profile_url": "https://www.hltv.org/stats/players/12699/stomp"
+            },
+            {
+              "nickname": "Goofy",
+              "hltv_id": "15428",
+              "profile_url": "https://www.hltv.org/stats/players/15428/goofy"
+            },
+            {
+              "nickname": "mono",
+              "hltv_id": "9916",
+              "profile_url": "https://www.hltv.org/stats/players/9916/mono"
+            },
+            {
+              "nickname": "jedqr",
+              "hltv_id": "14684",
+              "profile_url": "https://www.hltv.org/stats/players/14684/jedqr"
+            },
+            {
+              "nickname": "oskarish",
+              "hltv_id": "8321",
+              "profile_url": "https://www.hltv.org/stats/players/8321/oskarish"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 97401,
+      "record_sha256": "58da7c04c5b31bf85654557e729dbee652248b7a82e01d11960dafef1d73de59",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/97401/rocketlauncher-vs-ambush",
+      "observed_map": "Overpass",
+      "observed_timestamp_ms": 1577977200000,
+      "observed_score": [
+        16,
+        14
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Rocketlauncher$",
+          "metadata_team_name": "Rocketlauncher$",
+          "players": [
+            {
+              "nickname": "EMENK",
+              "hltv_id": "10853",
+              "profile_url": "https://www.hltv.org/stats/players/10853/emenk"
+            },
+            {
+              "nickname": "sausol",
+              "hltv_id": "18749",
+              "profile_url": "https://www.hltv.org/stats/players/18749/sausol"
+            },
+            {
+              "nickname": "DeathZz",
+              "hltv_id": "13093",
+              "profile_url": "https://www.hltv.org/stats/players/13093/deathzz"
+            },
+            {
+              "nickname": "shhhack",
+              "hltv_id": "10852",
+              "profile_url": "https://www.hltv.org/stats/players/10852/shhhack"
+            },
+            {
+              "nickname": "SOKER",
+              "hltv_id": "7388",
+              "profile_url": "https://www.hltv.org/stats/players/7388/soker"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "Ambush",
+          "metadata_team_name": "Ambush",
+          "players": [
+            {
+              "nickname": "raalz",
+              "hltv_id": "2898",
+              "profile_url": "https://www.hltv.org/stats/players/2898/raalz"
+            },
+            {
+              "nickname": "smF",
+              "hltv_id": "7414",
+              "profile_url": "https://www.hltv.org/stats/players/7414/smf"
+            },
+            {
+              "nickname": "ckay",
+              "hltv_id": "18640",
+              "profile_url": "https://www.hltv.org/stats/players/18640/ckay"
+            },
+            {
+              "nickname": "BERRY",
+              "hltv_id": "921",
+              "profile_url": "https://www.hltv.org/stats/players/921/berry"
+            },
+            {
+              "nickname": "doktizh",
+              "hltv_id": "7932",
+              "profile_url": "https://www.hltv.org/stats/players/7932/doktizh"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 97402,
+      "record_sha256": "8ca8e4034b18ae20b8cc635fff5bba169f8d82441c73abf961cd34e746fb9870",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/97402/ambush-vs-rocketlauncher",
+      "observed_map": "Inferno",
+      "observed_timestamp_ms": 1577977200000,
+      "observed_score": [
+        7,
+        16
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Rocketlauncher$",
+          "metadata_team_name": "Rocketlauncher$",
+          "players": [
+            {
+              "nickname": "sausol",
+              "hltv_id": "18749",
+              "profile_url": "https://www.hltv.org/stats/players/18749/sausol"
+            },
+            {
+              "nickname": "SOKER",
+              "hltv_id": "7388",
+              "profile_url": "https://www.hltv.org/stats/players/7388/soker"
+            },
+            {
+              "nickname": "DeathZz",
+              "hltv_id": "13093",
+              "profile_url": "https://www.hltv.org/stats/players/13093/deathzz"
+            },
+            {
+              "nickname": "EMENK",
+              "hltv_id": "10853",
+              "profile_url": "https://www.hltv.org/stats/players/10853/emenk"
+            },
+            {
+              "nickname": "shhhack",
+              "hltv_id": "10852",
+              "profile_url": "https://www.hltv.org/stats/players/10852/shhhack"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "Ambush",
+          "metadata_team_name": "Ambush",
+          "players": [
+            {
+              "nickname": "doktizh",
+              "hltv_id": "7932",
+              "profile_url": "https://www.hltv.org/stats/players/7932/doktizh"
+            },
+            {
+              "nickname": "BERRY",
+              "hltv_id": "921",
+              "profile_url": "https://www.hltv.org/stats/players/921/berry"
+            },
+            {
+              "nickname": "ckay",
+              "hltv_id": "18640",
+              "profile_url": "https://www.hltv.org/stats/players/18640/ckay"
+            },
+            {
+              "nickname": "raalz",
+              "hltv_id": "2898",
+              "profile_url": "https://www.hltv.org/stats/players/2898/raalz"
+            },
+            {
+              "nickname": "smF",
+              "hltv_id": "7414",
+              "profile_url": "https://www.hltv.org/stats/players/7414/smf"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 113641,
+      "record_sha256": "505a3e28455b72017ce6eac3098b52efb5d3ad237502842c2ea9c5c2e715e6f6",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/113641/ubiteam-vs-apologis",
+      "observed_map": "Dust2",
+      "observed_timestamp_ms": 1610111400000,
+      "observed_score": [
+        16,
+        13
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Apologis",
+          "metadata_team_name": "Apologis",
+          "players": [
+            {
+              "nickname": "SBT",
+              "hltv_id": "15118",
+              "profile_url": "https://www.hltv.org/stats/players/15118/sbt"
+            },
+            {
+              "nickname": "SoneSb",
+              "hltv_id": "19964",
+              "profile_url": "https://www.hltv.org/stats/players/19964/sonesb"
+            },
+            {
+              "nickname": "DrqkoN",
+              "hltv_id": "20308",
+              "profile_url": "https://www.hltv.org/stats/players/20308/drqkon"
+            },
+            {
+              "nickname": "Gringo",
+              "hltv_id": "19890",
+              "profile_url": "https://www.hltv.org/stats/players/19890/gringo"
+            },
+            {
+              "nickname": "wasiNk",
+              "hltv_id": "18731",
+              "profile_url": "https://www.hltv.org/stats/players/18731/wasink"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "UBITEAM",
+          "metadata_team_name": "UBITEAM",
+          "players": [
+            {
+              "nickname": "Nono2K",
+              "hltv_id": "20306",
+              "profile_url": "https://www.hltv.org/stats/players/20306/nono2k"
+            },
+            {
+              "nickname": "Ninis",
+              "hltv_id": "18137",
+              "profile_url": "https://www.hltv.org/stats/players/18137/ninis"
+            },
+            {
+              "nickname": "red1many",
+              "hltv_id": "20446",
+              "profile_url": "https://www.hltv.org/stats/players/20446/red1many"
+            },
+            {
+              "nickname": "Malikof",
+              "hltv_id": "13508",
+              "profile_url": "https://www.hltv.org/stats/players/13508/malikof"
+            },
+            {
+              "nickname": "Spn",
+              "hltv_id": "20307",
+              "profile_url": "https://www.hltv.org/stats/players/20307/spn"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 113642,
+      "record_sha256": "b9c4f90b3beafc9b1d10166ce83378320e3f08308b3910cec23995603af206e5",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/113642/clutch-rayn-vs-thedice",
+      "observed_map": "Nuke",
+      "observed_timestamp_ms": 1610116200000,
+      "observed_score": [
+        16,
+        3
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "TheDice",
+          "metadata_team_name": "TheDice",
+          "players": [
+            {
+              "nickname": "Polox",
+              "hltv_id": "9646",
+              "profile_url": "https://www.hltv.org/stats/players/9646/polox"
+            },
+            {
+              "nickname": "afro",
+              "hltv_id": "19926",
+              "profile_url": "https://www.hltv.org/stats/players/19926/afro"
+            },
+            {
+              "nickname": "Djoko",
+              "hltv_id": "19738",
+              "profile_url": "https://www.hltv.org/stats/players/19738/djoko"
+            },
+            {
+              "nickname": "XpG",
+              "hltv_id": "8647",
+              "profile_url": "https://www.hltv.org/stats/players/8647/xpg"
+            },
+            {
+              "nickname": "nonick",
+              "hltv_id": "10732",
+              "profile_url": "https://www.hltv.org/stats/players/10732/nonick"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "Clutch Rayn",
+          "metadata_team_name": "Clutch Rayn",
+          "players": [
+            {
+              "nickname": "HippoV",
+              "hltv_id": "20477",
+              "profile_url": "https://www.hltv.org/stats/players/20477/hippov"
+            },
+            {
+              "nickname": "SkyOnly",
+              "hltv_id": "20478",
+              "profile_url": "https://www.hltv.org/stats/players/20478/skyonly"
+            },
+            {
+              "nickname": "Diviiii",
+              "hltv_id": "19937",
+              "profile_url": "https://www.hltv.org/stats/players/19937/diviiii"
+            },
+            {
+              "nickname": "MetaL",
+              "hltv_id": "7600",
+              "profile_url": "https://www.hltv.org/stats/players/7600/metal"
+            },
+            {
+              "nickname": "Razn",
+              "hltv_id": "20476",
+              "profile_url": "https://www.hltv.org/stats/players/20476/razn"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 132566,
+      "record_sha256": "0f59ebe82328102c450265783927feb0c185a72ad5eb19462b9c119de1aeb854",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/132566/checkmate-vs-tbc",
+      "observed_map": "Ancient",
+      "observed_timestamp_ms": 1641103200000,
+      "observed_score": [
+        9,
+        16
+      ],
+      "group_team_indices": [
+        0,
+        1
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Checkmate",
+          "metadata_team_name": "Checkmate",
+          "players": [
+            {
+              "nickname": "cool4st",
+              "hltv_id": "19537",
+              "profile_url": "https://www.hltv.org/stats/players/19537/cool4st"
+            },
+            {
+              "nickname": "hasteka",
+              "hltv_id": "12956",
+              "profile_url": "https://www.hltv.org/stats/players/12956/hasteka"
+            },
+            {
+              "nickname": "Techno",
+              "hltv_id": "20275",
+              "profile_url": "https://www.hltv.org/stats/players/20275/techno"
+            },
+            {
+              "nickname": "Bart4k",
+              "hltv_id": "19957",
+              "profile_url": "https://www.hltv.org/stats/players/19957/bart4k"
+            },
+            {
+              "nickname": "bLitz",
+              "hltv_id": "20194",
+              "profile_url": "https://www.hltv.org/stats/players/20194/blitz"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "TBC",
+          "metadata_team_name": "TBC",
+          "players": [
+            {
+              "nickname": "starDUST",
+              "hltv_id": "21402",
+              "profile_url": "https://www.hltv.org/stats/players/21402/stardust"
+            },
+            {
+              "nickname": "MagnumZ",
+              "hltv_id": "19538",
+              "profile_url": "https://www.hltv.org/stats/players/19538/magnumz"
+            },
+            {
+              "nickname": "Senzu",
+              "hltv_id": "20903",
+              "profile_url": "https://www.hltv.org/stats/players/20903/senzu"
+            },
+            {
+              "nickname": "Gun Fu",
+              "hltv_id": "13941",
+              "profile_url": "https://www.hltv.org/stats/players/13941/gun-fu"
+            },
+            {
+              "nickname": "fury5k",
+              "hltv_id": "21428",
+              "profile_url": "https://www.hltv.org/stats/players/21428/fury5k"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 132567,
+      "record_sha256": "8f42ff6486fa8147d5ce53138c435598ebdace29e179df3dd6345013388e38b9",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/132567/tbc-vs-checkmate",
+      "observed_map": "Inferno",
+      "observed_timestamp_ms": 1641103200000,
+      "observed_score": [
+        16,
+        8
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "Checkmate",
+          "metadata_team_name": "Checkmate",
+          "players": [
+            {
+              "nickname": "bLitz",
+              "hltv_id": "20194",
+              "profile_url": "https://www.hltv.org/stats/players/20194/blitz"
+            },
+            {
+              "nickname": "cool4st",
+              "hltv_id": "19537",
+              "profile_url": "https://www.hltv.org/stats/players/19537/cool4st"
+            },
+            {
+              "nickname": "Techno",
+              "hltv_id": "20275",
+              "profile_url": "https://www.hltv.org/stats/players/20275/techno"
+            },
+            {
+              "nickname": "Bart4k",
+              "hltv_id": "19957",
+              "profile_url": "https://www.hltv.org/stats/players/19957/bart4k"
+            },
+            {
+              "nickname": "hasteka",
+              "hltv_id": "12956",
+              "profile_url": "https://www.hltv.org/stats/players/12956/hasteka"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "TBC",
+          "metadata_team_name": "TBC",
+          "players": [
+            {
+              "nickname": "fury5k",
+              "hltv_id": "21428",
+              "profile_url": "https://www.hltv.org/stats/players/21428/fury5k"
+            },
+            {
+              "nickname": "MagnumZ",
+              "hltv_id": "19538",
+              "profile_url": "https://www.hltv.org/stats/players/19538/magnumz"
+            },
+            {
+              "nickname": "Senzu",
+              "hltv_id": "20903",
+              "profile_url": "https://www.hltv.org/stats/players/20903/senzu"
+            },
+            {
+              "nickname": "Gun Fu",
+              "hltv_id": "13941",
+              "profile_url": "https://www.hltv.org/stats/players/13941/gun-fu"
+            },
+            {
+              "nickname": "starDUST",
+              "hltv_id": "21402",
+              "profile_url": "https://www.hltv.org/stats/players/21402/stardust"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    },
+    {
+      "map_id": 149173,
+      "record_sha256": "2931f1918bd9eff8b90363a0fa95f35ab00f6aef7bcc7de4c00e797c6b2fc1e9",
+      "source_url": "https://www.hltv.org/stats/matches/mapstatsid/149173/post-mortem-vs-reign",
+      "observed_map": "Ancient",
+      "observed_timestamp_ms": 1673143200000,
+      "observed_score": [
+        10,
+        16
+      ],
+      "group_team_indices": [
+        1,
+        0
+      ],
+      "observed_groups": [
+        {
+          "observed_team_name": "REIGN",
+          "metadata_team_name": "REIGN",
+          "players": [
+            {
+              "nickname": "xaler",
+              "hltv_id": "21813",
+              "profile_url": "https://www.hltv.org/stats/players/21813/xaler"
+            },
+            {
+              "nickname": "Gabe",
+              "hltv_id": "20234",
+              "profile_url": "https://www.hltv.org/stats/players/20234/gabe"
+            },
+            {
+              "nickname": "Fugi",
+              "hltv_id": "21743",
+              "profile_url": "https://www.hltv.org/stats/players/21743/fugi"
+            },
+            {
+              "nickname": "jchancE",
+              "hltv_id": "13689",
+              "profile_url": "https://www.hltv.org/stats/players/13689/jchance"
+            },
+            {
+              "nickname": "mds",
+              "hltv_id": "22267",
+              "profile_url": "https://www.hltv.org/stats/players/22267/mds"
+            }
+          ]
+        },
+        {
+          "observed_team_name": "Post Mortem",
+          "metadata_team_name": "Post Mortem",
+          "players": [
+            {
+              "nickname": "VulcaN",
+              "hltv_id": "19028",
+              "profile_url": "https://www.hltv.org/stats/players/19028/vulcan"
+            },
+            {
+              "nickname": "cypress",
+              "hltv_id": "21555",
+              "profile_url": "https://www.hltv.org/stats/players/21555/cypress"
+            },
+            {
+              "nickname": "FAME",
+              "hltv_id": "22021",
+              "profile_url": "https://www.hltv.org/stats/players/22021/fame"
+            },
+            {
+              "nickname": "Slash",
+              "hltv_id": "17324",
+              "profile_url": "https://www.hltv.org/stats/players/17324/slash"
+            },
+            {
+              "nickname": "N4hSi",
+              "hltv_id": "22086",
+              "profile_url": "https://www.hltv.org/stats/players/22086/n4hsi"
+            }
+          ]
+        }
+      ],
+      "decision": "verify",
+      "competition_type": "official",
+      "reason": "逐图对照原站全场统计表，确认双方五名出场选手、选手链接编号、地图及比分；只确认本图，不推广到其他同名记录。"
+    }
+  ]
+}

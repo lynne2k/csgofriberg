@@ -1,0 +1,20 @@
+{
+  "files": {
+    "events.jsonl": {
+      "bytes": 94005,
+      "sha256": "d9603dad7f61f11ceb589cc32c88886bce5cf386552d43676754b195ccae044c"
+    },
+    "map-id-queue.jsonl": {
+      "bytes": 3233734,
+      "sha256": "e49ac7dd032653b8687369447af91fab8b83ad281a549cbefe976959b5557ecf"
+    },
+    "new-map-id-queue.jsonl": {
+      "bytes": 3231314,
+      "sha256": "c461edcc40ae340e1ac0f84b95f7d498653e3cf394a71e1202103f46b3947a37"
+    },
+    "report.json": {
+      "bytes": 857,
+      "sha256": "a01b7abcd771fee4e0d1ef8916af9b64a5e9eb3ee7753af746a82979156a2c65"
+    }
+  }
+}

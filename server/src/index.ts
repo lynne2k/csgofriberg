@@ -20,6 +20,7 @@ import announcementRoutes from './routes/announcements';
 import adminRoutes from './routes/admin';
 import externalPlayerRoutes, { externalPlayerAuth } from './routes/externalPlayers';
 import { setupSocket } from './socket';
+import { setupCsLinkRooms } from './socket/cslinkRooms';
 import {
   closeRedis,
   duplicateRedisClient,
@@ -40,6 +41,17 @@ import { rejectMissingClientAsset, setClientAssetCacheHeaders } from './middlewa
 import { injectUmamiScript } from './services/umami';
 import runtimeConfigRoutes from './routes/runtimeConfig';
 import dailyChallengeRoutes from './routes/dailyChallenge';
+import { CsLinkEvidence } from './services/cslinkEvidence';
+import { createCsLinkRoutes } from './routes/cslink';
+import { CsLinkCandidates } from './services/cslinkCandidates';
+import { createCsLinkCandidateRoutes } from './routes/cslinkCandidates';
+import { CsLinkMerged } from './services/cslinkMerged';
+import { createCsLinkMergedRoutes } from './routes/cslinkMerged';
+import { CsLinkPlay } from './services/cslinkPlay';
+import { createCsLinkPlayRoutes } from './routes/cslinkPlay';
+import { CsLinkLegacy } from './services/cslinkLegacy';
+import { CsLinkDaily } from './services/cslinkDaily';
+import { createCsLinkDailyRoutes } from './routes/cslinkDaily';
 
 const SHUTDOWN_TIMEOUT_MS = 10_000;
 const CLOUDFLARE_INSIGHTS_SCRIPT_ORIGIN = 'https://static.cloudflareinsights.com';
@@ -94,6 +106,80 @@ async function main() {
   const redisReady = await initRedis();
   await initPlayerCache();
   const stopMatchWorker = redisReady ? await initMatchResultWorker() : async () => undefined;
+  const cslinkEnabled = process.env.NODE_ENV === 'development';
+  let cslink: CsLinkEvidence | null = null;
+  if (cslinkEnabled && process.env.CSLINK_REVIEW_VERSION_DIR) {
+    try {
+      cslink = await CsLinkEvidence.open(process.env.CSLINK_REVIEW_VERSION_DIR);
+      console.log(`[cslink] 本地复核数据已加载: ${cslink.version}`);
+    } catch (error) {
+      console.error('[cslink] 复核数据不可用，保留原游戏运行', error);
+    }
+  }
+  let cslinkCandidates: CsLinkCandidates | null = null;
+  if (cslinkEnabled && process.env.CSLINK_CANDIDATE_VERSION_DIR) {
+    try {
+      cslinkCandidates = await CsLinkCandidates.open(process.env.CSLINK_CANDIDATE_VERSION_DIR);
+      console.log(`[cslink] 只读候选库已加载: ${cslinkCandidates.version}`);
+    } catch (error) {
+      console.error('[cslink] 候选库校验失败，候选 API 不可用', error);
+    }
+  }
+  let cslinkLegacy: CsLinkLegacy | null = null;
+  if (cslinkEnabled && process.env.CSLINK_LEGACY_RELATIONS_DIR) {
+    try {
+      cslinkLegacy = CsLinkLegacy.open(process.env.CSLINK_LEGACY_RELATIONS_DIR);
+      if (cslinkLegacy) console.log(`[cslink] GitHub 旧库关系已加载: ${cslinkLegacy.version}`);
+    } catch (error) {
+      console.error('[cslink] GitHub 旧库关系导入失败，保留已加载来源', error);
+    }
+  }
+  let activeLegacy: CsLinkLegacy | null = null;
+  let cslinkPlay: CsLinkPlay | null = null;
+  if (cslinkEnabled && cslinkCandidates && process.env.CSLINK_CANDIDATE_VERSION_DIR &&
+      process.env.CSLINK_PLAY_PROJECTION_DIR) {
+    let historicalInput: { projectionDir: string; candidateDir: string;
+      candidates: CsLinkCandidates } | null = null;
+    if (process.env.CSLINK_HISTORICAL_CANDIDATE_DIR &&
+        process.env.CSLINK_HISTORICAL_PLAY_PROJECTION_DIR) {
+      try {
+        historicalInput = {
+          candidateDir: process.env.CSLINK_HISTORICAL_CANDIDATE_DIR,
+          projectionDir: process.env.CSLINK_HISTORICAL_PLAY_PROJECTION_DIR,
+          candidates: await CsLinkCandidates.open(process.env.CSLINK_HISTORICAL_CANDIDATE_DIR),
+        };
+      } catch (error) {
+        console.error('[cslink] 历史候选库不可用，保留当前可玩图', error);
+      }
+    }
+    try {
+      cslinkPlay = await CsLinkPlay.open(process.env.CSLINK_PLAY_PROJECTION_DIR,
+        process.env.CSLINK_CANDIDATE_VERSION_DIR, cslinkCandidates, cslink, historicalInput, cslinkLegacy);
+      activeLegacy = cslinkLegacy;
+      console.log(`[cslink] 本地可玩关系图已加载: ${cslinkPlay.dataVersion}`);
+    } catch (error) {
+      console.error('[cslink] 本地可玩关系图校验失败', error);
+      if (historicalInput || cslinkLegacy) {
+        try {
+          cslinkPlay = await CsLinkPlay.open(process.env.CSLINK_PLAY_PROJECTION_DIR,
+            process.env.CSLINK_CANDIDATE_VERSION_DIR, cslinkCandidates, cslink);
+          console.log(`[cslink] 当前赛事关系图已回退加载: ${cslinkPlay.dataVersion}`);
+        } catch (fallbackError) {
+          console.error('[cslink] 当前赛事关系图校验失败，原数据接口保持运行', fallbackError);
+        }
+      }
+    }
+  }
+  let cslinkMerged: CsLinkMerged | null = null;
+  if (cslink || cslinkCandidates) {
+    try {
+      cslinkMerged = new CsLinkMerged(cslink, cslinkCandidates,
+        cslinkPlay?.candidateScope() ?? null, cslinkPlay?.historicalScope() ?? null, activeLegacy);
+      console.log(`[cslink] 本地统一关系视图已加载: ${cslinkMerged.version}`);
+    } catch (error) {
+      console.error('[cslink] 统一关系视图不可用，原数据接口保持运行', error);
+    }
+  }
 
   const app = express();
   app.set('trust proxy', config.trustProxy ? 1 : false);
@@ -202,6 +288,14 @@ async function main() {
 
   app.use('/api/auth', authRoutes);
   app.use('/api/players', playerRoutes);
+  app.use('/api/cslink/candidates', createCsLinkCandidateRoutes(cslinkCandidates, cslinkEnabled));
+  app.use('/api/cslink/merged', createCsLinkMergedRoutes(cslinkMerged, cslinkEnabled));
+  app.use('/api/cslink/play', createCsLinkPlayRoutes(cslinkPlay, cslinkCandidates, cslink, cslinkEnabled));
+  // 每日挑战两端也只出有定妆照的选手（portraitIds 在下面 socket 初始化前填好，请求时才读）
+  const cslinkDaily = cslinkEnabled && cslinkPlay
+    ? new CsLinkDaily(cslinkPlay, (id: string) => portraitIds.size === 0 || portraitIds.has(id)) : null;
+  app.use('/api/cslink/daily', createCsLinkDailyRoutes(cslinkDaily, cslinkEnabled));
+  app.use('/api/cslink', createCsLinkRoutes(cslink, cslinkEnabled));
   app.use('/api/game', gameRoutes);
   app.use('/api/daily-challenge', dailyChallengeRoutes);
   app.use('/api/stats', statsRoutes);
@@ -247,6 +341,20 @@ async function main() {
     }
   }
   const stopSocket = setupSocket(io);
+  // 题目两端只出有定妆照的选手（目录里 <hltvId>.png）；中间人仍可用全部身份
+  const portraitIds = new Set<string>();
+  const portraitDir = process.env.CSLINK_PORTRAIT_DIR;
+  if (portraitDir && fs.existsSync(portraitDir)) {
+    for (const file of fs.readdirSync(portraitDir)) {
+      const match = /^([1-9]\d{0,9})\.(?:png|jpe?g|webp)$/i.exec(file);
+      if (match) portraitIds.add(`hltv:${match[1]}`);
+    }
+    console.log(`[cslink] 定妆照 ${portraitIds.size} 张，对战题目只从这些选手里出`);
+  }
+  const stopCsLinkRooms = cslinkEnabled && cslinkPlay ? setupCsLinkRooms(io, cslinkPlay, {
+    countdownMs: 3_000,
+    endpointAllowed: portraitIds.size ? (id: string) => portraitIds.has(id) : undefined,
+  }) : () => undefined;
 
   server.listen(config.port, () => {
     console.log(`[server] 弗一把服务已启动: http://localhost:${config.port}`);
@@ -258,6 +366,7 @@ async function main() {
     shutdownPromise = (async () => {
       shuttingDown = true;
       console.log(`[server] 收到 ${signal},开始优雅退出`);
+      stopCsLinkRooms();
       stopRuntimeMonitor();
       const serverClosed = new Promise<void>((resolve) => {
         server.close(() => resolve());
@@ -289,6 +398,8 @@ async function main() {
         withTimeout(db.destroy(), SHUTDOWN_TIMEOUT_MS, () => undefined),
       ]);
       console.log('[server] 优雅退出完成');
+      cslink?.close();
+      cslinkCandidates?.close();
     })();
     return shutdownPromise;
   };

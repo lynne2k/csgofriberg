@@ -1,6 +1,7 @@
 /// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'node:path';
 
 const configuredVersion = process.env.RESOURCE_VERSION?.trim();
 if (configuredVersion && !/^\d{13}$/.test(configuredVersion)) {
@@ -47,6 +48,14 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 700,
     rollupOptions: {
+      // CS Link 牌桌是两张独立页面，和 React 应用共用 socket / 访客身份模块
+      input: {
+        main: path.resolve(import.meta.dirname, 'index.html'),
+        cslinkHome: path.resolve(import.meta.dirname, 'cslink/index.html'),
+        cslinkDaily: path.resolve(import.meta.dirname, 'cslink/daily.html'),
+        cslinkLobby: path.resolve(import.meta.dirname, 'cslink/lobby.html'),
+        cslinkDuel: path.resolve(import.meta.dirname, 'cslink/duel.html'),
+      },
       output: {
         // 路由保持静态导入,所有 chunk 首屏即加载;拆分只为长缓存:
         // 业务代码变更时 vendor chunk 的 hash 不变,老用户无需重新下载。

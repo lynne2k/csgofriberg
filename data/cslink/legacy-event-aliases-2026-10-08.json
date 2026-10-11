@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "rule_version": "legacy-exact-scope-v2",
+  "aliases": [
+    {
+      "event_url": "https://liquipedia.net/counterstrike/CCT/Season_1/Central_Europe/Finals/Malta",
+      "event_name": "CCT Season 1 Central Europe Malta Finals",
+      "legacy_event_raw": "CCT Central Europe Malta Finals 1",
+      "evidence_map_id": 151238,
+      "hltv_map_url": "https://www.hltv.org/stats/matches/mapstatsid/151238/honoris-vs-forze",
+      "capture_sha256": "5cf4ba497b65ea7ad94fe090f60ece74c205d33d040d9288780e5efee7e30ba0"
+    },
+    {
+      "event_url": "https://liquipedia.net/counterstrike/BLAST/Premier/2023/Spring/Showdown/Europe",
+      "event_name": "BLAST Premier: Spring European Showdown 2023",
+      "legacy_event_raw": "BLAST Premier Spring Showdown 2023 Europe",
+      "evidence_map_id": 154485,
+      "hltv_map_url": "https://www.hltv.org/stats/matches/mapstatsid/154485/ninjas-in-pyjamas-vs-og",
+      "capture_sha256": "030aadade83a64ed004028f1c9a253d43aeb092b8203deae971ef93eea90dd83"
+    },
+    {
+      "event_url": "https://liquipedia.net/counterstrike/BLAST/Premier/2023/Spring/Showdown/Americas",
+      "event_name": "BLAST Premier: Spring American Showdown 2023",
+      "legacy_event_raw": "BLAST Premier Spring Showdown 2023 Americas",
+      "evidence_map_id": 154519,
+      "hltv_map_url": "https://www.hltv.org/stats/matches/mapstatsid/154519/pain-vs-mibr",
+      "capture_sha256": "2f57c9e68f09fd15feefa9ad0f47e64c8613a911b14d54a4d99b48f4d6d27ba8"
+    },
+    {
+      "event_url": "https://liquipedia.net/counterstrike/ESL/Challenger/2023/Melbourne",
+      "event_name": "ESL Challenger at DreamHack Melbourne 2023",
+      "legacy_event_raw": "ESL Challenger Melbourne 2023",
+      "evidence_map_id": 156077,
+      "hltv_map_url": "https://www.hltv.org/stats/matches/mapstatsid/156077/complexity-vs-ecstatic",
+      "capture_sha256": "3a6be29c84b32c0604f0bff284bbfa99c461676ea4ebf19cbb2019a2b2138307"
+    },
+    {
+      "event_url": "https://liquipedia.net/counterstrike/CCT/Season_1/Online_Finals/1",
+      "event_name": "CCT Season 1 Online Finals #1",
+      "legacy_event_raw": "CCT 2023 Online Finals 1",
+      "evidence_map_id": 157090,
+      "hltv_map_url": "https://www.hltv.org/stats/matches/mapstatsid/157090/ex-copenhagen-flames-vs-bad-news-eagles",
+      "capture_sha256": "0facd0e8b2be8de3b881a90973335875ddd68c677be2aa75e8544a795c03593c"
+    },
+    {
+      "event_url": "https://liquipedia.net/counterstrike/ESL/Impact_League/Season_3",
+      "event_name": "ESL Impact League Season 3",
+      "legacy_event_raw": "ESL Impact League Season 3 Finals",
+      "evidence_map_id": 158165,
+      "hltv_map_url": "https://www.hltv.org/stats/matches/mapstatsid/158165/hsg-fe-vs-navi-javelins",
+      "capture_sha256": "90f1ebb2189420e3c804f1da526ff7d7af9a67655d3bc331ff002597a6925ac7"
+    }
+  ]
+}

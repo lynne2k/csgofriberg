@@ -1,0 +1,24 @@
+{
+  "files": {
+    "event-review.jsonl": {
+      "bytes": 45750,
+      "sha256": "94f1f7dd6f27bcf3c559445ef8188efb51c37d3c5780a906e254bf8716cea0f1"
+    },
+    "pilot-sample.jsonl": {
+      "bytes": 22270,
+      "sha256": "99a82ac47488fc00dc06f4df127475c53ee974f0934f9327363e2fc844931515"
+    },
+    "report.json": {
+      "bytes": 814,
+      "sha256": "1f762ac5811f416cecf6bbaff17613b2ef3330bfb30da24b5235d6364cbb60cb"
+    },
+    "selected-series.jsonl": {
+      "bytes": 704309,
+      "sha256": "e6c4a5f1ec550fb18b282a13702b9416dfbc7fdf5bb85552209593458194615e"
+    },
+    "team-coverage.jsonl": {
+      "bytes": 451930,
+      "sha256": "c25225c12fe1e48feb586fb54713cca315cd3036aee279d7e74832089d5c3865"
+    }
+  }
+}

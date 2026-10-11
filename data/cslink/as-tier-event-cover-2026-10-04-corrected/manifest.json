@@ -1,0 +1,22 @@
+{
+  "files": {
+    "correction-applied.jsonl": {
+      "bytes": 868,
+      "sha256": "c28cdb7882906b6617cb271748a0aabb4dffd3e2db30181b484969e1ac2d8474"
+    },
+    "report.json": {
+      "bytes": 588,
+      "sha256": "2802df5f0ec6e3c08c84fb68b80960e14bac51798f6164519b624f1ff3b73dfb"
+    },
+    "selected-series.jsonl": {
+      "bytes": 704698,
+      "sha256": "e2753232d5f06043fdc5c4121c21243bc5a72aec66e279770f427de4b810aef6"
+    }
+  },
+  "inputs": {
+    "correction_ledger_sha256": "73eb9779617211ada4916307bc1ee8bd37263488b3ca4cb9cb379d6e4d615617",
+    "source_manifest_sha256": "1ffe74c470c499ef5ae45d4587891758ba2fbd21bab9e49f1bd41429b06c79c3",
+    "source_plan_sha256": "e6c4a5f1ec550fb18b282a13702b9416dfbc7fdf5bb85552209593458194615e"
+  },
+  "schema_version": 1
+}
