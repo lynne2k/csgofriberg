@@ -77,6 +77,20 @@ button, input { font: inherit; }
 .pip { position: absolute; z-index: 4; display: flex; flex-direction: column; align-items: center; font-family: var(--display); font-weight: 700; line-height: .95; width: 16px; pointer-events: none; }
 .pip.tl { top: 8px; left: 7px; }
 .pip.br { bottom: 8px; right: 7px; transform: rotate(180deg); }
+/* 卡角 HLTV 主页入口：小图标，点到才跳，不影响拖牌 */
+/* 左下斜切角：深色三角 + 金色斜边，点三角区域才跳（clip-path 也裁掉了点击范围） */
+/* 左下卷角：像纸牌被掀起一角，颜色跟牌面走；点卷角才跳 HLTV 主页 */
+.card a.hltv { --f0: #c9ad7a; --f1: #f6ecd6; --ink: #6b4d26; position: absolute; left: 0; bottom: 0; z-index: 10;
+  width: 34px; height: 34px; touch-action: auto; cursor: pointer; color: var(--ink);
+  filter: drop-shadow(1.5px -1.5px 1.5px rgba(50,32,12,.38)); transition: width .18s cubic-bezier(.2,.8,.2,1), height .18s cubic-bezier(.2,.8,.2,1); }
+.card a.hltv::before { content: ""; position: absolute; inset: 0; border-bottom-left-radius: 10px; clip-path: polygon(0 0, 0 100%, 100% 100%);
+  background: linear-gradient(45deg, var(--f1) 0%, var(--f1) 22%, var(--f0) 50%); }
+/* HLTV 标志重绘成单色 SVG：透明底，颜色跟牌面墨色 */
+.card a.hltv svg { position: absolute; left: 3px; bottom: 3px; width: 17px; height: 17px; opacity: .85; transition: opacity .15s, transform .18s; }
+.card.start a.hltv { --f0: #c17407; --f1: #ffd27a; --ink: #5a3906; }
+.card.end a.hltv { --f0: #22348f; --f1: #8ea0f0; --ink: #fbfaf6; }
+.card a.hltv:hover { width: 42px; height: 42px; }
+.card a.hltv:hover svg { opacity: 1; transform: scale(1.15); }
 .pip .nm { writing-mode: vertical-rl; text-orientation: mixed; font-size: 11px; letter-spacing: .08em; }
 .pip .sg { margin-top: 3px; font-size: 9px; opacity: .72; }
 .pip .dia { width: 7px; height: 7px; margin-top: 3px; background: currentColor; transform: rotate(45deg); opacity: .7; }
@@ -485,8 +499,16 @@ function cardEl(id, cls) {
     : '<div class="face blank" aria-label="' + nm + '"><b>' + CSDATA.esc(p.name.slice(0, 2).toUpperCase()) + '</b><span>' + nm + '</span></div>';
   var tag = p.ctx ? p.tag : p.team;
   el.innerHTML = '<span class="orn"></span><div class="pip tl">' + pip + '</div><div class="pip br">' + pip + '</div>' +
-    face + '<div class="team-tag">' + CSDATA.esc(tag) + '</div><i class="cover"></i>';
+    face + '<div class="team-tag">' + CSDATA.esc(tag) + '</div><i class="cover"></i>' + hltvLink(p);
   return el;
+}
+/* 左下角小图标：只有 hltv 编号的身份才有主页可跳；借照片身份用自己那条的编号 */
+function hltvLink(p) {
+  var m = /^hltv:(\d+)$/.exec(p.id);
+  if (!m) return "";
+  var href = "https://www.hltv.org/player/" + m[1] + "/" + encodeURIComponent(p.name);
+  return '<a class="hltv" href="' + href + '" target="_blank" rel="noopener" title="HLTV 主页" aria-label="HLTV 主页" onclick="event.stopPropagation()">' +
+    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="3.4" cy="13.4" r="1.6"/><circle cx="5" cy="8.9" r="1.7"/><circle cx="8.6" cy="5.4" r="1.8"/><circle cx="13.3" cy="3.6" r="1.9"/><path d="M2.8 21.2c6-.5 12.6-4.6 19.4-13.6-6 6.4-11.6 9.8-17 10.6z"/><circle cx="4.6" cy="19.4" r="2.8"/></svg></a>';
 }
 // 搜索在 data.js：不分大小写，1/l/i、0/o、4/a、3/e 这类形近字符不区分
 function matches(id) { return CSDATA.matches(id, query); }
@@ -640,6 +662,7 @@ function layoutFan() {
 function bindDrag(el, from, id) {
   el.addEventListener("pointerdown", function (e) {
     if (phase !== "idle" || e.button !== 0) return;
+    if (e.target.closest && e.target.closest("a.hltv")) return;   // 点到卡角 HLTV 图标：只跳主页，不起牌
     e.preventDefault();
     if (result) clearResult();   // 判定完直接拖牌就能改，不用先点重排
     var w = cssPx("--card-w");
