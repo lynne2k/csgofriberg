@@ -398,7 +398,7 @@ function renderBoard() {
     if (dealing) cls.push("flip");
     if (id === landed) cls.push("land");
     var el = cardEl(id, cls.join(" "));
-    if (dealing) el.style.animationDelay = (200 + k * 140) + "ms";
+    if (dealing) { el.style.animationDelay = (200 + k * 140) + "ms"; sfx("flip", 200 + k * 140 + 220); }
     if (id === START) el.insertAdjacentHTML("afterbegin", '<span class="role">起点</span>');
     if (id === END) el.insertAdjacentHTML("afterbegin", '<span class="role">终点</span>');
     if (movable) bindDrag(el, "queue", id);
@@ -473,6 +473,7 @@ function renderFan() {
       bindDrag(el, it.from, it.id);
       el.style.left = draw.style.left || "8px";      // 从牌堆位置出发
       el.style.bottom = "14px";
+      sfx("flick", born * 45);
       el.style.transitionDelay = el.style.animationDelay = (born++ * 45) + "ms";
       fan.appendChild(el);
     }
@@ -539,6 +540,7 @@ function bindDrag(el, from, id) {
     drag = { from: from, id: id, ghost: ghost, dx: w / 2, dy: w * 0.7 };
     setPeek(null);
     el.classList.add("placeholder");
+    sfx("pick");
     if (from === "queue") renderBoard();
     move(e);
     window.addEventListener("pointermove", move);
@@ -550,7 +552,7 @@ function move(e) {
   drag.ghost.style.left = (e.clientX - drag.dx) + "px";
   drag.ghost.style.top = (e.clientY - drag.dy) + "px";
   var next = overBoard(e.clientX, e.clientY) ? insertFromX(e.clientX) : null;
-  if (next !== insertAt) { insertAt = next; layoutBoard(); }
+  if (next !== insertAt) { if (next != null) sfx("slide"); insertAt = next; layoutBoard(); }
 }
 function up() {
   window.removeEventListener("pointermove", move);
@@ -563,9 +565,11 @@ function up() {
     queue.splice(Math.min(at, queue.length), 0, d.id);
     hand = hand.filter(function (x) { return x !== d.id; });
     landed = d.id;
+    sfx("place");
     if (d.from === "deck") { query = ""; $("q").value = ""; }
     beginClock();
   } else if (d.from === "queue") {
+    sfx("away");
     queue = queue.filter(function (x) { return x !== d.id; });  // 拖离桌面 = 撤下，回到牌库里可以再搜
   }
   renderAll();
@@ -664,6 +668,41 @@ function sealHtml(hops) { return '<div class="seal" role="img" aria-label="' + h
 var AC = null;
 function audio() { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === "suspended") AC.resume(); } catch (e) { AC = null; } return AC; }
 function tone(f, t0, dur, vol, type) { var a = AC, o = a.createOscillator(), g = a.createGain(); o.type = type || "sine"; o.frequency.value = f; g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur); o.connect(g); g.connect(a.destination); o.start(t0); o.stop(t0 + dur + 0.05); }
+/* 牌的音效：都用 Web Audio 现场合成（滤波白噪声 = 纸声，低频正弦 = 落桌闷响），不加音频文件 */
+var NOISE = null;
+function noiseBuf(a) {
+  if (NOISE) return NOISE;
+  var n = Math.floor(a.sampleRate * 0.4), b = a.createBuffer(1, n, a.sampleRate), d = b.getChannelData(0);
+  for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+  return (NOISE = b);
+}
+function swish(t0, dur, vol, f0, f1, q) {
+  var a = AC, s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+  s.buffer = noiseBuf(a); f.type = "bandpass"; f.Q.value = q || 1.2;
+  f.frequency.setValueAtTime(f0, t0); f.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+  g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + Math.min(.012, dur / 3)); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  s.connect(f); f.connect(g); g.connect(a.destination); s.start(t0, Math.random() * 0.2); s.stop(t0 + dur + 0.02);
+}
+function thump(t0, f, dur, vol) {
+  var a = AC, o = a.createOscillator(), g = a.createGain();
+  o.frequency.setValueAtTime(f, t0); o.frequency.exponentialRampToValueAtTime(f * 0.55, t0 + dur);
+  g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.connect(g); g.connect(a.destination); o.start(t0); o.stop(t0 + dur + 0.02);
+}
+var lastTick = 0;
+function sfx(kind, delay) {
+  var a = audio(); if (!a || a.state !== "running") return;
+  var t = a.currentTime + 0.005 + (delay || 0) / 1000;
+  if (kind === "pick") { swish(t, .09, .16, 2600, 5200, 1.4); return; }                       // 捏起一张牌
+  if (kind === "slide") {                                                                       // 拖动时插入位换了：轻轻一擦
+    if (a.currentTime - lastTick < .14) return; lastTick = a.currentTime;   // 至少隔 140ms 才再擦一次
+    swish(t, .045, .045, 3400, 2400, 2.2); return;
+  }
+  if (kind === "place") { thump(t, 92, .22, .42); thump(t, 58, .26, .22); swish(t, .08, .16, 1100, 450, .8); swish(t + .01, .04, .04, 3600, 2600, 2); return; }  // 拍到桌上
+  if (kind === "flick") { swish(t, .06, .1, 3200, 6000, 1.6); return; }                       // 从牌堆抽出
+  if (kind === "flip") { swish(t, .05, .14, 2400, 4800, 1.8); thump(t + .02, 240, .05, .06); return; }  // 翻面
+  if (kind === "away") { swish(t, .16, .12, 5000, 1400, .8); return; }                        // 撤回牌库
+}
 function ding(kind) {
   var a = audio(); if (!a || a.state !== "running" && kind) return; var t = a.currentTime + 0.01;
   if (kind === "win") { [[1568, 0], [1976, .09], [2349, .18], [3136, .27]].forEach(function (n) { tone(n[0], t + n[1], 1.1, .13); tone(n[0] * 2.76, t + n[1], .3, .025); }); return; }
@@ -812,6 +851,7 @@ $("q").addEventListener("keydown", function (e) {
   if (result) clearResult();
   queue.push(first.dataset.id);   // 回车 = 第一张联想直接摆到终点前面
   landed = first.dataset.id;
+  sfx("place");
   query = ""; e.target.value = "";
   beginClock();
   renderAll();
