@@ -119,7 +119,7 @@ export class CsLinkPathGraph {
         !Number.isSafeInteger(maxSources) || minJumps < 2 || maxJumps < minJumps || maxSources < 1) {
       throw new Error('CSLINK_PATH_INVALID_DISTANCE_RANGE');
     }
-    const rangeKey = `${minJumps}:${maxJumps}`;
+    const rangeKey = `${minJumps}:${maxJumps}:${endpointAllowed ? 'filtered' : 'all'}`;
     if (this.absentDistanceRanges.has(rangeKey)) return null;
     const allStarts = [...this.neighbors.keys()].sort();
     const findFrom = (startId: string, endOk: (id: string) => boolean) => {
@@ -144,17 +144,21 @@ export class CsLinkPathGraph {
       }
       return null;
     };
-    // Prefer recognizable endpoints (callers can require e.g. a portrait), then numeric identities;
-    // every identity remains usable as an intermediate teammate, including old scoped identities.
+    // A caller filter (e.g. portrait + still active) is strict once it has enough starts: filtered-out
+    // players must never surface as endpoints. Without a usable filter, prefer numeric identities.
+    // Every identity remains usable as an intermediate teammate, including old scoped identities.
     const numeric = (id: string) => id.startsWith('hltv:');
     const passes: { starts: string[]; endOk: (id: string) => boolean }[] = [];
+    let strict = false;
     if (endpointAllowed) {
       const allowedStarts = allStarts.filter(endpointAllowed);
-      if (allowedStarts.length >= 2) passes.push({ starts: allowedStarts, endOk: endpointAllowed });
+      if (allowedStarts.length >= 2) { passes.push({ starts: allowedStarts, endOk: endpointAllowed }); strict = true; }
     }
-    const numericStarts = allStarts.filter(numeric);
-    if (numericStarts.length >= 2) passes.push({ starts: numericStarts, endOk: numeric });
-    passes.push({ starts: allStarts, endOk: () => true });
+    if (!strict) {
+      const numericStarts = allStarts.filter(numeric);
+      if (numericStarts.length >= 2) passes.push({ starts: numericStarts, endOk: numeric });
+      passes.push({ starts: allStarts, endOk: () => true });
+    }
     for (const { starts, endOk } of passes) {
       const randomAttempts = Math.min(maxSources, starts.length);
       for (let attempt = 0; attempt < randomAttempts; attempt++) {

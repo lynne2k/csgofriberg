@@ -149,6 +149,15 @@ export default function CsLinkDuel() {
     setField(emptyMergedField); setFeedback('');
   }, [room?.round?.roundId]);
 
+  // Report arrival once per round so the server can start the clock as soon as everyone is in.
+  useEffect(() => {
+    const current = roomRef.current;
+    if (current?.status !== 'playing' || !current.round) return;
+    void rpc('arrive', { roomId: current.id, roundId: current.round.roundId }).then(response => {
+      if (alive.current) accept(response);
+    });
+  }, [room?.round?.roundId]);
+
   const act = async (event: string, payload: Record<string, unknown>) => {
     if (busy) return;
     const current = ++operation.current;

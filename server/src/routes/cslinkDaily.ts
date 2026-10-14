@@ -4,17 +4,23 @@ import { optionalAuth, userNameFromUsername } from '../middleware/auth';
 import { asyncHandler, validateBody, validateQuery } from '../middleware/common';
 import { rateLimit, requestIdentity } from '../middleware/rateLimit';
 import type { CsLinkDaily } from '../services/cslinkDaily';
+import { cleanCsLinkNickname } from '../services/cslinkNickname';
 
 const playerId = z.string().regex(/^(?:hltv:[1-9]\d{0,9}|legacy:[a-f0-9]{20}|cs-person-\d{6,})$/);
+const nickname = z.string().max(64).optional();
+const nicknameSchema = z.object({ nickname }).strict();
 const submitSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   dataVersion: z.string().regex(/^[a-f0-9]{20}$/),
   routeIds: z.array(playerId).min(2).max(17),
+  nickname,
 });
 
+/** 身份 key 决定成绩归属；昵称只换显示名，不合规就退回访客编号 */
 function owner(req: Request) {
-  if (req.user) return { key: `u:${req.user.id}`, name: userNameFromUsername(req.user.username) };
-  if (req.guestKey) return { key: `g:${req.guestKey}`, name: req.guestName || '访客' };
+  const nick = cleanCsLinkNickname(req.body?.nickname);
+  if (req.user) return { key: `u:${req.user.id}`, name: nick ?? userNameFromUsername(req.user.username) };
+  if (req.guestKey) return { key: `g:${req.guestKey}`, name: nick ?? (req.guestName || '访客') };
   return null;
 }
 
@@ -34,7 +40,7 @@ export function createCsLinkDailyRoutes(daily: CsLinkDaily | null, enabled: bool
     res.json(today);
   });
   router.post('/start', rateLimit({ name: 'cslink-daily-start', limit: 30, windowSeconds: 60, key: requestIdentity }),
-    asyncHandler(async (req, res) => {
+    validateBody(nicknameSchema), asyncHandler(async (req, res) => {
       const me = owner(req);
       if (!me) return res.status(400).json({ code: 'GUEST_KEY_REQUIRED' });
       const out = await daily!.start(me.key, me.name);
@@ -42,7 +48,7 @@ export function createCsLinkDailyRoutes(daily: CsLinkDaily | null, enabled: bool
       res.json(out);
     }));
   router.post('/begin', rateLimit({ name: 'cslink-daily-begin', limit: 30, windowSeconds: 60, key: requestIdentity }),
-    asyncHandler(async (req, res) => {
+    validateBody(nicknameSchema), asyncHandler(async (req, res) => {
       const me = owner(req);
       if (!me) return res.status(400).json({ code: 'GUEST_KEY_REQUIRED' });
       const out = await daily!.begin(me.key, me.name);

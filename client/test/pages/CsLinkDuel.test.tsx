@@ -20,8 +20,9 @@ const start = player(1, 'start'), end = player(2, 'end'), niko = player(3741, 'N
 const legacy: PlayPlayer = { ...player(3, 'oldPlayer'), id: `legacy:${'a'.repeat(20)}`, hltvId: null, profileUrl: null,
   identityKind: 'legacy_context', identityContext: 'ESWC 2012', legacyMapCount: 1 };
 const createRoom = (): DuelRoom => ({ id: 'L12345', revision: 1, status: 'lobby', hostKey: 'me', maxPlayers: 2,
-  durationSeconds: 60, players: [{ key: 'me', name: 'Alice', ready: false, connected: true, left: false, best: null },
-    { key: 'friend', name: 'Bob', ready: false, connected: true, left: false, best: null }],
+  durationSeconds: 60, targetScore: 3, matchOver: false, roundNo: 0, nextRoundAtMs: null, waitingKeys: [],
+  players: [{ key: 'me', name: 'Alice', ready: false, connected: true, left: false, score: 0, gaveUp: false, best: null },
+    { key: 'friend', name: 'Bob', ready: false, connected: true, left: false, score: 0, gaveUp: false, best: null }],
   round: null, myBest: null, result: null });
 const playingRoom = (): DuelRoom => ({ ...createRoom(), status: 'playing', revision: 4,
   round: { roundId: 'round-1', dataVersion: 'v1', start, end, serverStartedAtMs: Date.now() - 5_000,
@@ -144,8 +145,8 @@ describe('CS Link path rooms', () => {
     await userEvent.click(await screen.findByRole('button', { name: '提交路径' }));
     const old = structuredClone(currentRoom);
     const completed: DuelRoom = { ...currentRoom, status: 'finished', revision: 10, myBest: finish(),
-      result: { winnerKeys: ['me'], reason: 'one_completed', rankings: [{ key: 'me', name: 'Alice', rank: 1, best: finish(), left: false },
-        { key: 'friend', name: 'Bob', rank: null, best: null, left: false }] } };
+      result: { winnerKeys: ['me'], reason: 'one_completed', rankings: [{ key: 'me', name: 'Alice', rank: 1, best: finish(), left: false, gaveUp: false },
+        { key: 'friend', name: 'Bob', rank: null, best: null, left: false, gaveUp: false }] } };
     push(completed);
     act(() => submitAck?.({ ...envelope(old), improved: true }));
     expect(await screen.findByRole('region', { name: '本局结果' })).toBeInTheDocument();
@@ -169,7 +170,7 @@ describe('CS Link path rooms', () => {
     expect(screen.getByRole('button', { name: '提交路径' })).toBeDisabled();
     expect(screen.getByRole('alert')).toHaveTextContent('连接已断开');
     currentRoom = { ...currentRoom, revision: 11, status: 'finished', result: { winnerKeys: [], reason: 'all_incomplete',
-      rankings: [{ key: 'me', name: 'Alice', rank: null, best: null, left: false }] } };
+      rankings: [{ key: 'me', name: 'Alice', rank: null, best: null, left: false, gaveUp: false }] } };
     socket.connected = true;
     act(() => socket.handlers.get('connect')?.());
     expect(await screen.findByRole('heading', { name: '本局平局 · 所有人未完成' })).toBeInTheDocument();

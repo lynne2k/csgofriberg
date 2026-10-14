@@ -1,6 +1,7 @@
 /** Synthetic graph only (fixtures/cslinkRooms.ts); covers daily timing, best result and ranking. */
 import { beforeEach, describe, expect, it } from 'vitest';
 import { CsLinkDaily, resetCsLinkDailyMemory } from '../../src/services/cslinkDaily';
+import { cleanCsLinkNickname } from '../../src/services/cslinkNickname';
 import { id, longRoute, roomFixture, shortRoute } from '../fixtures/cslinkRooms';
 
 describe('CS Link daily challenge', () => {
@@ -57,5 +58,26 @@ describe('CS Link daily challenge', () => {
     now = today.nextRefreshAt + 1;
     expect(await daily.submit('g:a', 'A', { date: today.date, dataVersion: today.dataVersion, routeIds: shortRoute }))
       .toEqual({ code: 'DAILY_EXPIRED' });
+  });
+
+  it('renames the leaderboard row when start is called with a new nickname', async () => {
+    const daily = make();
+    const today = daily.today()!;
+    await daily.start('g:a', 'Guest A');
+    await daily.begin('g:a', 'Guest A');
+    now += 3_000;
+    await daily.submit('g:a', 'Guest A', { date: today.date, dataVersion: today.dataVersion, routeIds: shortRoute });
+    await daily.start('g:a', '老尼');
+    const board = await daily.leaderboard('g:a', 10) as any;
+    expect(board.top.map((row: any) => row.name)).toEqual(['老尼']);
+    expect(board.players).toBe(1);
+  });
+
+  it('cleans nicknames', () => {
+    expect(cleanCsLinkNickname('  链接  仙人 ')).toBe('链接 仙人');
+    expect(cleanCsLinkNickname('<b>ab</b>')).toBe('bab/b');
+    expect(cleanCsLinkNickname('a')).toBeNull();
+    expect(cleanCsLinkNickname('x'.repeat(13))).toBeNull();
+    expect(cleanCsLinkNickname(42)).toBeNull();
   });
 });

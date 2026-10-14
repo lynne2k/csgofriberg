@@ -86,6 +86,38 @@ describe('CS Link local room authority', () => {
     expect(submit('a', room).code).toBe('ROUND_EXPIRED');
   });
 
+  it('lets a player give up, shows it to others, and settles once everyone is done', () => {
+    let room = playing();
+    expect(rooms.giveUp('b', room.id, room.round!.roundId).code).toBeUndefined();
+    const view = rooms.sync('a').room!;
+    expect(view.status).toBe('playing');
+    expect(view.players.find(p => p.key === 'b')!.gaveUp).toBe(true);
+    expect(submit('b', room).code).toBe('GAVE_UP');
+    expect(rooms.giveUp('b', room.id, room.round!.roundId).code).toBeUndefined();
+    expect(rooms.giveUp('b', room.id, 'other').code).toBe('ROUND_MISMATCH');
+    submit('a', room);
+    const done = rooms.sync('a').room!;
+    expect(done.result).toMatchObject({ winnerKeys: ['a'], reason: 'one_completed' });
+    expect(done.result!.rankings.find(row => row.key === 'b')!.gaveUp).toBe(true);
+
+    rooms.rematch('a', room.id); rooms.ready('a', room.id, true); rooms.ready('b', room.id, true);
+    room = rooms.start('a', room.id).room!;
+    expect(room.players.every(p => !p.gaveUp)).toBe(true);
+    rooms.giveUp('a', room.id, room.round!.roundId); rooms.giveUp('b', room.id, room.round!.roundId);
+    expect(rooms.sync('a').room!.result).toMatchObject({ winnerKeys: [], reason: 'all_incomplete' });
+    expect(rooms.giveUp('a', room.id, room.round!.roundId).code).toBe('NOT_PLAYING');
+  });
+
+  it('refuses to give up after connecting and keeps waiting for the rest', () => {
+    const room = playingWithIdle();
+    submit('a', room);
+    expect(rooms.giveUp('a', room.id, room.round!.roundId).code).toBe('ALREADY_CONNECTED');
+    rooms.giveUp('b', room.id, room.round!.roundId);
+    expect(rooms.sync('a').room!.status).toBe('playing');
+    rooms.giveUp('c', room.id, room.round!.roundId);
+    expect(rooms.sync('a').room!.result).toMatchObject({ winnerKeys: ['a'], reason: 'one_completed' });
+  });
+
   it('settles fewer-jump wins, one finisher, and all-incomplete ties', () => {
     let room = playing();
     submit('a', room, longRoute); vi.advanceTimersByTime(500); submit('b', room);
@@ -98,6 +130,109 @@ describe('CS Link local room authority', () => {
     rooms.rematch('a', room.id); rooms.ready('a', room.id, true); rooms.ready('b', room.id, true);
     rooms.start('a', room.id); vi.advanceTimersByTime(60_001);
     expect(rooms.sync('a').room!.result).toMatchObject({ winnerKeys: [], reason: 'all_incomplete' });
+  });
+
+  it('accumulates round wins, ends the match at the target score and resets on the next match', () => {
+    const roomId = lobby();
+    expect(rooms.setOptions('b', roomId, { targetScore: 2 }).code).toBe('HOST_ONLY');
+    expect(rooms.setOptions('a', roomId, { targetScore: 11 }).code).toBe('VALIDATION_FAILED');
+    expect(rooms.setOptions('a', roomId, { durationSeconds: 19 }).code).toBe('VALIDATION_FAILED');
+    expect(rooms.setOptions('a', roomId, { targetScore: 2, durationSeconds: 30 }).room).toMatchObject({ targetScore: 2, durationSeconds: 30 });
+    const round = () => { rooms.ready('a', roomId, true); rooms.ready('b', roomId, true); return rooms.start('a', roomId).room!; };
+    let room = round(); submit('a', room); vi.advanceTimersByTime(30_001);
+    let view = rooms.sync('a').room!;
+    expect(view.players.map(player => player.score)).toEqual([1, 0]);
+    expect(view.matchOver).toBe(false);
+    expect(rooms.setOptions('a', roomId, { targetScore: 3 }).code).toBe('NOT_LOBBY');
+    rooms.rematch('a', roomId);
+    expect(rooms.sync('a').room!.players.map(player => player.score)).toEqual([1, 0]);
+    room = round(); submit('a', room); vi.advanceTimersByTime(30_001);
+    view = rooms.sync('b').room!;
+    expect(view.players.map(player => player.score)).toEqual([2, 0]);
+    expect(view.matchOver).toBe(true);
+    view = rooms.rematch('a', roomId).room!;
+    expect(view).toMatchObject({ matchOver: false, status: 'lobby' });
+    expect(view.players.map(player => player.score)).toEqual([0, 0]);
+  });
+
+  it('starts the next round of an unfinished match by itself, keeping scores, even when nobody connected', () => {
+    rooms.stop(); rooms = new CsLinkRooms(roomFixture(), changed, { interRoundMs: 5000 });
+    let room = playing();
+    expect(room.roundNo).toBe(1);
+    rooms.giveUp('b', room.id, room.round!.roundId);
+    vi.advanceTimersByTime(60_001);
+    let view = rooms.sync('a').room!;
+    expect(view).toMatchObject({ status: 'finished', matchOver: false, roundNo: 1 });
+    expect(view.result!.winnerKeys).toEqual([]);
+    expect(view.nextRoundAtMs).toBeGreaterThan(Date.now());
+    expect(rooms.nextRound('b', room.id).code).toBe('HOST_ONLY');
+    vi.advanceTimersByTime(5000);
+    view = rooms.sync('b').room!;
+    expect(view).toMatchObject({ status: 'playing', roundNo: 2, nextRoundAtMs: null, result: null, myBest: null });
+    expect(view.round!.roundId).not.toBe(room.round!.roundId);
+    room = view; submit('a', room); vi.advanceTimersByTime(60_001);
+    expect(rooms.sync('a').room!.players.map(player => player.score)).toEqual([1, 0]);
+    view = rooms.nextRound('a', room.id).room!;
+    expect(view).toMatchObject({ status: 'playing', roundNo: 3 });
+    expect(view.players.map(player => player.score)).toEqual([1, 0]);
+  });
+
+  it('stops auto-continuing when nobody touched the round', () => {
+    rooms.stop(); rooms = new CsLinkRooms(roomFixture(), changed, { interRoundMs: 5000 });
+    const room = playing();
+    vi.advanceTimersByTime(70_000);
+    expect(rooms.sync('a').room).toMatchObject({ status: 'finished', roundNo: 1, nextRoundAtMs: null });
+    expect(rooms.nextRound('a', room.id).room).toMatchObject({ status: 'playing', roundNo: 2 });
+  });
+
+  it('does not auto-continue once the match is won or when only one player is left', () => {
+    rooms.stop(); rooms = new CsLinkRooms(roomFixture(), changed, { interRoundMs: 5000 });
+    const roomId = lobby();
+    rooms.setOptions('a', roomId, { targetScore: 1 });
+    rooms.ready('a', roomId, true); rooms.ready('b', roomId, true);
+    let room = rooms.start('a', roomId).room!;
+    submit('a', room); vi.advanceTimersByTime(70_000);
+    let view = rooms.sync('a').room!;
+    expect(view).toMatchObject({ status: 'finished', matchOver: true, nextRoundAtMs: null });
+    expect(rooms.nextRound('a', roomId).code).toBe('NOT_FINISHED');
+    view = rooms.rematch('a', roomId).room!;
+    expect(view).toMatchObject({ roundNo: 0, status: 'lobby' });
+    rooms.setOptions('a', roomId, { targetScore: 3 });
+    rooms.ready('a', roomId, true); rooms.ready('b', roomId, true);
+    room = rooms.start('a', roomId).room!;
+    expect(room.roundNo).toBe(1);
+    rooms.leave('b', roomId);
+    vi.advanceTimersByTime(70_000);
+    view = rooms.sync('a').room!;
+    expect(view).toMatchObject({ status: 'finished', roundNo: 1, nextRoundAtMs: null });
+  });
+
+  it('waits for every player to arrive, then pulls the clock forward and rejects early submissions', () => {
+    rooms.stop(); rooms = new CsLinkRooms(roomFixture(), changed, { countdownMs: 3000, arrivalGraceMs: 12_000 });
+    const room = playing();
+    expect(room.round!.serverStartedAtMs).toBe(initial + 15_000);
+    expect(room.waitingKeys).toEqual(['a', 'b']);
+    vi.advanceTimersByTime(1000);
+    expect(rooms.arrive('a', room.id, room.round!.roundId).room!.waitingKeys).toEqual(['b']);
+    expect(submit('a', room).code).toBeDefined();
+    vi.advanceTimersByTime(1000);
+    const ready = rooms.arrive('b', room.id, room.round!.roundId).room!;
+    expect(ready.waitingKeys).toEqual([]);
+    expect(ready.round!.serverStartedAtMs).toBe(initial + 5000);
+    expect(ready.round!.serverDeadlineAtMs).toBe(initial + 65_000);
+    vi.advanceTimersByTime(3000);
+    expect(submit('a', room).code).toBeUndefined();
+    vi.advanceTimersByTime(60_001);
+    expect(rooms.sync('a').room!.status).toBe('finished');
+  });
+
+  it('starts anyway at the grace limit when someone never arrives', () => {
+    rooms.stop(); rooms = new CsLinkRooms(roomFixture(), changed, { countdownMs: 3000, arrivalGraceMs: 12_000 });
+    const room = playing();
+    rooms.arrive('a', room.id, room.round!.roundId);
+    vi.advanceTimersByTime(15_000);
+    expect(submit('a', room).code).toBeUndefined();
+    expect(rooms.sync('a').room!.round!.serverStartedAtMs).toBe(initial + 15_000);
   });
 
   it('accepts both submissions at the deadline after a sync and preserves exact ties', () => {

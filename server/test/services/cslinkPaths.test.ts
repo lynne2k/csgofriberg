@@ -64,6 +64,18 @@ describe('CS Link path duel rules', () => {
     expect(sparse.sampleDistantPair(3, 3, 8, () => 0, () => false)).toMatchObject({ shortestJumps: 3 });
   });
 
+  it('never falls back to filtered-out endpoints once the filter has candidates', () => {
+    const sparse = new CsLinkPathGraph(version, [link(1, 2), link(2, 3), link(3, 4), link(4, 5)]);
+    // 1 and 2 are only one jump apart, so no allowed pair reaches 3 jumps; 1→4 exists but 4 is filtered out.
+    const allowed = new Set([id(1), id(2)]);
+    expect(sparse.sampleDistantPair(3, 3, 8, () => 0, x => allowed.has(x))).toBeNull();
+    // Inactive players still bridge: allowed endpoints 1 and 5 connect through filtered-out 2, 3, 4.
+    const ends = new Set([id(1), id(5)]);
+    expect(sparse.sampleDistantPair(4, 4, 8, () => 0, x => ends.has(x))).toMatchObject({ shortestJumps: 4 });
+    // The unfiltered range is cached separately from the filtered one.
+    expect(sparse.sampleDistantPair(3, 3, 8, () => 0)).toMatchObject({ shortestJumps: 3 });
+  });
+
   it('accepts every proven hop by stable ID and returns source references for each jump', () => {
     const result = graph().finish(round, [1, 2, 3, 4, 5].map(id), 3_000);
     expect(result.valid).toBe(true);

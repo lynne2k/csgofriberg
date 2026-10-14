@@ -294,7 +294,7 @@ button, input { font: inherit; }
 </section>
 <div class="act" id="act"></div>
 <aside class="lb" aria-label="今日排行榜前十">
-  <h3>今日前十 <span id="lbCount" style="font-size:11px;letter-spacing:.08em;opacity:.7"></span></h3>
+  <h3>今日前十 <span id="lbCount" style="font-size:11px;letter-spacing:.08em;opacity:.7"></span> <a href="#" id="nickBtn">改昵称</a></h3>
   <ol id="lbList"><li><span class="r"></span><span class="n" style="opacity:.6">还没人连通</span><span class="h"></span><span class="s"></span></li></ol>
   <div class="foot" id="lbMe"><span>—</span><span>你（进行中）</span><span style="text-align:right;color:var(--t)">–</span><span style="text-align:right">–</span></div>
 </aside>
@@ -725,9 +725,18 @@ async function loadBoard() {
   $("lbList").innerHTML = lb.top.length ? lb.top.map(lbRow).join("")
     : '<li><span class="r"></span><span class="n" style="opacity:.6">还没人连通，抢个第一</span><span class="h"></span><span class="s"></span></li>';
   var m = lb.me;
-  $("lbMe").innerHTML = m ? '<span>' + (m.rank || "—") + '</span><span>你' + (m.rank ? "" : "（进行中）") + '</span><span style="text-align:right;color:var(--t)">' +
+  var myName = (window.CSNICK && CSNICK.get()) || "你";
+  $("lbMe").innerHTML = m ? '<span>' + (m.rank || "—") + '</span><span>' + escNick(myName) + (m.rank ? "" : "（进行中）") + '</span><span style="text-align:right;color:var(--t)">' +
     (m.jumps == null ? "–" : m.jumps) + '</span><span style="text-align:right">' + (m.elapsedMs == null ? "–" : fmtSec(m.elapsedMs)) + '</span>' : "";
 }
+function escNick(s) { return String(s).replace(/[&<>"']/g, function (c) { return "&#" + c.charCodeAt(0) + ";"; }); }
+$("nickBtn").onclick = async function (e) {
+  e.preventDefault();
+  if (!window.CSNICK || !window.CSDAILY) return;
+  await CSNICK.ask();
+  await CSDAILY.start();
+  loadBoard();
+};
 function clearResult() {
   result = null; verdicts = []; activePair = -1;
   clearBeams(); layoutBoard(); renderAct();
@@ -819,7 +828,9 @@ function ensurePlayer(p) {
   // 题目两端一定有定妆照；万一本地选手表里没有，用接口给的花名补一张
   if (!PLAYERS[p.id]) PLAYERS[p.id] = { id: p.id, name: p.nickname, img: p.hltvId ? "portraits/" + p.hltvId + ".png" : null, maps: 0, tag: "", team: "", key: CSDATA.norm(p.nickname) };
 }
-CSDATA.ready.then(function () { return new Promise(withDaily); }).then(function () { return CSDAILY.start(); }).then(function (res) {
+CSDATA.ready.then(function () { return new Promise(withDaily); }).then(function () {
+  return window.CSNICK ? CSNICK.ensure() : null;
+}).then(function () { return CSDAILY.start(); }).then(function (res) {
   PLAYERS = CSDATA.players;
   if (!res || res.code) { $("keys").textContent = dailyErr(res && res.code); return; }
   TODAY = res.today; RUN = res.run; CLOCK_OFF = res.serverNowMs - Date.now();

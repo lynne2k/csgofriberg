@@ -2,6 +2,7 @@
    访客身份、PoW、断线重连都走 api/socket.ts，页面只拿到 rpc / on / onConnect。 */
 import { getSocket } from '../api/socket';
 import { duelError, type DuelResponse } from '../api/cslinkDuel';
+import { getNickname } from './nick';
 
 const REQUEST_TIMEOUT_MS = 10_000;
 const socket = getSocket();
@@ -26,6 +27,9 @@ function waitConnected(timeoutMs: number): Promise<boolean> {
 
 async function rpc(event: string, payload: Record<string, unknown> = {}): Promise<DuelResponse> {
   if (!(await waitConnected(REQUEST_TIMEOUT_MS))) return { code: 'NETWORK_ERROR' };
+  // 建房、进房时把昵称带上，座位上显示它
+  const nickname = getNickname();
+  if ((event === 'create' || event === 'join') && nickname) payload = { ...payload, nickname };
   return new Promise((resolve) => {
     let settled = false;
     const timer = window.setTimeout(() => {

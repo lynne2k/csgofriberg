@@ -4,7 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CS Link · 对战</title>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
 <style>
 :root {
   --t: #f5a623; --ink: #0d0f14; --white: #fbfaf6;
@@ -215,7 +217,7 @@ button, input { font: inherit; }
 .sb .mvp .stat span { font-size: 10px; letter-spacing: .2em; opacity: .55; }
 /* 表格 */
 .sb .grid { position: relative; padding: 6px 12px 4px; }
-.sb .th, .sb li { display: grid; grid-template-columns: 46px minmax(110px, 1.1fr) 64px 78px minmax(0, 2.6fr); gap: 10px; align-items: center; }
+.sb .th, .sb li { display: grid; grid-template-columns: 46px minmax(110px, 1.1fr) 64px 78px 52px minmax(0, 2.6fr); gap: 10px; align-items: center; }
 .sb .th { padding: 6px 10px; font-size: 10px; letter-spacing: .22em; opacity: .45; }
 .sb .r { text-align: right; }
 .sb ol { list-style: none; padding: 0; display: grid; gap: 4px; }
@@ -248,7 +250,7 @@ button, input { font: inherit; }
 .sb.peek footer, .sb.peek .mvp { display: none; }
 .sb footer .wait { margin-right: auto; font-size: 13px; letter-spacing: .12em; opacity: .65; }
 @media (max-width: 860px) {
-  .sb .th, .sb li { grid-template-columns: 34px minmax(0, 1fr) 46px 64px; }
+  .sb .th, .sb li { grid-template-columns: 34px minmax(0, 1fr) 46px 64px 40px; }
   .sb .th .rt { display: none; }
   .sb li .rt { grid-column: 2 / -1; flex-wrap: wrap; row-gap: 4px; }
   .sb header { flex-direction: column; align-items: flex-start; }
@@ -372,6 +374,26 @@ button, input { font: inherit; }
 @keyframes dot { 0%, 60%, 100% { opacity: .25; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
 .sb.live .panel, .sb.live li { animation: none !important; }
 @media (prefers-reduced-motion: reduce) { .beams .flow, .fx, .card.zap, .board.shake, .act .seal, .bell .dome, .bell .wave, .bell .sheen, .act .wait, .wait .pips i, .wait .st .dots i { animation: none !important; } }
+/* 开表前遮罩：等人入场 → 3-2-1 → GO */
+.pre { position: fixed; inset: 0; z-index: 250; display: none; place-items: center; align-content: center; gap: 18px; background: rgba(5,6,8,.55); backdrop-filter: blur(3px); text-align: center; }
+.pre.on { display: grid; }
+.pre .q { font-family: var(--display); font-weight: 700; font-size: clamp(18px, 2.4vw, 28px); letter-spacing: .08em; }
+.pre .q .s { color: var(--t); } .pre .q .e { color: #a9b9ff; } .pre .q i { font-style: normal; opacity: .6; margin: 0 .5em; }
+.pre b { font-family: var(--display); font-weight: 700; font-size: min(30vw, 300px); line-height: 1; color: var(--t); text-shadow: 0 16px 50px rgba(0,0,0,.6); animation: preNum .9s ease-out both; }
+.pre b.go { color: var(--white); font-size: min(16vw, 160px); letter-spacing: .1em; }
+.pre b.wt { font-size: clamp(22px, 3vw, 36px); color: var(--white); animation: none; letter-spacing: .08em; }
+.pre small { font-size: 13px; letter-spacing: .14em; opacity: .7; }
+@keyframes preNum { from { transform: scale(1.6); opacity: 0; } 30% { opacity: 1; } }
+.opp .sc { font-family: var(--display); font-weight: 700; color: var(--t); margin-left: 6px; font-size: 12px; }
+.sb .sc { font-family: var(--display); font-weight: 700; color: var(--t); text-align: right; }
+@media (prefers-reduced-motion: reduce) { .pre b { animation: none; } }
+/* 放弃：铃铛旁边的小按钮，点两下才生效 */
+.act button.quit { font-size: 13px; letter-spacing: .16em; padding: 8px 16px !important; background: rgba(13,15,20,.82); color: rgba(251,250,246,.75); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 3px 0 #000 !important; }
+.act button.quit:hover { color: #ffb4b7; filter: none; }
+.act button.quit.arm { background: var(--broke); color: var(--white); box-shadow: 0 3px 0 #7a1518, 0 0 18px rgba(229,72,77,.45) !important; }
+.opp li.gave { opacity: .55; } .opp li.gave .st { color: #ff9a9e; }
+.wait .pips i.gave { background: rgba(229,72,77,.35); color: #ffd0d2; text-decoration: line-through; }
+.sb li .gave { color: #ff9a9e; }
 </style>
 </head>
 <body>
@@ -408,9 +430,10 @@ button, input { font: inherit; }
 <div class="sb" id="sb" role="dialog" aria-label="计分板"><div class="panel">
   <header><div><b id="sbTitle">比赛结束</b><span id="sbSub"></span></div><div class="sbq" id="sbQ"></div></header>
   <div class="mvp" id="sbMvp"></div>
-  <div class="grid"><div class="th"><span></span><span>玩家</span><span class="r">跳数</span><span class="r">用时</span><span class="rt">路线</span></div><ol id="sbBody"></ol></div>
+  <div class="grid"><div class="th"><span></span><span>玩家</span><span class="r">跳数</span><span class="r">用时</span><span class="r">比分</span><span class="rt">路线</span></div><ol id="sbBody"></ol></div>
   <footer id="sbFoot"></footer>
 </div></div>
+<div class="pre" id="pre" aria-live="assertive"><div class="q" id="preQ"></div><b id="preN"></b><small id="preS"></small></div>
 </main></div></div>
 <script src="/cslink/data.js"></script>
 <script src="/cslink/wipe.js"></script>
@@ -418,7 +441,7 @@ button, input { font: inherit; }
 <script>
 /* 真实选手库：data.js 读 data/players.json + edges.json */
 var PLAYERS = CSDATA.players;
-var START = null, END = null;   // 由房间的 round.start / round.end 决定
+var START = null, END = null, CUR_ROUND = null;   // 由房间的 round.start / round.end 决定
 var queue = [];
 var hand = [];         // 开局手里没牌，全靠牌堆搜
 var query = "";
@@ -764,7 +787,7 @@ function bellHtml(state) {
 }
 function eid() { return (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g, ""); }
 async function runLink() {
-  if (phase !== "idle" || over || !ROOMV || !ROOMV.round) return;
+  if (phase !== "idle" || over || !ROOMV || !ROOMV.round || now() < ROOMV.round.serverStartedAtMs) return;
   ding();
   phase = "linking"; verdicts = []; activePair = -1; result = null;
   clearBeams();
@@ -832,22 +855,45 @@ function drawPair(i) {
 }
 function updateWait() {
   var w = $("act").querySelector(".wait"); if (!w) return;
-  var all = everyone(), n = all.filter(function (p) { return p.t != null; }).length;
-  w.innerHTML = '<span class="lab">已提交</span><span class="tm">' + fmt(me.t) + '<small>你的用时</small></span>' +
-    '<span class="who"><span class="pips">' + all.map(function (p) { return '<i class="' + (p.me ? "me " : "") + (p.t != null ? "ok" : "") + '" title="' + CSDATA.esc(p.name) + '">' + CSDATA.esc(p.name.slice(0, 1).toUpperCase()) + '</i>'; }).join("") + '</span>' +
-    '<span class="st">' + (over ? "本局结束" : n + "/" + all.length + " 已连通 · 等人<span class=\"dots\"><i></i><i></i><i></i></span>") + '</span></span>';
+  var all = everyone(), n = all.filter(function (p) { return p.t != null; }).length, g = all.filter(function (p) { return p.gaveUp; }).length;
+  w.innerHTML = (me.gaveUp ? '<span class="lab">已放弃</span><span class="tm">—<small>本局不计成绩</small></span>'
+      : '<span class="lab">已提交</span><span class="tm">' + fmt(me.t) + '<small>你的用时</small></span>') +
+    '<span class="who"><span class="pips">' + all.map(function (p) { return '<i class="' + (p.me ? "me " : "") + (p.t != null ? "ok" : p.gaveUp ? "gave" : "") + '" title="' + CSDATA.esc(p.name) + (p.gaveUp ? "（已放弃）" : "") + '">' + CSDATA.esc(p.name.slice(0, 1).toUpperCase()) + '</i>'; }).join("") + '</span>' +
+    '<span class="st">' + (over ? "本局结束" : n + "/" + all.length + " 已连通" + (g ? " · " + g + " 人放弃" : "") + ' · 等人<span class="dots"><i></i><i></i><i></i></span>') + '</span></span>';
 }
 function renderAct() {
   var box = $("act");
-  if (phase === "done") {
+  if (phase === "gaveup") {
+    if (!box.querySelector(".gavestamp")) box.innerHTML = '<span class="stamp bad gavestamp">已放弃</span><div class="wait" role="status"></div>';
+    updateWait();
+  }
+  else if (phase === "done") {
     // 徽章只盖一次，之后只更新旁边的说明
     if (!box.querySelector(".seal")) box.innerHTML = sealHtml(me.hops) + '<div class="wait" role="status"></div>';
     updateWait();
   }
   else if (phase === "over") box.innerHTML = '<span class="stamp bad">时间到</span>';
-  else if (phase === "idle") box.innerHTML = bellHtml(result === "fail" ? "retry" : "go");
+  else if (phase === "idle") box.innerHTML = bellHtml(result === "fail" ? "retry" : "go") + '<button type="button" class="quit" id="quit">放弃</button>';
   else box.innerHTML = bellHtml("busy");
   if ($("go")) $("go").onclick = runLink;
+  if ($("quit")) $("quit").onclick = giveUp;
+}
+/* 第一下变红「确认放弃」，3 秒内再点一下才提交，防误触 */
+var quitArmT = null;
+async function giveUp() {
+  var b = $("quit");
+  if (!b || phase !== "idle" || over || !ROOMV || !ROOMV.round || now() < ROOMV.round.serverStartedAtMs) return;
+  if (!b.classList.contains("arm")) {
+    b.classList.add("arm"); b.textContent = "确认放弃";
+    clearTimeout(quitArmT); quitArmT = setTimeout(function () { var q = $("quit"); if (q) { q.classList.remove("arm"); q.textContent = "放弃"; } }, 3000);
+    return;
+  }
+  clearTimeout(quitArmT);
+  var res = await CSNET.rpc("giveup", { roomId: ROOMV.id, roundId: ROOMV.round.roundId });
+  if (res.code) { $("keys").textContent = CSNET.error(res.code, res.reason); applyRoom(res); return; }
+  me.gaveUp = true; phase = "gaveup"; result = null; clearBeams();
+  $("keys").textContent = "这局放弃了 · 等其他人连完或时间到";
+  ding("bad"); applyRoom(res); renderAct();
 }
 var HINT = "打花名搜牌 · 拖到两张牌之间 · 回车放终点前 · 拖出桌面撤下";
 function renderAll() {
@@ -862,7 +908,8 @@ $("q").addEventListener("input", function (e) { query = e.target.value; renderFa
    对局中对手只露两样：是否已连通、连通时的跳数。路线和用时在结束后的计分板里公开。 */
 var WANT = (new URLSearchParams(location.search).get("room") || "").toUpperCase();
 var ROOMV = null, ME = "", offset = 0, over = false, latestRev = 0, FINAL = null, lastSync = 0;
-var me = { name: "你", me: true, hops: null, t: null, route: null };
+var arrived = {};
+var me = { name: "你", me: true, hops: null, t: null, route: null, gaveUp: false };
 var others = [];
 function now() { return Date.now() + offset; }
 function withNet(fn) { if (window.CSNET) fn(); else window.addEventListener("csnet", fn, { once: true }); }
@@ -875,7 +922,7 @@ function ensurePlayer(pp) {
 }
 function resetRound() {
   queue = []; hand = []; query = ""; $("q").value = ""; phase = "idle"; result = null; verdicts = []; activePair = -1;
-  over = false; FINAL = null; me.hops = null; me.t = null; me.route = null;
+  over = false; FINAL = null; me.hops = null; me.t = null; me.route = null; me.gaveUp = false;
   clearBeams(); $("sb").classList.remove("on", "peek");
 }
 function applyRoom(res) {
@@ -895,8 +942,14 @@ function applyRoom(res) {
   }
   if (r.status === "lobby" || !r.round) { goLobby(); return; }
   var rd = r.round;
-  if (START !== rd.start.id || END !== rd.end.id) {
-    if (START) resetRound();
+  /* 每局第一次拿到题目时报到；所有人到齐后服务端把开表提前到 3 秒后 */
+  if (r.status === "playing" && !arrived[rd.roundId]) {
+    arrived[rd.roundId] = 1;
+    CSNET.rpc("arrive", { roomId: r.id, roundId: rd.roundId }).then(applyRoom);
+  }
+  if (CUR_ROUND !== rd.roundId) {
+    if (CUR_ROUND) resetRound();
+    CUR_ROUND = rd.roundId;
     ensurePlayer(rd.start); ensurePlayer(rd.end);
     START = rd.start.id; END = rd.end.id;
     renderAll();
@@ -904,6 +957,10 @@ function applyRoom(res) {
   var mine = r.myBest;
   var meRow = r.players.find(function (x) { return x.key === ME; });
   if (meRow) me.name = meRow.name;
+  if (meRow && meRow.gaveUp && !me.gaveUp) {   // 刷新页面后恢复放弃状态
+    me.gaveUp = true;
+    if (phase === "idle") { phase = "gaveup"; renderAct(); $("keys").textContent = "这局放弃了 · 等其他人连完或时间到"; }
+  }
   if (mine && me.t == null) {
     mine.route.forEach(ensurePlayer);
     me.hops = mine.jumps; me.t = mine.elapsedMs / 1000; me.route = mine.routeIds.slice();
@@ -913,7 +970,7 @@ function applyRoom(res) {
     }
   }
   others = r.players.filter(function (x) { return !x.left && x.key !== ME; }).map(function (x) {
-    return { key: x.key, name: x.name, me: false, off: !x.connected, hops: x.best ? x.best.jumps : null,
+    return { key: x.key, name: x.name, me: false, off: !x.connected, gaveUp: !!x.gaveUp, hops: x.best ? x.best.jumps : null,
       t: x.best ? (x.best.elapsedMs == null ? 0 : x.best.elapsedMs / 1000) : null, route: null };
   });
   renderOpp();
@@ -921,6 +978,7 @@ function applyRoom(res) {
   else if ($("sb").classList.contains("peek") && $("sb").classList.contains("on")) showBoard(true);
 }
 function fmt(s) { if (s == null) return "—"; var m = Math.floor(s / 60), r = s - m * 60; return m ? m + ":" + (r < 10 ? "0" : "") + r.toFixed(0) : s.toFixed(1) + "s"; }
+function scoreOf(k) { var x = ROOMV && ROOMV.players.find(function (q) { return q.key === (k || ME); }); return x ? x.score || 0 : 0; }
 function rankOf(list) {
   return list.slice().sort(function (a, b) {
     var ad = a.t != null, bd = b.t != null;
@@ -937,8 +995,8 @@ function renderOpp(bumpName) {
   everyone().forEach(function (p) {
     var done = p.t != null, h = p.me ? myLiveHops() : p.hops;
     var li = document.createElement("li");
-    li.className = (done ? "done" : "") + (p.me ? " me" : "") + (p.name === bumpName ? " bump" : "");
-    li.innerHTML = '<div><div class="who">' + CSDATA.esc(p.name) + '</div><span class="st">' + (done ? "已连通" : p.off ? "掉线中" : "摆牌中") + '</span></div>' +
+    li.className = (done ? "done" : "") + (p.gaveUp ? " gave" : "") + (p.me ? " me" : "") + (p.name === bumpName ? " bump" : "");
+    li.innerHTML = '<div><div class="who">' + CSDATA.esc(p.name) + '<span class="sc">' + scoreOf(p.key) + '分</span></div><span class="st">' + (done ? "已连通" : p.gaveUp ? "已放弃" : p.off ? "掉线中" : "摆牌中") + '</span></div>' +
       '<div class="hp">' + (h == null ? "—" : h) + '<small>跳</small></div>';
     ul.appendChild(li);
     if (!p.me) {
@@ -949,23 +1007,40 @@ function renderOpp(bumpName) {
     }
   });
   $("doneN").textContent = everyone().filter(function (p) { return p.t != null; }).length + "/" + everyone().length;
-  if (phase === "done") updateWait();
+  if (phase === "done" || phase === "gaveup") updateWait();
 }
 function finishRound(r) {
   if (over) return;
   over = true;
-  if (me.t == null) { phase = "over"; $("keys").textContent = "时间到"; }
+  if (me.t == null && !me.gaveUp) { phase = "over"; $("keys").textContent = "时间到"; }
   FINAL = (r.result ? r.result.rankings : []).map(function (x) {
     var b = x.best; if (b) b.route.forEach(ensurePlayer);
-    return { key: x.key, name: x.name, me: x.key === ME, hops: b ? b.jumps : null, t: b ? b.elapsedMs / 1000 : null, route: b ? b.routeIds : null };
+    return { key: x.key, name: x.name, me: x.key === ME, gaveUp: !!x.gaveUp, hops: b ? b.jumps : null, t: b ? b.elapsedMs / 1000 : null, route: b ? b.routeIds : null };
   });
   var isHost = r.hostKey === ME;
-  $("sbFoot").innerHTML = isHost
-    ? '<a href="' + lobbyUrl() + '">回大厅</a><button type="button" id="again">再来一局</button>'
-    : '<span class="wait">等房主开下一局</span><a href="' + lobbyUrl() + '">回大厅</a>';
-  if ($("again")) $("again").onclick = function () { goLobby("&rematch=1"); };
+  if (r.matchOver) {
+    $("sbFoot").innerHTML = isHost
+      ? '<a href="' + lobbyUrl() + '">回大厅</a><button type="button" id="again">再来一场</button>'
+      : '<span class="wait">等房主开新一场</span><a href="' + lobbyUrl() + '">回大厅</a>';
+    if ($("again")) $("again").onclick = function () { goLobby("&rematch=1"); };
+  } else if (r.nextRoundAtMs) {
+    // 整场没打完：比分保留，几秒后服务端自动发下一题，不用回大厅重新准备
+    $("sbFoot").innerHTML = '<span class="wait">第 ' + (r.roundNo + 1) + ' 局 <b id="nextN">' + nextLeft() + '</b> 秒后开始</span>' +
+      '<a href="' + lobbyUrl() + '">回大厅</a>' + (isHost ? '<button type="button" id="again">马上下一局</button>' : "");
+    if ($("again")) $("again").onclick = function () { this.disabled = true; CSNET.rpc("next", { roomId: r.id }).then(applyRoom); };
+  } else {
+    // 人不够了，或者这局谁都没动：不自动续，房主手动开
+    var alone = r.players.filter(function (x) { return !x.left; }).length < 2;
+    $("sbFoot").innerHTML = '<span class="wait">' + (alone ? "人不够了，回大厅等人" : "这局没人动，暂停自动续局") + '</span><a href="' + lobbyUrl() + '">回大厅</a>' +
+      (!alone && isHost ? '<button type="button" id="again">继续下一局</button>' : "");
+    if ($("again")) $("again").onclick = function () { this.disabled = true; CSNET.rpc("next", { roomId: r.id }).then(applyRoom); };
+  }
   renderAct(); renderOpp();
   setTimeout(function () { showBoard(false); }, RM ? 0 : 700);
+}
+function nextLeft() { return ROOMV && ROOMV.nextRoundAtMs ? Math.max(0, Math.ceil((ROOMV.nextRoundAtMs - now()) / 1000)) : 0; }
+function scoreLine() {
+  return ROOMV ? ROOMV.players.filter(function (x) { return !x.left; }).map(function (x) { return x.score || 0; }).join(" : ") : "";
 }
 function miniCard(id, cls) {
   var p = PLAYERS[id], n = CSDATA.esc(p.name);
@@ -979,8 +1054,12 @@ function showBoard(peek) {
   // 计分板已开着时只刷新数字，不重放入场动画
   sb.classList.toggle("live", !!peek && sb.classList.contains("on") && sb.classList.contains("peek"));
   sb.classList.toggle("peek", !!peek);
-  $("sbTitle").textContent = peek ? "计分板" : "比赛结束";
-  $("sbSub").textContent = peek ? "对局中只看得到跳数和是否连通" : "先比跳数 · 跳数一样比用时";
+  var champs = !peek && ROOMV && ROOMV.matchOver ? ROOMV.players.filter(function (x) { return !x.left && x.score >= ROOMV.targetScore; }).map(function (x) { return x.name; }) : [];
+  var no = ROOMV && ROOMV.roundNo ? "第 " + ROOMV.roundNo + " 局" : "本局";
+  var nobody = !peek && ROOMV && ROOMV.result && !ROOMV.result.winnerKeys.length;
+  $("sbTitle").textContent = peek ? "计分板 · " + no : champs.length ? "整场结束 · " + champs.join("、") + " 先到 " + ROOMV.targetScore + " 分" : no + "结束";
+  $("sbSub").textContent = peek ? "对局中只看得到跳数和是否连通 · 比分 " + scoreLine() + " · 先到 " + ROOMV.targetScore + " 分"
+    : (nobody ? "本局没人连通，不计分 · " : "") + "比分 " + scoreLine() + " · 先到 " + (ROOMV ? ROOMV.targetScore : "") + " 分赢整场";
   $("sbQ").innerHTML = '<span class="s">' + CSDATA.esc(PLAYERS[START].name) + '</span><i>→</i><span class="e">' + CSDATA.esc(PLAYERS[END].name) + '</span>';
   if (!START) return;
   var list = peek ? everyone().slice().sort(function (a, b) { return (b.t != null) - (a.t != null) || (a.me ? myLiveHops() : a.hops) - (b.me ? myLiveHops() : b.hops); }) : rankOf(everyone());
@@ -997,12 +1076,13 @@ function showBoard(peek) {
     li.className = (p.me ? "me" : "") + (!done && !peek ? " dnf" : "") + (rank && rank <= 3 ? " p" + rank : "");
     li.style.animationDelay = (peek ? 0 : 120 + i * 90) + "ms";
     var gap = !peek && done && win && p !== win ? (p.hops > win.hops ? "+" + (p.hops - win.hops) + " 跳" : "+" + fmt(p.t - win.t)) : "";
-    var route = peek ? '<span class="hid">' + (done ? "已连通 · 结束后公开" : "摆牌中") + '</span>'
-      : (p.route ? routeHtml(p.route) : '<span class="none">没连通</span>');
+    var route = peek ? '<span class="hid">' + (done ? "已连通 · 结束后公开" : p.gaveUp ? "<span class=\"gave\">已放弃</span>" : "摆牌中") + '</span>'
+      : (p.route ? routeHtml(p.route) : p.gaveUp ? '<span class="none gave">放弃了</span>' : '<span class="none">没连通</span>');
     li.innerHTML = '<span class="rk">' + (peek ? "" : rank || "—") + '</span>' +
       '<span class="nm">' + CSDATA.esc(p.name) + (p.me && p.name !== "你" ? "<small>你</small>" : "") + '</span>' +
       '<span class="hp">' + (h != null && (done || peek) ? h : "—") + '</span>' +
-      '<span class="tm">' + (peek ? (done ? "✓" : "…") : (done ? fmt(p.t) + (gap ? "<small>" + gap + "</small>" : "") : "DNF")) + '</span>' +
+      '<span class="tm">' + (peek ? (done ? "✓" : "…") : (done ? fmt(p.t) + (gap ? "<small>" + gap + "</small>" : "") : (p.gaveUp ? "<span class=\"gave\">弃</span>" : "DNF"))) + '</span>' +
+      '<span class="sc">' + scoreOf(p.key) + '</span>' +
       '<span class="rt">' + route + '</span>';
     body.appendChild(li);
   });
@@ -1015,6 +1095,8 @@ window.addEventListener("keyup", function (e) { if (e.key === "Tab") hideBoard()
 function tick() {
   if (!ROOMV || !ROOMV.round) return;
   var rd = ROOMV.round, total = Math.max(1, (rd.serverDeadlineAtMs - rd.serverStartedAtMs) / 1000);
+  preTick(rd);
+  if (over && $("nextN")) $("nextN").textContent = nextLeft();
   var left = over ? 0 : Math.max(0, Math.min(total, (rd.serverDeadlineAtMs - now()) / 1000));
   var whole = Math.ceil(left), mm = Math.floor(whole / 60), sec = whole % 60;
   $("clockN").textContent = mm + ":" + (sec < 10 ? "0" : "") + sec;
@@ -1025,6 +1107,29 @@ function tick() {
   if (!over && left <= 0 && Date.now() - lastSync > 1500) { lastSync = Date.now(); CSNET.rpc("sync", {}).then(applyRoom); }
 }
 var lastMine = null;
+/* 开表前：有人没进来就显示等人，到齐后 3-2-1-GO；GO 停留半秒后撤掉遮罩 */
+var preLast = null;
+function preTick(rd) {
+  var pre = $("pre"), n = $("preN"), msLeft = rd.serverStartedAtMs - now();
+  if (over || msLeft < -600) { if (pre.classList.contains("on")) { pre.classList.remove("on"); if (phase === "idle") $("q").focus(); } preLast = null; return; }
+  if (!pre.classList.contains("on")) {
+    pre.classList.add("on");
+    $("preQ").innerHTML = '<span class="s">' + CSDATA.esc(rd.start.nickname) + '</span><i>→</i><span class="e">' + CSDATA.esc(rd.end.nickname) + '</span>';
+  }
+  var waiting = (ROOMV.waitingKeys || []).length, key, txt, cls = "";
+  if (waiting && msLeft > 3000) {
+    key = "w" + waiting; txt = "等 " + waiting + " 人入场"; cls = "wt";
+    $("preS").textContent = "最多再等 " + Math.ceil((msLeft - 3000) / 1000) + " 秒 · 先到 " + ROOMV.targetScore + " 分赢";
+  } else {
+    var s = Math.ceil(msLeft / 1000); key = "c" + s;
+    txt = s <= 0 ? "GO" : String(s); cls = s <= 0 ? "go" : "";
+    $("preS").textContent = "每局 " + ROOMV.durationSeconds + " 秒 · 先到 " + ROOMV.targetScore + " 分赢";
+  }
+  if (key !== preLast) {
+    preLast = key; n.className = cls; n.textContent = txt;
+    n.style.animation = "none"; void n.offsetWidth; n.style.animation = "";
+  }
+}
 function renderOppMine() { var h = myLiveHops(); if (h !== lastMine) { lastMine = h; renderOpp(); } }
 $("q").addEventListener("keydown", function (e) {
   if (e.key !== "Enter") return;
@@ -1067,12 +1172,14 @@ window.addEventListener("resize", function () {
   layoutBoard(); layoutFan();
   if (verdicts.length) { clearBeams(); verdicts.forEach(function (_, i) { drawPair(i); }); }
 });
+/* 牌库下载和房间同步并行，谁慢等谁 */
+var firstSync = new Promise(function (ok) { withNet(function () { CSNET.rpc("sync", {}).then(ok); }); });
 CSDATA.ready.then(function () {
   withNet(async function () {
     CSNET.on(function (res) { if (res && res.room && ROOMV && res.room.id !== ROOMV.id) return; applyRoom(res); });
     CSNET.onConnect(function () { CSNET.rpc("sync", {}).then(applyRoom); });
     if (CSNET.onConnectError) CSNET.onConnectError(function (code) { $("keys").textContent = CSNET.error(code); });
-    var res = await CSNET.rpc("sync", {});
+    var res = await firstSync;
     if (res.code || !res.room) { location.replace("lobby.html" + (WANT ? "?room=" + encodeURIComponent(WANT) : "")); return; }
     applyRoom(res);
     setInterval(tick, 100);

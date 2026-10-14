@@ -106,7 +106,8 @@ async function main() {
   const redisReady = await initRedis();
   await initPlayerCache();
   const stopMatchWorker = redisReady ? await initMatchResultWorker() : async () => undefined;
-  const cslinkEnabled = process.env.NODE_ENV === 'development';
+  // 本地开发默认打开；正式环境显式设置 CSLINK_ENABLED=true 才挂 CS Link 接口和房间
+  const cslinkEnabled = process.env.NODE_ENV === 'development' || process.env.CSLINK_ENABLED === 'true';
   let cslink: CsLinkEvidence | null = null;
   if (cslinkEnabled && process.env.CSLINK_REVIEW_VERSION_DIR) {
     try {
@@ -170,6 +171,28 @@ async function main() {
       }
     }
   }
+  // 题目两端：有定妆照，且 2024 起还在 S/A 出场。中间人仍可用全部身份；源库不删人。
+  const portraitIds = new Set<string>();
+  const portraitDir = process.env.CSLINK_PORTRAIT_DIR;
+  if (portraitDir && fs.existsSync(portraitDir)) {
+    for (const file of fs.readdirSync(portraitDir)) {
+      const match = /^([1-9]\d{0,9})\.(?:png|jpe?g|webp)$/i.exec(file);
+      if (match) portraitIds.add(`hltv:${match[1]}`);
+    }
+    console.log(`[cslink] 定妆照 ${portraitIds.size} 张，对战题目只从这些选手里出`);
+  }
+  const activeIds = new Set<string>();
+  const activeFile = process.env.CSLINK_ACTIVE_IDS_FILE ||
+    path.resolve(__dirname, '../../client/public/cslink/data/active-ids.json');
+  if (fs.existsSync(activeFile)) {
+    const parsed = JSON.parse(fs.readFileSync(activeFile, 'utf8')) as { fromYear?: number; ids?: unknown };
+    if (Array.isArray(parsed.ids)) for (const id of parsed.ids) if (typeof id === 'string') activeIds.add(id);
+    console.log(`[cslink] 活跃名单 ${activeIds.size} 人（${parsed.fromYear ?? '?'} 年起有 S/A 出场），题目两端只从这些人里出`);
+  } else {
+    console.warn(`[cslink] 没找到活跃名单 ${activeFile}，题目两端不按出场年份过滤`);
+  }
+  const cslinkEndpointOk = (id: string) =>
+    (portraitIds.size === 0 || portraitIds.has(id)) && (activeIds.size === 0 || activeIds.has(id));
   let cslinkMerged: CsLinkMerged | null = null;
   if (cslink || cslinkCandidates) {
     try {
@@ -291,9 +314,9 @@ async function main() {
   app.use('/api/cslink/candidates', createCsLinkCandidateRoutes(cslinkCandidates, cslinkEnabled));
   app.use('/api/cslink/merged', createCsLinkMergedRoutes(cslinkMerged, cslinkEnabled));
   app.use('/api/cslink/play', createCsLinkPlayRoutes(cslinkPlay, cslinkCandidates, cslink, cslinkEnabled));
-  // 每日挑战两端也只出有定妆照的选手（portraitIds 在下面 socket 初始化前填好，请求时才读）
+  // 每日挑战两端和房间用同一个过滤（cslinkEndpointOk 在下面 socket 初始化前填好，请求时才读）
   const cslinkDaily = cslinkEnabled && cslinkPlay
-    ? new CsLinkDaily(cslinkPlay, (id: string) => portraitIds.size === 0 || portraitIds.has(id)) : null;
+    ? new CsLinkDaily(cslinkPlay, (id: string) => cslinkEndpointOk(id)) : null;
   app.use('/api/cslink/daily', createCsLinkDailyRoutes(cslinkDaily, cslinkEnabled));
   app.use('/api/cslink', createCsLinkRoutes(cslink, cslinkEnabled));
   app.use('/api/game', gameRoutes);
@@ -341,19 +364,12 @@ async function main() {
     }
   }
   const stopSocket = setupSocket(io);
-  // 题目两端只出有定妆照的选手（目录里 <hltvId>.png）；中间人仍可用全部身份
-  const portraitIds = new Set<string>();
-  const portraitDir = process.env.CSLINK_PORTRAIT_DIR;
-  if (portraitDir && fs.existsSync(portraitDir)) {
-    for (const file of fs.readdirSync(portraitDir)) {
-      const match = /^([1-9]\d{0,9})\.(?:png|jpe?g|webp)$/i.exec(file);
-      if (match) portraitIds.add(`hltv:${match[1]}`);
-    }
-    console.log(`[cslink] 定妆照 ${portraitIds.size} 张，对战题目只从这些选手里出`);
-  }
   const stopCsLinkRooms = cslinkEnabled && cslinkPlay ? setupCsLinkRooms(io, cslinkPlay, {
     countdownMs: 3_000,
-    endpointAllowed: portraitIds.size ? (id: string) => portraitIds.has(id) : undefined,
+    // 等所有人打开对战页的宽限上限；全员到齐后提前开表
+    arrivalGraceMs: 12_000,
+    interRoundMs: 6_000,
+    endpointAllowed: portraitIds.size || activeIds.size ? cslinkEndpointOk : undefined,
   }) : () => undefined;
 
   server.listen(config.port, () => {

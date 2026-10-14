@@ -47,6 +47,13 @@ def environment():
         'CORS_ORIGINS': 'http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000,http://127.0.0.1:3000',
         'UMAMI_WEBSITE_ID': '',
     })
+    # 通过 Cloudflare Tunnel 分享时，放行公网来源并信任一层代理的 X-Forwarded-For
+    public_origin = os.environ.get('CSLINK_PUBLIC_ORIGIN', '').strip().rstrip('/')
+    if public_origin:
+        if not public_origin.startswith('https://'):
+            raise RuntimeError('CSLINK_PUBLIC_ORIGIN must start with https://')
+        env['CORS_ORIGINS'] += ',' + public_origin
+        env['TRUST_PROXY'] = 'true'
     review_config = ROOT / 'data/cslink/local-review.json'
     if review_config.exists():
         version = json.loads(review_config.read_text())['version']
@@ -66,6 +73,9 @@ def environment():
     env.setdefault('SOCKET_MAX_CONNECTIONS_PER_IDENTITY', '32')
     if portrait_dir.is_dir():
         env['CSLINK_PORTRAIT_DIR'] = str(portrait_dir)
+    active_ids = ROOT / 'client/public/cslink/data/active-ids.json'
+    if active_ids.is_file():
+        env['CSLINK_ACTIVE_IDS_FILE'] = str(active_ids)
     for historical_base in (DATA / 'cslink/historical-as-batch-v1/current',
                             DATA / 'cslink/historical-as-v1'):
         # Resolve a moving `current` symlink once so both inputs come from the

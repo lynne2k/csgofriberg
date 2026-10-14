@@ -99,7 +99,7 @@ export class CsLinkDaily {
     return today;
   }
 
-  /** 打开题目：只登记参与，不开始计时 */
+  /** 打开题目：只登记参与，不开始计时；改了昵称就顺手更新显示名 */
   async start(key: string, name: string) {
     const today = this.today();
     if (!today) return { code: 'NO_QUESTION' as const };
@@ -107,6 +107,9 @@ export class CsLinkDaily {
     if (!run) {
       if (await runStore.size(today.date) >= MAX_ENTRIES_PER_DAY) return { code: 'DAILY_FULL' as const };
       run = { key, name, startedAtMs: null, attempts: 0, best: null };
+      await runStore.set(today.date, run);
+    } else if (run.name !== name) {
+      run.name = name;
       await runStore.set(today.date, run);
     }
     return { today, run: this.publicRun(run), serverNowMs: this.now() };

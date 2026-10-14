@@ -4,7 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CS Link · 房间</title>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+<link rel="prefetch" href="/cslink/data/players.json" />
+<link rel="prefetch" href="/cslink/data/edges.json" />
 <style>
 :root {
   --t: #f5a623; --ink: #0d0f14; --white: #fbfaf6;
@@ -48,6 +52,8 @@ button, input { font: inherit; }
 /* 入口：左橙建房，右蓝进房 */
 .entry { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 44px); padding: clamp(84px, 13vh, 130px) clamp(30px, 7vw, 120px) clamp(40px, 9vh, 90px); }
 .mat { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: clamp(22px, 3.4vw, 46px); border-radius: 18px; background: rgba(8,16,13,.38); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), inset 0 20px 50px rgba(0,0,0,.25); overflow: hidden; }
+.entry.solo { grid-template-columns: minmax(0, 620px); justify-content: center; }
+.entry.solo #fJoin { display: none; }
 .mat.focus { box-shadow: inset 0 0 0 1px rgba(245,166,35,.55), 0 0 0 1px rgba(245,166,35,.25), 0 0 40px rgba(245,166,35,.18), inset 0 20px 50px rgba(0,0,0,.25); }
 .mat::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--side); }
 .mat.t { --side: var(--t); } .mat.ct { --side: #6f86ff; }
@@ -71,6 +77,16 @@ button, input { font: inherit; }
 .join-in input:focus { outline: none; }
 .err { min-height: 20px; font-size: 14px; color: #ff9a9d; }
 .err code { font-family: var(--display); font-size: 11px; opacity: .6; margin-left: 6px; }
+
+/* 房间不存在 / 已关闭：单独一张提示牌，不退回两栏入口 */
+.gone { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; }
+.gone .card { position: relative; width: min(440px, 92vw); padding: 34px 30px 28px; border-radius: 18px; text-align: center; color: #2a1c10; transform: rotate(-1.2deg);
+  background: radial-gradient(circle at 20% 0%, rgba(255,255,255,.55), transparent 50%), linear-gradient(#f8f0de, #e3cfa6); box-shadow: inset 0 0 0 6px #f3ead6, inset 0 0 0 7px #8a6a3b, 0 24px 50px rgba(0,0,0,.5); }
+.gone .rid { font-family: var(--display); font-weight: 700; font-size: clamp(32px, 5vw, 48px); letter-spacing: .16em; line-height: 1; text-decoration: line-through; text-decoration-color: #c4383c; text-decoration-thickness: 4px; opacity: .8; }
+.gone h2 { margin-top: 16px; font-family: var(--display); font-size: 22px; letter-spacing: .12em; }
+.gone p { margin-top: 8px; font-size: 14px; color: #6b5233; }
+.gone .acts2 { margin-top: 24px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.gone .btn.ghost { color: #2a1c10; box-shadow: inset 0 0 0 1px rgba(42,28,16,.35); }
 
 /* 大厅 */
 .plate { position: absolute; top: clamp(22px, 4.5vh, 46px); left: 50%; transform: translateX(-50%) rotate(-1.5deg); z-index: 5; display: flex; align-items: center; gap: 16px; padding: 12px 14px 12px 22px; border-radius: 14px; color: #2a1c10;
@@ -175,6 +191,18 @@ button, input { font: inherit; }
 .status:empty { display: none; }
 @media (max-width: 860px) { .felt::after { top: 40%; font-size: 64px; } .seat.empty .plus { width: 26px; height: 26px; font-size: 17px; } }
 @media (prefers-reduced-motion: reduce) { .seat .in { transition: none; } .seat.deal, .count b, .view.on { animation: none; } }
+/* 房内设置：房主可改，其他人只看 */
+.ropts { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.ropts .grp { display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: rgba(0,0,0,.32); box-shadow: inset 0 0 0 1px rgba(245,210,140,.18); }
+.ropts .grp > span { font-size: 11px; letter-spacing: .14em; opacity: .65; padding: 0 6px 0 8px; }
+.ropts button { border: 0; cursor: pointer; min-width: 38px; height: 28px; padding: 0 9px; border-radius: 999px; background: transparent; color: #e7dcc4; font-family: var(--display); font-weight: 700; font-size: 13px; }
+.ropts button:hover:not(:disabled) { background: rgba(255,255,255,.08); }
+.ropts button[aria-pressed="true"] { background: var(--t); color: var(--ink); }
+.ropts button:disabled { cursor: default; }
+.ropts button:disabled:not([aria-pressed="true"]) { opacity: .45; }
+.seat .sc { position: absolute; top: 12%; left: 0; right: 0; text-align: center; font-family: var(--display); font-weight: 700; font-size: clamp(18px, 1.8vw, 26px); color: var(--t); text-shadow: 0 2px 6px rgba(0,0,0,.5); }
+.seat .sc small { font-size: .5em; opacity: .7; margin-left: 2px; }
+.status b.win { color: var(--t); }
 </style>
 </head>
 <body>
@@ -187,6 +215,14 @@ button, input { font: inherit; }
       <h2>开个房<small>开好把房间号发给兄弟</small></h2>
       <div class="opt"><span>每局时长</span><div class="chips" data-k="durationSeconds">
         <button type="button" class="chip" data-v="20" aria-pressed="true"><span>20<small>秒</small></span></button>
+        <button type="button" class="chip" data-v="30" aria-pressed="false"><span>30<small>秒</small></span></button>
+        <button type="button" class="chip" data-v="45" aria-pressed="false"><span>45<small>秒</small></span></button>
+        <button type="button" class="chip" data-v="60" aria-pressed="false"><span>60<small>秒</small></span></button>
+      </div></div>
+      <div class="opt"><span>先拿几分</span><div class="chips" data-k="targetScore">
+        <button type="button" class="chip" data-v="1" aria-pressed="false"><span>1<small>分</small></span></button>
+        <button type="button" class="chip" data-v="3" aria-pressed="true"><span>3<small>分</small></span></button>
+        <button type="button" class="chip" data-v="5" aria-pressed="false"><span>5<small>分</small></span></button>
       </div></div>
       <div class="opt"><span>最多人数</span><div class="chips" data-k="maxPlayers">
         <button type="button" class="chip" data-v="2" aria-pressed="false"><span>2<small>人</small></span></button>
@@ -207,6 +243,18 @@ button, input { font: inherit; }
   </div>
 </section>
 
+<section class="view" id="vGone" aria-label="房间不可用">
+  <div class="gone"><div class="card" role="alert">
+    <div class="rid" id="goneId"></div>
+    <h2 id="goneTitle">这个房间已经关了</h2>
+    <p id="goneMsg">可能大家都走了，或者房间超时自动关闭。</p>
+    <div class="acts2">
+      <button class="btn" type="button" id="goneCreate">自己开一个</button>
+      <button class="btn ghost" type="button" id="goneHome">回首页</button>
+    </div>
+  </div></div>
+</section>
+
 <section class="view" id="vLobby" aria-label="房间大厅">
   <div class="plate">
     <span class="lbl">房间号</span>
@@ -217,6 +265,7 @@ button, input { font: inherit; }
   <div class="ring"><div class="seats" id="ring"></div>
     <div class="center">
       <div class="status" id="status" role="status"></div>
+      <div class="ropts" id="ropts"></div>
       <div class="pips" id="pips" aria-hidden="true"></div>
       <div class="acts" id="acts"></div>
       <div class="err" id="eLobby" role="alert"></div>
@@ -231,6 +280,11 @@ button, input { font: inherit; }
 /* 真实房间：CSNET 由 /src/cslink/net.ts 提供（正式站同一条 socket、同一套访客身份） */
 var Q = new URLSearchParams(location.search);
 var ME = "", offset = 0;
+/* 首页点「创建房间」进来时，一渲染就是单栏建房，不等联网，避免先闪出两栏入口 */
+if (Q.get("create") && !Q.get("room")) {
+  document.querySelector(".entry").classList.add("solo");
+  document.getElementById("fCreate").classList.add("focus");
+}
 function rpc(event, p) { return window.CSNET ? CSNET.rpc(event, p || {}) : Promise.resolve({ code: "NETWORK_ERROR" }); }
 function now() { return Date.now() + offset; }
 function withNet(fn) { if (window.CSNET) fn(); else window.addEventListener("csnet", fn, { once: true }); }
@@ -249,13 +303,32 @@ function parseRoom(v) {
 }
 function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 function toast(msg) { var t = $("toast"); t.textContent = msg; t.className = "toast on"; clearTimeout(t._t); t._t = setTimeout(function () { t.className = "toast"; }, 2200); }
-function go(v) { view = v; $("vEntry").classList.toggle("on", v === "entry"); $("vLobby").classList.toggle("on", v === "lobby"); }
+function go(v) { view = v; $("vEntry").classList.toggle("on", v === "entry"); $("vLobby").classList.toggle("on", v === "lobby"); $("vGone").classList.toggle("on", v === "gone"); }
+/* 链接里的房间进不去：显示单独的提示牌，不退回建房/进房两栏 */
+var GONE_TEXT = {
+  ROOM_NOT_FOUND: ["这个房间已经关了", "可能大家都走了，或者房间超时自动关闭。"],
+  ROOM_NOT_JOINABLE: ["这局已经开打了", "等这一局结束后再用链接进来，或者自己开一个。"],
+  ROOM_FULL: ["房间满员了", "让房主开个人数更多的房间，或者自己开一个。"]
+};
+function showGone(id, code, reason) {
+  var t = GONE_TEXT[code] || ["进不去这个房间", duelError(code, reason)];
+  $("goneId").textContent = id || "";
+  $("goneTitle").textContent = t[0]; $("goneMsg").textContent = t[1];
+  history.replaceState(null, "", location.pathname);
+  $("toast").className = "toast";
+  go("gone");
+}
 
 function accept(res) {
   if (!res) return;
   if (res.meKey) ME = res.meKey;
   if (res.serverNowMs) offset = res.serverNowMs - Date.now();
-  if (res.room === null) { latestRev = 0; shown = null; dealt = {}; history.replaceState(null, "", location.pathname); go("entry"); return; }
+  if (res.room === null) {
+    latestRev = 0; shown = null; dealt = {};
+    /* 提示牌、或正在按链接进房时，服务端推来的「不在房间」不要把页面切回两栏入口 */
+    if (view === "gone" || (!booted && Q.get("room"))) return;
+    history.replaceState(null, "", location.pathname); go("entry"); return;
+  }
   if (!res.room) return;
   if (shown && shown.id === res.room.id && res.room.revision < latestRev) return; /* 丢弃旧 revision */
   latestRev = res.room.revision; shown = res.room;
@@ -281,19 +354,23 @@ function pick(k) { return Number(document.querySelector('.chips[data-k="' + k + 
 /* create / join 之外的事件都带上当前房间号，和 CsLinkDuel.tsx 一致 */
 async function call(event, payload, errId) {
   if (busy) return null; busy = true; showErr(errId);
+  if ((event === "create" || event === "join") && window.CSNICK) await CSNICK.ensure();
   var body = Object.assign({}, payload || {});
   if (event !== "create" && event !== "join" && shown) body.roomId = shown.id;
   var res = await rpc(event, body); busy = false;
   if (res.code) { showErr(errId, res.code, res.reason); return null; }
   accept(res); return res;
 }
-$("fCreate").onsubmit = function (e) { e.preventDefault(); call("create", { durationSeconds: pick("durationSeconds"), maxPlayers: pick("maxPlayers") }, "eCreate"); };
+$("fCreate").onsubmit = function (e) { e.preventDefault(); call("create", { durationSeconds: pick("durationSeconds"), maxPlayers: pick("maxPlayers"), targetScore: pick("targetScore") }, "eCreate"); };
 $("fJoin").onsubmit = function (e) {
   e.preventDefault(); var id = parseRoom($("joinIn").value);
   if (!id) return showErr("eJoin", "ROOM_NOT_FOUND");
   call("join", { roomId: id }, "eJoin");
 };
 $("joinIn").addEventListener("input", function () { showErr("eJoin"); });
+$("joinIn").addEventListener("paste", function () {
+  setTimeout(function () { var id = parseRoom($("joinIn").value); if (id && /[\/?]/.test($("joinIn").value)) { $("joinIn").value = id; $("fJoin").requestSubmit(); } }, 0);
+});
 
 /* 大厅：座位沿椭圆排开，自己在正下方 */
 function seatPos(i, n) {
@@ -313,7 +390,8 @@ function render(r) {
   var act = r.players.filter(function (x) { return !x.left; });
   var me = act.find(function (x) { return x.key === ME; }), isHost = r.hostKey === ME;
   $("code").textContent = r.id;
-  $("meta").innerHTML = "<span><b>" + r.durationSeconds + "</b>秒一局</span><span><b>" + act.length + "</b>/ " + r.maxPlayers + " 人</span>";
+  $("meta").innerHTML = "<span><b>" + r.durationSeconds + "</b>秒一局</span><span>先到<b>" + r.targetScore + "</b>分</span><span><b>" + act.length + "</b>/ " + r.maxPlayers + " 人</span>";
+  renderOpts(r, isHost);
   var ring = $("ring");
   ring.querySelectorAll(".seat").forEach(function (s) { s.remove(); });
   var order = (me ? [me] : []).concat(act.filter(function (x) { return x !== me; }));
@@ -333,18 +411,21 @@ function render(r) {
     if (!dealt[p.key]) { s.classList.add("deal"); s.style.animationDelay = (i * 0.06) + "s"; dealt[p.key] = 1; }
     var st = !p.connected ? "掉线中" : p.ready ? "已准备" : "没准备";
     var tags = (p.key === r.hostKey ? '<i class="host">房主</i>' : "") + (p.key === ME ? "<i>你</i>" : "");
-    var face = '<span class="nm">' + esc(p.name) + '</span><span class="st">' + st + '</span>';
+    var face = '<span class="sc">' + (p.score || 0) + '<small>/' + r.targetScore + '</small></span><span class="nm">' + esc(p.name) + '</span><span class="st">' + st + '</span>';
     s.innerHTML = '<div class="tag">' + tags + '</div><div class="in"><div class="f bk">' + face + '</div><div class="f fr">' + face + '</div></div>';
     s.setAttribute("role", "img");
-    s.setAttribute("aria-label", p.name + (p.key === r.hostKey ? "，房主" : "") + "，" + st);
+    s.setAttribute("aria-label", p.name + (p.key === r.hostKey ? "，房主" : "") + "，" + (p.score || 0) + " 分，" + st);
     ring.appendChild(s);
   }
   $("pips").innerHTML = r.status === "lobby" ? act.map(function (x) { return "<i" + (x.ready && x.connected ? ' class="y"' : "") + "></i>"; }).join("") : "";
   var acts = $("acts"); acts.innerHTML = "";
-  if (r.status === "playing") { $("status").innerHTML = "开打"; countdown(r); return; }
+  /* 开局后立刻进对战页，倒计时在对战页等所有人到齐后再走 */
+  if (r.status === "playing") { $("status").innerHTML = "开打"; enterDuel(r); return; }
   if (r.status === "finished") {
-    $("status").innerHTML = isHost ? "这局打完了" : "等房主开下一局";
-    if (isHost) { var rm = document.createElement("button"); rm.type = "button"; rm.className = "btn main"; rm.textContent = "再来一局";
+    var champ = r.matchOver ? act.filter(function (x) { return x.score >= r.targetScore; }).map(function (x) { return esc(x.name); }) : [];
+    $("status").innerHTML = r.matchOver ? "<b class=\"win\">" + champ.join("、") + "</b> 先拿到 " + r.targetScore + " 分" + (isHost ? "" : " · 等房主开新一场")
+      : (isHost ? "这局打完了" : "等房主开下一局");
+    if (isHost) { var rm = document.createElement("button"); rm.type = "button"; rm.className = "btn main"; rm.textContent = r.matchOver ? "再来一场" : "再来一局";
       rm.onclick = function () { call("rematch", {}, "eLobby"); }; acts.appendChild(rm); }
     var lv = document.createElement("button"); lv.type = "button"; lv.className = "btn ghost"; lv.textContent = "退出";
     lv.onclick = function () { call("leave", {}, "eLobby"); }; acts.appendChild(lv);
@@ -385,27 +466,38 @@ async function copyLink() {
 }
 $("copy").onclick = copyLink; $("code").onclick = copyLink;
 $("back").onclick = function () { if (view === "lobby") call("leave", {}, "eLobby"); else if (window.CSWipe) CSWipe.go("/cslink/", "home"); else location.href = "/cslink/"; };
+$("goneHome").onclick = function () { if (window.CSWipe) CSWipe.go("/cslink/", "home"); else location.href = "/cslink/"; };
+$("goneCreate").onclick = function () {
+  document.querySelector(".entry").classList.add("solo"); $("fCreate").classList.add("focus"); go("entry");
+  var cb = $("fCreate").querySelector(".chip[aria-pressed=true]"); if (cb) cb.focus({ preventScroll: true });
+};
 
 /* 倒计时按服务端的 serverStartedAtMs 走，所有人同时归零 */
-function countdown(r) {
+function enterDuel(r) {
   if (counting) return; counting = true;
-  var c = $("count"), n = $("countN"), last = null;
-  $("countS").textContent = r.round.start.nickname + " → " + r.round.end.nickname;
-  c.classList.add("on");
-  (function step() {
-    var left = Math.ceil((r.round.serverStartedAtMs - now()) / 1000);
-    if (left !== last) {
-      last = left; n.className = left <= 0 ? "go" : ""; n.textContent = left <= 0 ? "GO" : left;
-      void n.offsetWidth; n.style.animation = "none"; void n.offsetWidth; n.style.animation = "";
-    }
-    if (left <= -0) {
-      return setTimeout(function () {
-        var dUrl = "duel.html?room=" + r.id;
-        if (window.CSWipe) CSWipe.go(dUrl, "ink"); else location.href = dUrl;
-      }, 650);
-    }
-    setTimeout(step, 80);
-  })();
+  var dUrl = "duel.html?room=" + r.id;
+  if (window.CSWipe) CSWipe.go(dUrl, "ink"); else location.href = dUrl;
+}
+/* 房内设置：时长和目标分。改目标分会把比分清零（服务端处理） */
+var OPT_DUR = [20, 30, 45, 60], OPT_SCORE = [1, 3, 5];
+function renderOpts(r, isHost) {
+  var box = $("ropts");
+  if (r.status !== "lobby") { box.innerHTML = ""; return; }
+  function grp(label, k, vals, cur, unit) {
+    if (vals.indexOf(cur) < 0) vals = vals.concat([cur]).sort(function (a, b) { return a - b; });
+    return '<div class="grp" role="group" aria-label="' + label + '"><span>' + label + '</span>' + vals.map(function (v) {
+      return '<button type="button" data-k="' + k + '" data-v="' + v + '" aria-pressed="' + (v === cur) + '"' + (isHost ? "" : " disabled") + '>' + v + unit + '</button>';
+    }).join("") + '</div>';
+  }
+  box.innerHTML = grp("每局", "durationSeconds", OPT_DUR, r.durationSeconds, "s") + grp("先到", "targetScore", OPT_SCORE, r.targetScore, "分");
+  if (!isHost) return;
+  box.querySelectorAll("button").forEach(function (b) {
+    b.onclick = function () {
+      if (b.getAttribute("aria-pressed") === "true") return;
+      var body = {}; body[b.dataset.k] = Number(b.dataset.v);
+      call("options", body, "eLobby");
+    };
+  });
 }
 
 var booted = false;
@@ -417,9 +509,14 @@ async function restore() {
   var res = await rpc("sync", {});
   if (!res.code && want && (!res.room || res.room.id !== want)) {
     if (res.room) { accept(res); return showErr("eLobby", "ALREADY_IN_ROOM"); }
+    if (window.CSNICK) await CSNICK.ensure();
     res = await rpc("join", { roomId: want });
   }
-  if (res.code || !res.room) { accept(res.code ? { meKey: res.meKey, serverNowMs: res.serverNowMs } : res); go("entry"); if (want) showErr("eJoin", res.code, res.reason); return; }
+  if (res.code || !res.room) {
+    accept(res.code ? { meKey: res.meKey, serverNowMs: res.serverNowMs } : res);
+    if (want) return showGone(want, res.code || "ROOM_NOT_FOUND", res.reason);
+    go("entry"); return;
+  }
   accept(res);
   /* 对局结束后从 duel.html 回来：房主直接开下一局，其他人在大厅等 */
   if (Q.get("rematch") && res.room.status === "finished" && res.room.hostKey === ME) await call("rematch", {}, "eLobby");
@@ -430,6 +527,7 @@ withNet(async function boot() {
     history.replaceState(null, "", location.pathname);
     var res = await rpc("sync", {});
     if (!res.code && res.room) { booted = true; return accept(res); }
+    document.querySelector(".entry").classList.add("solo");
     go("entry"); $("fCreate").classList.add("focus");
     var cb = $("fCreate").querySelector(".chip[aria-pressed=true]"); if (cb) cb.focus({ preventScroll: true });
     booted = true; return;

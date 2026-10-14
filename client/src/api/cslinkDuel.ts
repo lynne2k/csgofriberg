@@ -22,14 +22,21 @@ export interface DuelRoom {
   hostKey: string;
   maxPlayers: number;
   durationSeconds: number;
+  /** First player to this many round wins takes the match. */
+  targetScore: number;
+  matchOver: boolean;
+  roundNo: number;
+  nextRoundAtMs: number | null;
+  /** Players who have not opened the duel page for the current round yet. */
+  waitingKeys: string[];
   players: { key: string; name: string; connected: boolean; ready: boolean; left: boolean;
-    best: { jumps: number; elapsedMs: number | null } | null }[];
+    score: number; gaveUp: boolean; best: { jumps: number; elapsedMs: number | null } | null }[];
   round: { roundId: string; dataVersion: string; start: PlayPlayer; end: PlayPlayer;
     serverStartedAtMs: number; serverDeadlineAtMs: number; maxJumps: number } | null;
   myBest: DuelFinish | null;
   result: { winnerKeys: string[];
     reason: 'all_incomplete' | 'one_completed' | 'fewer_jumps' | 'faster_time' | 'exact_tie';
-    rankings: { key: string; name: string; rank: number | null; best: DuelFinish | null; left: boolean }[];
+    rankings: { key: string; name: string; rank: number | null; best: DuelFinish | null; left: boolean; gaveUp: boolean }[];
   } | null;
 }
 
@@ -76,6 +83,8 @@ export function duelError(code?: string, reason?: string): string {
     NO_ACTIVE_PLAYERS: '房间里没有可参加下一局的玩家。',
     EVENT_ID_CONFLICT: '这次提交已处理，请同步房间后重试。',
     TOO_MANY_SUBMISSIONS: '本局提交次数已达上限。',
+    GAVE_UP: '你已放弃本局，等下一局吧。',
+    ALREADY_CONNECTED: '你已经连通了，不用放弃。',
     CSLINK_DUEL_UNAVAILABLE: '多人路径房间尚未加载，请稍后重试。',
     NETWORK_ERROR: '连接已断开，重连后会恢复房间和已提交成绩。',
     REQUEST_TIMEOUT: '服务器暂未回复。可以同步房间，确认刚才的操作是否已成功。',
