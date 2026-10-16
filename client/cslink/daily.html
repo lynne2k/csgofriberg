@@ -130,7 +130,7 @@ button, input { font: inherit; }
 .fan .sep { position: absolute; bottom: calc(var(--hand-w) * 1.4 + 22px); transform: translateX(-50%); font-family: var(--display); font-size: 11px; letter-spacing: .14em; color: rgba(243,234,214,.5); pointer-events: none; white-space: nowrap; transition: left .25s, opacity .2s; }
 .fan .card.leaving { opacity: 0; transform: scale(.72) rotate(0deg); pointer-events: none; }
 
-.board { position: absolute; left: 40px; right: var(--rail); top: 39%; transform: translateY(-50%); height: calc(var(--card-w) * 1.7); z-index: 3; }
+.board { position: absolute; left: 40px; right: calc(var(--rail) + 40px); top: 39%; transform: translateY(-50%); height: calc(var(--card-w) * 1.7); z-index: 3; }
 .row { position: absolute; inset: 0; }
 .beams { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 60; }
 .beams path { fill: none; }
@@ -180,6 +180,8 @@ button, input { font: inherit; }
   .back { top: 22px; left: 30px; }
   .qno { display: none; }
   .top { top: 54px; left: 50%; gap: 8px; }
+  .board { right: 40px; }
+  .act { left: 50%; }
   .hud > div { padding: 6px 12px; }
   .hud .side { min-width: 74px; }
   .hud .side b { font-size: 22px; }
@@ -419,7 +421,7 @@ function renderBoard() {
       t.className = "thud";
       t.style.left = (parseFloat(hit.style.left) + geo.w / 2) + "px";
       t.style.top = (geo.top + geo.w * 1.4 - 6) + "px";
-      row.appendChild(t);
+      $("board").appendChild(t);   // 别塞进 #row：会被当成一张牌参与居中计算
       setTimeout(function () { t.remove(); }, 600);
     }
     landed = null;
@@ -763,6 +765,7 @@ async function linkUp(ids, seq) {
     renderAct(); ding("bad"); return;
   }
   if (res.run) { RUN = res.run; renderHud(); }
+  FROZEN = res.finish.elapsedMs; $("clockN").textContent = fmtMs(FROZEN);
   result = "ok"; renderAct();
   $("keys").textContent = (ids.length - 1) + " 跳连通 · " + fmtSec(res.finish.elapsedMs) + (res.improved ? " · 刷新个人最佳" : "");
   celebrate(); ding("win");
@@ -776,7 +779,12 @@ function renderHud() {
   bn.innerHTML = b ? "<i>" + b.jumps + "<small>跳</small></i><i class=\"t\">" + fmtSec(b.elapsedMs) + "</i>" : "还没连通";
 }
 /* 没放过牌之前不计时，停在 0:00 */
-setInterval(function () { if (RUN) $("clockN").textContent = RUN.startedAtMs == null ? "0:00" : fmtMs(Date.now() + CLOCK_OFF - RUN.startedAtMs); }, 250);
+/* 连通后停在这次的成绩；再动桌上的牌就恢复走表（服务端仍从开局算） */
+var FROZEN = null;
+setInterval(function () {
+  if (!RUN) return;
+  $("clockN").textContent = FROZEN != null ? fmtMs(FROZEN) : RUN.startedAtMs == null ? "0:00" : fmtMs(Date.now() + CLOCK_OFF - RUN.startedAtMs);
+}, 250);
 /* 第一次放牌时让服务端开始计时；只调一次，失败下次放牌再试 */
 var beginning = false;
 async function beginClock() {
@@ -811,7 +819,7 @@ $("nickBtn").onclick = async function (e) {
   loadBoard();
 };
 function clearResult() {
-  result = null; verdicts = []; activePair = -1;
+  result = null; verdicts = []; activePair = -1; FROZEN = null;
   clearBeams(); layoutBoard(); renderAct();
   $("keys").textContent = HINT;
 }
@@ -906,6 +914,7 @@ CSDATA.ready.then(function () { return new Promise(withDaily); }).then(function 
   PLAYERS = CSDATA.players;
   if (!res || res.code) { $("keys").textContent = dailyErr(res && res.code); return; }
   TODAY = res.today; RUN = res.run; CLOCK_OFF = res.serverNowMs - Date.now();
+  if (RUN && RUN.best) FROZEN = RUN.best.elapsedMs;
   ensurePlayer(TODAY.start); ensurePlayer(TODAY.end);
   START = TODAY.start.id; END = TODAY.end.id;
   $("qno").textContent = "每日挑战 #" + TODAY.no;
