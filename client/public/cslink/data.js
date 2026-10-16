@@ -17,10 +17,14 @@
     return p.maps + " 张图";
   }
   var ready = Promise.all([fetch("data/players.json").then(function (r) { return r.json(); }),
-    fetch("data/edges.json").then(function (r) { return r.json(); })]).then(function (res) {
+    fetch("data/edges.json").then(function (r) { return r.json(); }),
+    // 老将名单：不再活跃但知名度够的人，照样能搜到；文件缺失时不影响其他数据
+    fetch("data/popularity.json").then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })]).then(function (res) {
+    var legend = {};
+    (res[2].legends || []).forEach(function (id) { legend[id] = true; });
     res[0].forEach(function (r) {
       var p = { id: r[0], name: r[1], img: r[2] ? "portraits/" + r[2] + ".png" : null, maps: r[3], ctx: r[4], team: r[5] || "", key: norm(r[1]),
-        active: r.length < 7 || (r[6] != null && r[6] >= ACTIVE_FROM_YEAR) };   // 旧格式没有年份时不过滤
+        active: r.length < 7 || (r[6] != null && r[6] >= ACTIVE_FROM_YEAR) || !!legend[r[0]] };   // 旧格式没有年份时不过滤
       p.tag = tagOf(p);
       PLAYERS[p.id] = p; LIST.push(p);
     });

@@ -198,9 +198,12 @@ async function main() {
   const popularity = new Map<string, number>();
   const popularityFile = path.resolve(__dirname, '../../client/public/cslink/data/popularity.json');
   if (fs.existsSync(popularityFile)) {
-    const parsed = JSON.parse(fs.readFileSync(popularityFile, 'utf8')) as { scores?: Record<string, unknown> };
+    const parsed = JSON.parse(fs.readFileSync(popularityFile, 'utf8')) as { scores?: Record<string, unknown>; legends?: unknown };
     for (const [id, score] of Object.entries(parsed.scores ?? {})) if (typeof score === 'number') popularity.set(id, score);
-    console.log(`[cslink] 热度分 ${popularity.size} 人，难度分档按近期赛事排名`);
+    // 老将名单：2024 起不再打 S/A、但新老赛事加权后仍排进前列的人，放回题目两端
+    const legends = Array.isArray(parsed.legends) ? parsed.legends.filter((id): id is string => typeof id === 'string') : [];
+    if (activeIds.size) for (const id of legends) activeIds.add(id);
+    console.log(`[cslink] 热度分 ${popularity.size} 人（新老赛事加权），放回老将 ${legends.length} 人`);
   } else {
     console.warn(`[cslink] 没找到热度分 ${popularityFile}，难度分档退回按生涯图数排名`);
   }
