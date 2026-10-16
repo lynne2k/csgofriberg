@@ -1054,6 +1054,7 @@ function renderOpp(bumpName) {
   $("doneN").textContent = everyone().filter(function (p) { return p.t != null; }).length + "/" + everyone().length;
   if (phase === "done" || phase === "gaveup") updateWait();
 }
+var BACK_AT = 0;
 function finishRound(r) {
   if (over) return;
   over = true;
@@ -1064,10 +1065,10 @@ function finishRound(r) {
   });
   var isHost = r.hostKey === ME;
   if (r.matchOver) {
-    $("sbFoot").innerHTML = isHost
-      ? '<a href="' + lobbyUrl() + '">回大厅</a><button type="button" id="again">再来一场</button>'
-      : '<span class="wait">等房主开新一场</span><a href="' + lobbyUrl() + '">回大厅</a>';
-    if ($("again")) $("again").onclick = function () { goLobby("&rematch=1"); };
+    // 整场结束：只看结果，倒数完自动回大厅；房主在大厅里开新一场
+    BACK_AT = Date.now() + 8000;
+    $("sbFoot").innerHTML = '<span class="wait"><b id="backN">8</b> 秒后回大厅</span>';
+    setTimeout(function () { goLobby(""); }, 8000);
   } else if (r.nextRoundAtMs) {
     // 整场没打完：只给大家看路线，倒计时到了服务端自动发下一题，不放任何按钮
     $("sbFoot").innerHTML = '<span class="wait">第 ' + (r.roundNo + 1) + ' 局 <b id="nextN">' + nextLeft() + '</b> 秒后开始</span>';
@@ -1141,6 +1142,7 @@ function tick() {
   var rd = ROOMV.round, total = Math.max(1, (rd.serverDeadlineAtMs - rd.serverStartedAtMs) / 1000);
   preTick(rd);
   if (over && $("nextN")) $("nextN").textContent = nextLeft();
+  if (over && $("backN")) $("backN").textContent = Math.max(0, Math.ceil((BACK_AT - Date.now()) / 1000));
   var left = over ? 0 : Math.max(0, Math.min(total, (rd.serverDeadlineAtMs - now()) / 1000));
   var whole = Math.ceil(left), mm = Math.floor(whole / 60), sec = whole % 60;
   $("clockN").textContent = mm + ":" + (sec < 10 ? "0" : "") + sec;
