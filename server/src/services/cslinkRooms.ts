@@ -65,6 +65,8 @@ export interface CsLinkRoomOptions {
   arrivalGraceMs?: number;
   /** Pause between rounds of an unfinished match before the next one starts by itself. */
   interRoundMs?: number;
+  /** How long a lobby seat survives without any live socket before it is freed. */
+  lobbyDropMs?: number;
 }
 
 /** Single-process local rooms. Every round keeps the exact game graph from its creation. */
@@ -72,6 +74,8 @@ export class CsLinkRooms {
   private rooms = new Map<string, Room>();
   private membership = new Map<string, string>();
   private connections = new Map<string, Set<string>>();
+  private dropTimers = new Map<string, ReturnType<typeof setTimeout>>();
+  private lobbyDropMs: number;
   private now: () => number;
   private expiry: ReturnType<typeof setInterval>;
   private roomTtlMs: number;
@@ -93,12 +97,15 @@ export class CsLinkRooms {
     this.countdownMs = Math.max(0, options.countdownMs ?? 0);
     this.arrivalGraceMs = Math.max(0, options.arrivalGraceMs ?? 0);
     this.interRoundMs = options.interRoundMs === undefined ? null : Math.max(0, options.interRoundMs);
+    this.lobbyDropMs = Math.max(0, options.lobbyDropMs ?? 15_000);
     this.expiry = setInterval(() => this.sweep(), 30_000);
     this.expiry.unref?.();
   }
 
   stop() {
     clearInterval(this.expiry);
+    for (const timer of this.dropTimers.values()) clearTimeout(timer);
+    this.dropTimers.clear();
     for (const room of this.rooms.values()) { if (room.timer) clearTimeout(room.timer); this.cancelNext(room); }
     this.rooms.clear(); this.membership.clear(); this.connections.clear();
   }
@@ -107,6 +114,8 @@ export class CsLinkRooms {
     let connections = this.connections.get(identity.key);
     if (!connections) { connections = new Set(); this.connections.set(identity.key, connections); }
     connections.add(socketId);
+    const pending = this.dropTimers.get(identity.key);
+    if (pending) { clearTimeout(pending); this.dropTimers.delete(identity.key); }
     const room = this.roomFor(identity.key);
     if (room && !this.member(room, identity.key)?.left) this.notify(room);
   }
@@ -117,6 +126,16 @@ export class CsLinkRooms {
     if (!connections?.size) this.connections.delete(key);
     const room = this.roomFor(key);
     if (room) this.notify(room);
+    // A lobby seat held by someone who closed the tab would block start() forever; free it after a grace period.
+    if (room && room.status === 'lobby' && !this.isConnected(key) && !this.dropTimers.has(key)) {
+      const timer = setTimeout(() => {
+        this.dropTimers.delete(key);
+        const current = this.roomFor(key);
+        if (current && current.status === 'lobby' && !this.isConnected(key)) this.leave(key, current.id);
+      }, this.lobbyDropMs);
+      timer.unref?.();
+      this.dropTimers.set(key, timer);
+    }
   }
 
   sync(key: string): CsLinkRoomReply {

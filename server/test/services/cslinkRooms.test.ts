@@ -265,6 +265,22 @@ describe('CS Link local room authority', () => {
     expect(submit('outsider', room).code).toBe('NOT_IN_ROOM');
   });
 
+  it('frees a lobby seat after a disconnect grace period and hands host over', () => {
+    const roomId = lobby(2);
+    rooms.disconnect('a', 'a1');
+    vi.advanceTimersByTime(10_000);
+    rooms.connect(identity('a'), 'a2');
+    vi.advanceTimersByTime(10_000);
+    expect(rooms.sync('b').room!.players.map(p => p.key)).toEqual(['a', 'b']);
+    rooms.disconnect('a', 'a2');
+    vi.advanceTimersByTime(15_001);
+    const view = rooms.sync('b').room!;
+    expect(view.players.map(p => p.key)).toEqual(['b']);
+    expect(view.hostKey).toBe('b');
+    rooms.connect(identity('c'), 'c1');
+    expect(rooms.join(identity('c'), roomId).code).toBeUndefined();
+  });
+
   it('restores scores by authenticated identity across disconnects and multiple tabs', () => {
     const room = playing(); vi.advanceTimersByTime(1234); submit('a', room);
     rooms.connect(identity('a'), 'a2'); rooms.disconnect('a', 'a1');

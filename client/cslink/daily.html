@@ -167,7 +167,8 @@ button, input { font: inherit; }
 .lb li:nth-child(1) .r { color: #ffd166; opacity: 1; } .lb li:nth-child(2) .r { color: #d9dde6; opacity: 1; } .lb li:nth-child(3) .r { color: #d29a64; opacity: 1; }
 .lb li .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--body); font-weight: 700; }
 .lb li .h, .lb li .s { text-align: right; } .lb li .h { color: var(--t); } .lb li .s { opacity: .75; }
-.lb .foot { display: grid; grid-template-columns: 22px 1fr 34px 54px; gap: 6px; padding: 6px 14px 10px; border-top: 1px solid rgba(255,255,255,.1); font-size: 13px; opacity: .85; white-space: nowrap; }
+.lb .foot { display: grid; grid-template-columns: 22px minmax(0, 1fr) 34px 54px; gap: 6px; padding: 6px 14px 10px; border-top: 1px solid rgba(255,255,255,.1); font-size: 13px; opacity: .85; white-space: nowrap; }
+.lb .foot > span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; }
 
 .fan { position: absolute; left: 60px; right: var(--rail); bottom: 0; height: 190px; z-index: 6; }
 .fan .card { --w: var(--hand-w); transform-origin: 50% 130%; transform: rotate(var(--rot, 0deg)); }

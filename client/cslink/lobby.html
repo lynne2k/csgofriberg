@@ -128,7 +128,8 @@ button, input { font: inherit; }
 .seat .tag i.host { background: var(--t); color: var(--ink); }
 .seat.me .f { outline: 2px solid var(--t); outline-offset: 3px; }
 .seat.me::after { content: ""; position: absolute; left: 50%; bottom: -16px; width: 60%; height: 6px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(rgba(245,166,35,.55), transparent 70%); }
-.seat.off .in { filter: grayscale(.85) brightness(.6); }
+/* 滤镜放在翻转容器上会压平 preserve-3d，已准备的卡掉线后文字会镜像；放到两面上 */
+.seat.off .f { filter: grayscale(.85) brightness(.6); }
 .seat.off .st { color: #ff9a9d; opacity: 1; }
 .seat.empty { border-radius: 9px; background: rgba(0,0,0,.16); box-shadow: inset 0 0 0 2px rgba(245,210,140,.08), inset 0 8px 20px rgba(0,0,0,.25); display: grid; place-items: center; font-family: var(--display); font-size: 12px; letter-spacing: .2em; color: rgba(255,255,255,.3); }
 .seat.deal { animation: deal .5s cubic-bezier(.2,.9,.3,1.15) backwards; }
@@ -210,6 +211,14 @@ button, input { font: inherit; }
 .seat .sc { position: absolute; top: 12%; left: 0; right: 0; text-align: center; font-family: var(--display); font-weight: 700; font-size: clamp(18px, 1.8vw, 26px); color: var(--t); text-shadow: 0 2px 6px rgba(0,0,0,.5); }
 .seat .sc small { font-size: .5em; opacity: .7; margin-left: 2px; }
 .status b.win { color: var(--t); }
+/* 宽屏大厅：座位上下各贴着房间号和桌沿，中间留给设置和按钮，不再互相压住 */
+@media (min-width: 861px) {
+  :root { --seat-w: min(clamp(92px, 8.4vw, 128px), 15vh); --seat-h: calc(var(--seat-w) * 1.4); }
+  .ring { top: 0; bottom: 0; height: auto; transform: translateX(-50%); }
+  .seats { inset: calc(178px + var(--seat-h) / 2) 0 calc(28px + var(--seat-h) / 2); }
+  .ring::before { inset: calc(178px + var(--seat-h) * .2) 9% calc(28px + var(--seat-h) * .2); }
+  .center { top: calc(50% + 75px); width: min(720px, 74%); gap: 12px; }
+}
 </style>
 </head>
 <body>
@@ -388,13 +397,13 @@ $("joinIn").addEventListener("paste", function () {
 /* 大厅：座位沿椭圆排开，自己在正下方 */
 function seatPos(i, n) {
   var a = Math.PI / 2 + (i / n) * Math.PI * 2, narrow = innerWidth <= 860;
-  return { x: 50 + Math.cos(a) * (narrow ? 36 : 43), y: 50 + Math.sin(a) * (narrow ? 34 : 40) };
+  return { x: 50 + Math.cos(a) * (narrow ? 36 : 43), y: 50 + Math.sin(a) * (narrow ? 34 : 50) };
 }
 function blocker(r) {
   var act = r.players.filter(function (x) { return !x.left; });
   if (act.length < 2) return "等兄弟进房，至少 2 人";
   var off = act.filter(function (x) { return !x.connected; });
-  if (off.length) return "<b>" + esc(off[0].name) + "</b> 掉线了，等他回来";
+  if (off.length) return "<b>" + esc(off[0].name) + "</b> 掉线了，15 秒内没回来就让出座位";
   var nr = act.filter(function (x) { return !x.ready; });
   if (nr.length) return "还有 <b>" + nr.length + "</b> 人没准备";
   return "";
