@@ -48,7 +48,7 @@
     '<div class="box"><h3 id="csaboutT">关于 CS Link</h3>' +
     '<p>给两名职业选手，用当过队友的人把他们连起来。比赛和阵容数据来自 HLTV，每条队友关系都能点回对应的比赛页。</p>' +
     '<p>背景音乐：<br>Music: "Lobby Time" Kevin MacLeod (<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>)<br>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>' +
-    '<small>非商业的同好小游戏。左下角喇叭可以关掉音乐。</small>' +
+
     '<button type="button" class="close">知道了</button></div>';
   var mBtn = bar.querySelector(".m");
   function sync() { mBtn.setAttribute("aria-pressed", on ? "true" : "false"); mBtn.title = on ? "关掉音乐" : "打开音乐"; }
