@@ -7,6 +7,8 @@ import type { PlayPlayer } from './cslinkPlay';
 
 /** 第 1 期的上海日期；题号 = 距今天数 + 1 */
 const FIRST_DAY = '2026-10-11';
+/** 从这一天起每日题固定用普通档（前 150 名热门选手、正好 3 跳）；之前的日期保持原出题方式，已有成绩不受影响 */
+export const CSLINK_DAILY_NORMAL_FROM = '2026-10-17';
 const MAX_JUMPS = 16;
 const RETENTION_SECONDS = 3 * 24 * 60 * 60;
 const MAX_ENTRIES_PER_DAY = 50_000;
@@ -80,7 +82,9 @@ export class CsLinkDaily {
   private cache: { date: string; dataVersion: string; today: CsLinkDailyToday } | null = null;
   constructor(private readonly store: CsLinkRoomStore,
     private readonly endpointAllowed?: (id: string) => boolean,
-    private readonly now: () => number = Date.now) {}
+    private readonly now: () => number = Date.now,
+    /** 普通档两端过滤；在难度分档建好后才可用，所以传 getter */
+    private readonly normalFilter?: () => ((id: string) => boolean) | undefined) {}
 
   today(): CsLinkDailyToday | null {
     const window = dailyChallengeWindow(this.now());
@@ -88,8 +92,10 @@ export class CsLinkDaily {
     if (this.cache && this.cache.date === window.date && this.cache.dataVersion === graph.dataVersion) {
       return this.cache.today;
     }
-    const pair = graph.sampleDistantPair(3, 5, 32,
-      seededRandom(`cslink-daily:${window.date}:${graph.dataVersion}`), this.endpointAllowed);
+    const seed = `cslink-daily:${window.date}:${graph.dataVersion}`;
+    const normal = window.date >= CSLINK_DAILY_NORMAL_FROM ? this.normalFilter?.() : undefined;
+    const pair = (normal && graph.sampleDistantPair(3, 3, 32, seededRandom(seed), normal, 'tier:normal'))
+      || graph.sampleDistantPair(3, 5, 32, seededRandom(seed), this.endpointAllowed);
     if (!pair) return null;
     const start = this.store.getPathPlayer(pair.startId), end = this.store.getPathPlayer(pair.endId);
     if (!start || !end) return null;

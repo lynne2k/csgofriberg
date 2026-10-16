@@ -317,7 +317,9 @@ async function main() {
   app.use('/api/cslink/play', createCsLinkPlayRoutes(cslinkPlay, cslinkCandidates, cslink, cslinkEnabled));
   // 每日挑战两端和房间用同一个过滤（cslinkEndpointOk 在下面 socket 初始化前填好，请求时才读）
   const cslinkDaily = cslinkEnabled && cslinkPlay
-    ? new CsLinkDaily(cslinkPlay, (id: string) => cslinkEndpointOk(id)) : null;
+    ? new CsLinkDaily(cslinkPlay, (id: string) => cslinkEndpointOk(id), Date.now,
+      // 每日题用普通档；分档在下面 socket 初始化前建好，请求时才读
+      () => difficultyFilters?.normal) : null;
   app.use('/api/cslink/daily', createCsLinkDailyRoutes(cslinkDaily, cslinkEnabled));
   app.use('/api/cslink', createCsLinkRoutes(cslink, cslinkEnabled));
   app.use('/api/game', gameRoutes);

@@ -16,6 +16,21 @@ describe('CS Link daily challenge', () => {
     expect(a.nextRefreshAt).toBe(Date.UTC(2026, 9, 11, 16, 0, 0));
   });
 
+  it('uses the normal tier (exactly 3 jumps, normal endpoint filter) from the switch date on', () => {
+    const store = roomFixture();
+    const calls: unknown[][] = [];
+    const graph = store.pathGraph();
+    const pinned = graph.sampleDistantPair;
+    graph.sampleDistantPair = (...args: Parameters<typeof pinned>) => { calls.push(args); return pinned(...args); };
+    const normal = (playerId: string) => playerId !== id(9);
+    new CsLinkDaily(store, undefined, () => now, () => normal).today();
+    expect(calls[0]).toEqual([3, 5, 32, expect.any(Function), undefined]);
+    calls.length = 0;
+    now = Date.UTC(2026, 9, 17, 4, 0, 0);
+    new CsLinkDaily(store, undefined, () => now, () => normal).today();
+    expect(calls[0]).toEqual([3, 3, 32, expect.any(Function), normal, 'tier:normal']);
+  });
+
   it('times from the first placed card, keeps the best route and ranks jumps before time', async () => {
     const daily = make();
     const today = daily.today()!;
