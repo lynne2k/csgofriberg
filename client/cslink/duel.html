@@ -1069,16 +1069,15 @@ function finishRound(r) {
       : '<span class="wait">等房主开新一场</span><a href="' + lobbyUrl() + '">回大厅</a>';
     if ($("again")) $("again").onclick = function () { goLobby("&rematch=1"); };
   } else if (r.nextRoundAtMs) {
-    // 整场没打完：比分保留，几秒后服务端自动发下一题，不用回大厅重新准备
-    $("sbFoot").innerHTML = '<span class="wait">第 ' + (r.roundNo + 1) + ' 局 <b id="nextN">' + nextLeft() + '</b> 秒后开始</span>' +
-      '<a href="' + lobbyUrl() + '">回大厅</a>' + (isHost ? '<button type="button" id="again">马上下一局</button>' : "");
-    if ($("again")) $("again").onclick = function () { this.disabled = true; CSNET.rpc("next", { roomId: r.id }).then(applyRoom); };
+    // 整场没打完：只给大家看路线，倒计时到了服务端自动发下一题，不放任何按钮
+    $("sbFoot").innerHTML = '<span class="wait">第 ' + (r.roundNo + 1) + ' 局 <b id="nextN">' + nextLeft() + '</b> 秒后开始</span>';
   } else {
-    // 人不够了，或者这局谁都没动：不自动续，房主手动开
+    // 人不够了：几秒后自动回大厅；这局谁都没动：服务端暂停自动续局，只留房主一个继续键
     var alone = r.players.filter(function (x) { return !x.left; }).length < 2;
-    $("sbFoot").innerHTML = '<span class="wait">' + (alone ? "人不够了，回大厅等人" : "这局没人动，暂停自动续局") + '</span><a href="' + lobbyUrl() + '">回大厅</a>' +
+    $("sbFoot").innerHTML = '<span class="wait">' + (alone ? "人不够了，马上回大厅" : isHost ? "这局没人动，暂停了" : "这局没人动，等房主继续") + '</span>' +
       (!alone && isHost ? '<button type="button" id="again">继续下一局</button>' : "");
     if ($("again")) $("again").onclick = function () { this.disabled = true; CSNET.rpc("next", { roomId: r.id }).then(applyRoom); };
+    if (alone) setTimeout(function () { goLobby(""); }, 4000);
   }
   renderAct(); renderOpp();
   setTimeout(function () { showBoard(false); }, RM ? 0 : 700);
