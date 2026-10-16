@@ -780,9 +780,9 @@ setInterval(function () { if (RUN) $("clockN").textContent = RUN.startedAtMs == 
 /* 第一次放牌时让服务端开始计时；只调一次，失败下次放牌再试 */
 var beginning = false;
 async function beginClock() {
-  if (!RUN || RUN.startedAtMs != null || beginning || !window.CSDAILY) return;
+  if (!RUN || RUN.startedAtMs != null || beginning || !D()) return;
   beginning = true;
-  var res = await CSDAILY.begin();
+  var res = await D().begin();
   beginning = false;
   if (res && res.run) { RUN = res.run; CLOCK_OFF = res.serverNowMs - Date.now(); renderHud(); }
 }
