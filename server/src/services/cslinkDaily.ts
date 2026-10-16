@@ -7,8 +7,8 @@ import type { PlayPlayer } from './cslinkPlay';
 
 /** 第 1 期的上海日期；题号 = 距今天数 + 1 */
 const FIRST_DAY = '2026-10-11';
-/** 从这一天起每日题固定用普通档（前 150 名热门选手、正好 3 跳）；之前的日期保持原出题方式，已有成绩不受影响 */
-export const CSLINK_DAILY_NORMAL_FROM = '2026-10-17';
+/** 从这一天起每日题固定用普通档（前 150 名热门选手、正好 3 跳）；普通档成绩单独存，不和当天旧题混在一起 */
+export const CSLINK_DAILY_NORMAL_FROM = '2026-10-16';
 const MAX_JUMPS = 16;
 const RETENTION_SECONDS = 3 * 24 * 60 * 60;
 const MAX_ENTRIES_PER_DAY = 50_000;
@@ -24,6 +24,8 @@ export interface CsLinkDailyRun {
 export interface CsLinkDailyToday {
   date: string; no: number; dataVersion: string; shortestJumps: number;
   start: PlayPlayer; end: PlayPlayer; nextRefreshAt: number;
+  /** 成绩存储分区：日期，普通档再加后缀 */
+  bucket: string;
 }
 
 /** 按日期 + 数据版本生成可复现的随机数，同一天所有人拿到同一道题 */
@@ -94,13 +96,14 @@ export class CsLinkDaily {
     }
     const seed = `cslink-daily:${window.date}:${graph.dataVersion}`;
     const normal = window.date >= CSLINK_DAILY_NORMAL_FROM ? this.normalFilter?.() : undefined;
-    const pair = (normal && graph.sampleDistantPair(3, 3, 32, seededRandom(seed), normal, 'tier:normal'))
-      || graph.sampleDistantPair(3, 5, 32, seededRandom(seed), this.endpointAllowed);
+    const normalPair = normal ? graph.sampleDistantPair(3, 3, 32, seededRandom(seed), normal, 'tier:normal') : null;
+    const pair = normalPair || graph.sampleDistantPair(3, 5, 32, seededRandom(seed), this.endpointAllowed);
     if (!pair) return null;
     const start = this.store.getPathPlayer(pair.startId), end = this.store.getPathPlayer(pair.endId);
     if (!start || !end) return null;
     const today = { date: window.date, no: dayNumber(window.date), dataVersion: graph.dataVersion,
-      shortestJumps: pair.shortestJumps, start, end, nextRefreshAt: window.nextRefreshAt };
+      shortestJumps: pair.shortestJumps, start, end, nextRefreshAt: window.nextRefreshAt,
+      bucket: normalPair ? `${window.date}:normal` : window.date };
     this.cache = { date: window.date, dataVersion: graph.dataVersion, today };
     return today;
   }
@@ -109,14 +112,14 @@ export class CsLinkDaily {
   async start(key: string, name: string) {
     const today = this.today();
     if (!today) return { code: 'NO_QUESTION' as const };
-    let run = await runStore.get(today.date, key);
+    let run = await runStore.get(today.bucket, key);
     if (!run) {
-      if (await runStore.size(today.date) >= MAX_ENTRIES_PER_DAY) return { code: 'DAILY_FULL' as const };
+      if (await runStore.size(today.bucket) >= MAX_ENTRIES_PER_DAY) return { code: 'DAILY_FULL' as const };
       run = { key, name, startedAtMs: null, attempts: 0, best: null };
-      await runStore.set(today.date, run);
+      await runStore.set(today.bucket, run);
     } else if (run.name !== name) {
       run.name = name;
-      await runStore.set(today.date, run);
+      await runStore.set(today.bucket, run);
     }
     return { today, run: this.publicRun(run), serverNowMs: this.now() };
   }
@@ -125,9 +128,9 @@ export class CsLinkDaily {
   async begin(key: string, name: string) {
     const today = this.today();
     if (!today) return { code: 'NO_QUESTION' as const };
-    const run = await runStore.get(today.date, key);
+    const run = await runStore.get(today.bucket, key);
     if (!run) return { code: 'NOT_STARTED' as const };
-    if (run.startedAtMs == null) { run.startedAtMs = this.now(); run.name = name; await runStore.set(today.date, run); }
+    if (run.startedAtMs == null) { run.startedAtMs = this.now(); run.name = name; await runStore.set(today.bucket, run); }
     return { run: this.publicRun(run), serverNowMs: this.now() };
   }
 
@@ -136,7 +139,7 @@ export class CsLinkDaily {
     if (!today) return { code: 'NO_QUESTION' as const };
     if (input.date !== today.date) return { code: 'DAILY_EXPIRED' as const };
     if (input.dataVersion !== today.dataVersion) return { code: 'VERSION_MISMATCH' as const };
-    const run = await runStore.get(today.date, key);
+    const run = await runStore.get(today.bucket, key);
     if (!run || run.startedAtMs == null) return { code: 'NOT_STARTED' as const };
     const receivedAt = this.now();
     const result = this.store.pathGraph().finish({
@@ -146,14 +149,14 @@ export class CsLinkDaily {
     }, input.routeIds, receivedAt);
     run.attempts += 1; run.name = name;
     if (!result.valid) {
-      await runStore.set(today.date, run);
+      await runStore.set(today.bucket, run);
       return { code: 'INVALID_PATH' as const, reason: result.reason, run: this.publicRun(run) };
     }
     const finish = result.finish;
     const improved = !run.best || compareCsLinkPathFinishes(finish, this.asFinish(today, run)!) < 0;
     if (improved) run.best = { jumps: finish.jumps, elapsedMs: finish.elapsedMs,
       routeIds: finish.routeIds, completedAtMs: finish.serverCompletedAtMs };
-    await runStore.set(today.date, run);
+    await runStore.set(today.bucket, run);
     return { improved, finish: { jumps: finish.jumps, elapsedMs: finish.elapsedMs, routeIds: finish.routeIds,
       hops: finish.hops }, run: this.publicRun(run) };
   }
@@ -162,7 +165,7 @@ export class CsLinkDaily {
   async leaderboard(key: string | null, limit: number) {
     const today = this.today();
     if (!today) return { code: 'NO_QUESTION' as const };
-    const runs = await runStore.all(today.date);
+    const runs = await runStore.all(today.bucket);
     const done = runs.filter(run => run.best).sort((a, b) =>
       a.best!.jumps - b.best!.jumps || a.best!.elapsedMs - b.best!.elapsedMs ||
       a.best!.completedAtMs - b.best!.completedAtMs);
