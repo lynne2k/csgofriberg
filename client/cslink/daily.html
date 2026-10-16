@@ -779,7 +779,7 @@ function renderHud() {
   bn.innerHTML = b ? "<i>" + b.jumps + "<small>跳</small></i><i class=\"t\">" + fmtSec(b.elapsedMs) + "</i>" : "还没连通";
 }
 /* 没放过牌之前不计时，停在 0:00 */
-/* 连通后停在这次的成绩；再动桌上的牌就恢复走表（服务端仍从开局算） */
+/* 今天连通过之后表就停住，停在最近一次连通的用时；再摆牌也不重新走表 */
 var FROZEN = null;
 setInterval(function () {
   if (!RUN) return;
@@ -807,7 +807,10 @@ async function loadBoard() {
     : '<li><span class="r"></span><span class="n" style="opacity:.6">还没人连通，抢个第一</span><span class="h"></span><span class="s"></span></li>';
   var m = lb.me;
   var myName = (window.CSNICK && CSNICK.get()) || "你";
-  $("lbMe").innerHTML = m ? '<span>' + (m.rank || "—") + '</span><span>' + escNick(myName) + (m.rank ? "" : "（进行中）") + '</span><span style="text-align:right;color:var(--t)">' +
+  // 自己已经在前十里就不再单独列一行，免得名字出现两次
+  var inTop = lb.top.some(function (r) { return r.me; });
+  $("lbMe").style.display = m && !inTop ? "" : "none";
+  $("lbMe").innerHTML = m && !inTop ? '<span>' + (m.rank || "—") + '</span><span>' + escNick(myName) + (m.rank ? "" : "（进行中）") + '</span><span style="text-align:right;color:var(--t)">' +
     (m.jumps == null ? "–" : m.jumps) + '</span><span style="text-align:right">' + (m.elapsedMs == null ? "–" : fmtSec(m.elapsedMs)) + '</span>' : "";
 }
 function escNick(s) { return String(s).replace(/[&<>"']/g, function (c) { return "&#" + c.charCodeAt(0) + ";"; }); }
@@ -819,7 +822,8 @@ $("nickBtn").onclick = async function (e) {
   loadBoard();
 };
 function clearResult() {
-  result = null; verdicts = []; activePair = -1; FROZEN = null;
+  result = null; verdicts = []; activePair = -1;
+  if (!(RUN && RUN.best)) FROZEN = null;
   clearBeams(); layoutBoard(); renderAct();
   $("keys").textContent = HINT;
 }
