@@ -344,30 +344,7 @@ button, input { font: inherit; }
 .act button:active:not(:disabled) { transform: translateY(3px); box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 1px 0 #9a6410, 0 4px 10px rgba(0,0,0,.35) !important; }
 .act button.alt { box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 4px 0 #000, 0 10px 20px rgba(0,0,0,.35) !important; }
 
-/* 链接铃：德国心脏病那种桌铃（SVG 绘制） */
-.act button.bell { position: relative; width: 118px; height: 98px; margin: -10px 0 -4px; padding: 0 !important; border: 0; background: none !important; box-shadow: none !important; clip-path: none !important; border-radius: 0; cursor: pointer; transform: none !important; -webkit-tap-highlight-color: transparent; }
-.bell svg { position: absolute; inset: 0; width: 118px; height: 98px; overflow: visible; }
-.bell .halo { position: absolute; left: 50%; top: 44%; width: 134px; height: 134px; margin: -67px 0 0 -67px; border-radius: 50%; background: radial-gradient(circle, rgba(255,205,110,.32), rgba(255,205,110,0) 62%); opacity: 0; transition: opacity .25s; pointer-events: none; }
-.bell .dome, .bell .plg, .bell .wave { transform-box: view-box; }
-.bell .dome { transform-origin: 84px 86px; transition: filter .2s; }
-.bell .plg { transition: transform .08s cubic-bezier(.3,.7,.4,1); }
-.bell .sheen { animation: sheen 4.2s ease-in-out infinite; }
 @keyframes sheen { 0%, 64% { transform: translateX(-80px); } 100% { transform: translateX(190px); } }
-.bell .wave { fill: none; stroke: #ffe1a0; stroke-width: 2.5; stroke-linecap: round; opacity: 0; transform-origin: 84px 80px; }
-.act button.bell:hover .halo { opacity: 1; }
-.act button.bell:hover .dome { filter: brightness(1.08); }
-.act button.bell:hover .plg { transform: translateY(-2px); }
-.act button.bell:active .plg, .act button.bell:disabled .plg { transform: translateY(5px) scale(.97); transform-origin: 84px 32px; }
-.act button.bell:active .dome { animation: bellRing .6s cubic-bezier(.3,.7,.4,1); }
-.act button.bell:disabled { cursor: default; }
-.act button.bell:disabled .halo { opacity: 1; background: radial-gradient(circle, rgba(255,230,160,.55), rgba(255,205,110,0) 62%); }
-.act button.bell:focus-visible { outline: none; }
-.act button.bell:focus-visible svg { filter: drop-shadow(0 0 0 #fff) drop-shadow(0 0 6px var(--t)); }
-.bell.ring .dome { animation: bellRing .7s cubic-bezier(.3,.7,.4,1); filter: brightness(1.15); }
-.bell.ring .wave { animation: bellWave .7s ease-out infinite; }
-.bell.ring .wave.w2 { animation-delay: .18s; }
-@keyframes bellRing { 0% { transform: translateY(3px) scaleY(.95); } 18% { transform: rotate(-5deg); } 36% { transform: rotate(3.5deg); } 54% { transform: rotate(-2deg); } 72% { transform: rotate(1deg); } 100% { transform: none; } }
-@keyframes bellWave { 0% { opacity: 0; transform: scale(.8); } 30% { opacity: .8; } 100% { opacity: 0; transform: scale(1.18); } }
 
 /* 已提交 · 等其他人 */
 .act .wait { display: grid; grid-template-columns: auto auto; column-gap: 14px; row-gap: 6px; align-items: center; padding: 10px 16px 11px; border-radius: 12px; background: linear-gradient(180deg, rgba(30,24,16,.94), rgba(14,12,9,.94)); box-shadow: 0 0 0 1px rgba(255,210,122,.35), inset 0 1px 0 rgba(255,255,255,.07), 0 14px 30px rgba(0,0,0,.5); animation: waitIn .4s .25s cubic-bezier(.2,1.2,.4,1) backwards; }
@@ -387,7 +364,7 @@ button, input { font: inherit; }
 .wait .st .dots i:nth-child(2) { animation-delay: .2s; } .wait .st .dots i:nth-child(3) { animation-delay: .4s; }
 @keyframes dot { 0%, 60%, 100% { opacity: .25; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
 .sb.live .panel, .sb.live li { animation: none !important; }
-@media (prefers-reduced-motion: reduce) { .beams .flow, .fx, .card.zap, .board.shake, .act .seal, .bell .dome, .bell .wave, .bell .sheen, .act .wait, .wait .pips i, .wait .st .dots i { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .beams .flow, .fx, .card.zap, .board.shake, .act .seal, .act .wait, .wait .pips i, .wait .st .dots i { animation: none !important; } }
 /* 开表前遮罩：等人入场 → 3-2-1 → GO */
 .pre { position: fixed; inset: 0; z-index: 250; display: none; place-items: center; align-content: center; gap: 18px; background: rgba(5,6,8,.55); backdrop-filter: blur(3px); text-align: center; }
 .pre.on { display: grid; }
@@ -666,7 +643,7 @@ function bindDrag(el, from, id) {
     if (phase !== "idle" || e.button !== 0) return;
     if (e.target.closest && e.target.closest("a.hltv")) return;   // 点到卡角 HLTV 图标：只跳主页，不起牌
     e.preventDefault();
-    if (result) clearResult();   // 判定完直接拖牌就能改，不用先点重排
+    clearResult();   // 起牌先收掉连线，落下再判
     var w = cssPx("--card-w");
     var ghost = cardEl(id, "ghost");
     ghost.style.setProperty("--w", w + "px");
@@ -706,9 +683,9 @@ function up() {
     queue = queue.filter(function (x) { return x !== d.id; });  // 拖离桌面 = 撤下，回到牌库里可以再搜
   }
   renderAll();
+  if (at != null || d.from === "queue") judge(at != null ? d.id : null);
 }
 
-/* 点「链接」才从左到右逐对判定 */
 var HOP_MS = 170;              // 每一跳通电的时长
 var bolts = [], flickT = null;
 function pairGeo(i) {
@@ -797,7 +774,7 @@ async function celebrate() {
 }
 function sealHtml(hops) { return '<div class="seal" role="img" aria-label="' + hops + ' 跳连通"><b>' + hops + '</b><span>跳</span></div>'; }
 
-// 铃声：Web Audio 现场合成，不用音频文件
+// 音效：Web Audio 现场合成，不用音频文件
 var AC = null;
 function audio() { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === "suspended") AC.resume(); } catch (e) { AC = null; } return AC; }
 function tone(f, t0, dur, vol, type) { var a = AC, o = a.createOscillator(), g = a.createGain(); o.type = type || "sine"; o.frequency.value = f; g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur); o.connect(g); g.connect(a.destination); o.start(t0); o.stop(t0 + dur + 0.05); }
@@ -843,43 +820,49 @@ function ding(kind) {
   // 金属铃：基频 + 拍频 + 非谐泛音，指数衰减
   tone(2093, t, 1.3, .2); tone(2106, t, 1.3, .09); tone(2093 * 2.76, t, .5, .045); tone(2093 * 5.4, t, .18, .02);
 }
-var BELL_SVG = "<svg viewBox=\"0 0 168 140\" aria-hidden=\"true\"><defs><radialGradient id=\"bgDome\" cx=\".36\" cy=\".26\" r=\".85\"><stop offset=\"0\" stop-color=\"#fffbe6\"/><stop offset=\".1\" stop-color=\"#ffe29a\"/><stop offset=\".32\" stop-color=\"#e5ac45\"/><stop offset=\".6\" stop-color=\"#a86d16\"/><stop offset=\".85\" stop-color=\"#5e3707\"/><stop offset=\"1\" stop-color=\"#2c1802\"/></radialGradient><linearGradient id=\"bgEnv\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#fff\" stop-opacity=\".18\"/><stop offset=\".55\" stop-color=\"#fff\" stop-opacity=\"0\"/><stop offset=\".82\" stop-color=\"#3f7a5a\" stop-opacity=\".22\"/><stop offset=\"1\" stop-color=\"#120900\" stop-opacity=\".45\"/></linearGradient><linearGradient id=\"bgRim\" x1=\"0\" x2=\"1\"><stop offset=\"0\" stop-color=\"#2e1902\"/><stop offset=\".25\" stop-color=\"#c98f30\"/><stop offset=\".42\" stop-color=\"#fff2c8\"/><stop offset=\".6\" stop-color=\"#b47a1c\"/><stop offset=\"1\" stop-color=\"#241401\"/></linearGradient><linearGradient id=\"bgChrome\" x1=\"0\" x2=\"1\"><stop offset=\"0\" stop-color=\"#2f2f2f\"/><stop offset=\".3\" stop-color=\"#d8d8d8\"/><stop offset=\".45\" stop-color=\"#fff\"/><stop offset=\".65\" stop-color=\"#8c8c8c\"/><stop offset=\"1\" stop-color=\"#2a2a2a\"/></linearGradient><radialGradient id=\"bgCap\" cx=\".38\" cy=\".32\" r=\".75\"><stop offset=\"0\" stop-color=\"#ff9a8a\"/><stop offset=\".35\" stop-color=\"#e0302a\"/><stop offset=\".8\" stop-color=\"#860e0a\"/><stop offset=\"1\" stop-color=\"#3a0302\"/></radialGradient><linearGradient id=\"bgCapSide\" x1=\"0\" x2=\"1\"><stop offset=\"0\" stop-color=\"#3a0302\"/><stop offset=\".35\" stop-color=\"#b01a14\"/><stop offset=\".6\" stop-color=\"#6e0906\"/><stop offset=\"1\" stop-color=\"#2a0201\"/></linearGradient><radialGradient id=\"bgTop\" cx=\".4\" cy=\".3\" r=\".9\"><stop offset=\"0\" stop-color=\"#3a3a40\"/><stop offset=\".6\" stop-color=\"#18181b\"/><stop offset=\"1\" stop-color=\"#08080a\"/></radialGradient><linearGradient id=\"bgSide\" x1=\"0\" x2=\"1\"><stop offset=\"0\" stop-color=\"#050506\"/><stop offset=\".3\" stop-color=\"#26262a\"/><stop offset=\".45\" stop-color=\"#44444a\"/><stop offset=\".65\" stop-color=\"#1a1a1e\"/><stop offset=\"1\" stop-color=\"#050506\"/></linearGradient><radialGradient id=\"bgMed\" cx=\".4\" cy=\".35\" r=\".75\"><stop offset=\"0\" stop-color=\"#fff0c4\"/><stop offset=\".5\" stop-color=\"#e3a843\"/><stop offset=\"1\" stop-color=\"#7a4a08\"/></radialGradient><linearGradient id=\"bgSheen\" x1=\"0\" x2=\"1\"><stop offset=\"0\" stop-color=\"#fff\" stop-opacity=\"0\"/><stop offset=\".5\" stop-color=\"#fff\" stop-opacity=\".45\"/><stop offset=\"1\" stop-color=\"#fff\" stop-opacity=\"0\"/></linearGradient><clipPath id=\"bgClip\"><path d=\"M30 82 C30 50 56 34 84 34 C112 34 138 50 138 82 A54 24 0 0 1 30 82 Z\"/></clipPath><filter id=\"bgBlur\" x=\"-50%\" y=\"-50%\" width=\"200%\" height=\"200%\"><feGaussianBlur stdDeviation=\"2\"/></filter><filter id=\"bgSoft\" x=\"-50%\" y=\"-50%\" width=\"200%\" height=\"200%\"><feGaussianBlur stdDeviation=\"5\"/></filter></defs><ellipse cx=\"90\" cy=\"98\" rx=\"78\" ry=\"36\" fill=\"#000\" opacity=\".5\" filter=\"url(#bgSoft)\"/><ellipse class=\"wave\" cx=\"84\" cy=\"80\" rx=\"76\" ry=\"36\"/><ellipse class=\"wave w2\" cx=\"84\" cy=\"80\" rx=\"76\" ry=\"36\"/><path d=\"M10 82 L10 90 A74 34 0 0 0 158 90 L158 82 Z\" fill=\"url(#bgSide)\"/><ellipse cx=\"84\" cy=\"82\" rx=\"74\" ry=\"34\" fill=\"url(#bgTop)\" stroke=\"#c9973a\" stroke-width=\"1.5\"/><ellipse cx=\"84\" cy=\"82\" rx=\"67\" ry=\"30\" fill=\"none\" stroke=\"rgba(255,255,255,.07)\" stroke-width=\"1\"/><path d=\"M22 70 A70 30 0 0 1 120 52\" fill=\"none\" stroke=\"rgba(255,255,255,.16)\" stroke-width=\"1.2\"/><ellipse cx=\"20\" cy=\"82\" rx=\"2.6\" ry=\"1.8\" fill=\"url(#bgChrome)\" stroke=\"#111\" stroke-width=\".6\"/><ellipse cx=\"148\" cy=\"82\" rx=\"2.6\" ry=\"1.8\" fill=\"url(#bgChrome)\" stroke=\"#111\" stroke-width=\".6\"/><ellipse cx=\"84\" cy=\"51\" rx=\"2.6\" ry=\"1.8\" fill=\"url(#bgChrome)\" stroke=\"#111\" stroke-width=\".6\"/><ellipse cx=\"84\" cy=\"113\" rx=\"2.6\" ry=\"1.8\" fill=\"url(#bgChrome)\" stroke=\"#111\" stroke-width=\".6\"/><ellipse cx=\"86\" cy=\"86\" rx=\"56\" ry=\"25\" fill=\"#000\" opacity=\".7\" filter=\"url(#bgBlur)\"/><g class=\"dome\"><path d=\"M30 82 C30 50 56 34 84 34 C112 34 138 50 138 82 A54 24 0 0 1 30 82 Z\" fill=\"url(#bgDome)\" stroke=\"#2a1702\" stroke-width=\"1.3\"/><path d=\"M30 82 C30 50 56 34 84 34 C112 34 138 50 138 82 A54 24 0 0 1 30 82 Z\" fill=\"url(#bgEnv)\"/><ellipse cx=\"84\" cy=\"62\" rx=\"40\" ry=\"17\" fill=\"none\" stroke=\"rgba(40,20,0,.35)\" stroke-width=\"1.2\"/><ellipse cx=\"84\" cy=\"63.2\" rx=\"40\" ry=\"17\" fill=\"none\" stroke=\"rgba(255,240,200,.25)\" stroke-width=\".9\"/><ellipse cx=\"84\" cy=\"49\" rx=\"22\" ry=\"9\" fill=\"none\" stroke=\"rgba(40,20,0,.3)\" stroke-width=\"1\"/><g clip-path=\"url(#bgClip)\"><rect class=\"sheen\" x=\"20\" y=\"24\" width=\"26\" height=\"90\" fill=\"url(#bgSheen)\" transform=\"skewX(-28)\"/></g><ellipse cx=\"60\" cy=\"52\" rx=\"14\" ry=\"7\" fill=\"#fff\" opacity=\".55\" transform=\"rotate(-24 60 52)\" filter=\"url(#bgBlur)\"/><path d=\"M30 82 A54 24 0 0 0 138 82\" fill=\"none\" stroke=\"url(#bgRim)\" stroke-width=\"3.2\"/><path d=\"M38 88 A48 18 0 0 0 130 88\" fill=\"none\" stroke=\"rgba(255,250,225,.55)\" stroke-width=\"1\"/><g transform=\"translate(84 83)\"><ellipse rx=\"16\" ry=\"8.5\" fill=\"#3a2003\" opacity=\".45\" transform=\"translate(.8 1.4)\"/><ellipse rx=\"16\" ry=\"8.5\" fill=\"url(#bgMed)\" stroke=\"#4a2c05\" stroke-width=\"1.1\"/><ellipse rx=\"12.5\" ry=\"6\" fill=\"none\" stroke=\"rgba(74,44,5,.45)\" stroke-width=\".8\"/><text y=\"3.6\" text-anchor=\"middle\" font-family=\"Arial Black, Arial, sans-serif\" font-weight=\"900\" font-size=\"10\" letter-spacing=\".6\" fill=\"#4a2c05\">CS</text></g><ellipse cx=\"84\" cy=\"40\" rx=\"13\" ry=\"6\" fill=\"url(#bgRim)\" stroke=\"#2a1702\" stroke-width=\".9\"/><ellipse cx=\"84\" cy=\"39.4\" rx=\"8\" ry=\"3.4\" fill=\"#1a0e01\" opacity=\".7\"/></g><g class=\"plg\"><rect x=\"80\" y=\"30\" width=\"8\" height=\"10\" rx=\"1.5\" fill=\"url(#bgChrome)\" stroke=\"#1d1d1d\" stroke-width=\".7\"/><path d=\"M68 30 L68 34 A16 8 0 0 0 100 34 L100 30 Z\" fill=\"url(#bgCapSide)\" stroke=\"#2a0201\" stroke-width=\".8\"/><ellipse cx=\"84\" cy=\"30\" rx=\"16\" ry=\"8\" fill=\"url(#bgCap)\" stroke=\"#2a0201\" stroke-width=\"1\"/><ellipse cx=\"78.5\" cy=\"27.4\" rx=\"6\" ry=\"2.4\" fill=\"#fff\" opacity=\".6\" transform=\"rotate(-12 78.5 27.4)\"/></g></svg>";
-function bellHtml(state) {
-  return '<button type="button" ' + (state === "busy" ? 'disabled class="bell ring"' : 'id="go" class="bell' + (state === "retry" ? " retry" : "") + '"') +
-    ' aria-label="' + (state === "busy" ? "正在检查链接" : (state === "retry" ? "再按一次铃，重新检查链接" : "按铃，检查链接")) + '"><span class="halo"></span>' + BELL_SVG + '</button>';
-}
 function eid() { return (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()).replace(/-/g, ""); }
-async function runLink() {
-  if (phase !== "idle" || over || !ROOMV || !ROOMV.round || now() < ROOMV.round.serverStartedAtMs) return;
-  ding();
-  phase = "linking"; verdicts = []; activePair = -1; result = null;
-  clearBeams();
-  renderAct();
-  var ids = visiblePath(), rd = ROOMV.round;
-  var res = await CSNET.rpc("submit", { roomId: ROOMV.id, roundId: rd.roundId, dataVersion: rd.dataVersion, eventId: eid(), routeIds: ids });
-  var ok = !res.code, path = ok && res.room && res.room.myBest ? res.room.myBest.hops : null;
-  if (res.code && !(res.code === "INVALID_PATH" && res.reason === "unverified_jump")) {
-    phase = "idle"; result = null; renderAct(); ding("bad");
-    $("keys").textContent = CSNET.error(res.code, res.reason);
-    if (res.room !== undefined) applyRoom(res);
-    return;
-  }
-  var brokeAt = -1;
-  if (!ok) {
-    for (var k = 0; k < ids.length - 1; k++) if (!edge(ids[k], ids[k + 1])) { brokeAt = k; break; }
-    if (brokeAt < 0) brokeAt = ids.length - 2;   // 本地数据以为通，服务端不认：标在最后一跳
-  }
+/* 落牌即判：桌面一变就本地查表画出每一对的通断；整条通了自动提交，服务端复核 */
+var judgeSeq = 0;
+function judge(placed) {
+  if (phase !== "idle") return;
+  var ids = visiblePath(), seq = ++judgeSeq, broke = -1;
+  clearBeams(); verdicts = []; result = null;
+  if (ids.length < 3) { layoutBoard(); renderAct(); $("keys").textContent = HINT; return; }
   for (var i = 0; i < ids.length - 1; i++) {
-    var e = edge(ids[i], ids[i + 1]), h = path && path[i];
-    var v = i === brokeAt ? { ok: false } : { ok: true,
-      event: e ? e.event : (h ? "HLTV #" + h.evidence.mapId : "HLTV"), href: h ? h.evidence.sourceUrl : (e ? e.href : "#") };
-    await chargePair(i, v);
-    if (!v.ok) {
-      // 断了也回到可操作状态：红线留着，拖任意一张牌就清掉
-      phase = "idle"; result = "fail"; renderAct(); ding("bad");
-      $("keys").textContent = PLAYERS[ids[i]].name + " 和 " + PLAYERS[ids[i + 1]].name + " 没做过队友";
-      return;
-    }
+    var e = edge(ids[i], ids[i + 1]);
+    verdicts[i] = e ? { ok: true, event: e.event, href: e.href } : { ok: false };
+    if (!e && broke < 0) broke = i;
+    drawPair(i);
+  }
+  layoutBoard();
+  var hitBad = false;
+  if (placed) for (var k = 0; k < ids.length - 1; k++) {
+    if (ids[k] !== placed && ids[k + 1] !== placed) continue;
+    var g = pairGeo(k);
+    if (verdicts[k].ok) { zap(ids[k] === placed ? k + 1 : k); fx("ring", ids[k] === placed ? g.x2 : g.x1, g.y); }
+    else { var m = qpt(g, .5); fx("ring bad", m[0], m[1]); burst(m[0], m[1], 8, "bad"); hitBad = true; }
+  }
+  if (broke < 0) return linkUp(ids, seq);
+  renderAct();
+  if (hitBad) ding("bad");
+  $("keys").textContent = PLAYERS[ids[broke]].name + " 和 " + PLAYERS[ids[broke + 1]].name + " 没做过队友 · 换一张试试";
+}
+function markServerBroke(ids) {
+  verdicts[ids.length - 2] = { ok: false };
+  clearBeams(); verdicts.forEach(function (_, i) { drawPair(i); }); layoutBoard();
+}
+async function linkUp(ids, seq) {
+  if (over || !ROOMV || !ROOMV.round || now() < ROOMV.round.serverStartedAtMs) return;
+  phase = "linking"; renderAct();
+  var rd = ROOMV.round;
+  var res = await CSNET.rpc("submit", { roomId: ROOMV.id, roundId: rd.roundId, dataVersion: rd.dataVersion, eventId: eid(), routeIds: ids });
+  if (seq !== judgeSeq || phase !== "linking") return;
+  phase = "idle";
+  if (res.code) {
+    if (res.code === "INVALID_PATH" && res.reason === "unverified_jump") { markServerBroke(ids); $("keys").textContent = "最后一跳没查到出场记录 · 换一张试试"; }
+    else $("keys").textContent = CSNET.error(res.code, res.reason);
+    if (res.room !== undefined) applyRoom(res);
+    renderAct(); ding("bad"); return;
   }
   phase = "done"; result = "ok";
   applyRoom(res);
@@ -936,9 +919,8 @@ function renderAct() {
     updateWait();
   }
   else if (phase === "over") box.innerHTML = '<span class="stamp bad">时间到</span>';
-  else if (phase === "idle") box.innerHTML = bellHtml(result === "fail" ? "retry" : "go") + '<button type="button" class="quit" id="quit">放弃</button>';
-  else box.innerHTML = bellHtml("busy");
-  if ($("go")) $("go").onclick = runLink;
+  else if (phase === "idle") { if (!$("quit")) box.innerHTML = '<button type="button" class="quit" id="quit">放弃</button>'; }
+  else box.innerHTML = "";
   if ($("quit")) $("quit").onclick = giveUp;
 }
 /* 第一下变红「确认放弃」，3 秒内再点一下才提交，防误触 */
@@ -958,7 +940,7 @@ async function giveUp() {
   $("keys").textContent = "这局放弃了 · 等其他人连完或时间到";
   ding("bad"); applyRoom(res); renderAct();
 }
-var HINT = "打花名搜牌 · 拖到两张牌之间 · 回车放终点前 · 拖出桌面撤下";
+var HINT = "打花名搜牌 · 拖到两张牌之间，落下就判 · 回车放终点前 · 拖出桌面撤下";
 function renderAll() {
   if (phase === "idle" && !result) $("keys").textContent = HINT;
   renderBoard(); renderFan(); renderAct();
@@ -1203,7 +1185,7 @@ $("q").addEventListener("keydown", function (e) {
   landed = first.dataset.id;
   sfx("place");
   query = ""; e.target.value = "";
-  renderAll();
+  renderAll();  judge(first.dataset.id);
 });
 /* 手牌悬停：CSS :hover 会因为牌抬起、转正而让光标落到邻牌上，来回抖。
    改成按每张牌的静止位置算：第 i 张露出的区间是 [left_i, min(left_{i+1}, left_i + w)]，最后一张露全宽。 */
