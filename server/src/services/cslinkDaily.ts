@@ -103,7 +103,8 @@ export class CsLinkDaily {
     if (!start || !end) return null;
     const today = { date: window.date, no: dayNumber(window.date), dataVersion: graph.dataVersion,
       shortestJumps: pair.shortestJumps, start, end, nextRefreshAt: window.nextRefreshAt,
-      bucket: normalPair ? `${window.date}:normal` : window.date };
+      // 普通档按两端选手分区：分档规则变了题目换了，旧成绩不会混进新题
+      bucket: normalPair ? `${window.date}:normal:${pair.startId}:${pair.endId}` : window.date };
     this.cache = { date: window.date, dataVersion: graph.dataVersion, today };
     return today;
   }

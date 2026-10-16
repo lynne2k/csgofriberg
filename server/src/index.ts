@@ -194,6 +194,16 @@ async function main() {
   }
   const cslinkEndpointOk = (id: string) =>
     (portraitIds.size === 0 || portraitIds.has(id)) && (activeIds.size === 0 || activeIds.has(id));
+  // 难度排名用的热度分：2024 起 S 级赛事届数为主，再看 A/S 届数和生涯图数；少数大牌手动置顶
+  const popularity = new Map<string, number>();
+  const popularityFile = path.resolve(__dirname, '../../client/public/cslink/data/popularity.json');
+  if (fs.existsSync(popularityFile)) {
+    const parsed = JSON.parse(fs.readFileSync(popularityFile, 'utf8')) as { scores?: Record<string, unknown> };
+    for (const [id, score] of Object.entries(parsed.scores ?? {})) if (typeof score === 'number') popularity.set(id, score);
+    console.log(`[cslink] 热度分 ${popularity.size} 人，难度分档按近期赛事排名`);
+  } else {
+    console.warn(`[cslink] 没找到热度分 ${popularityFile}，难度分档退回按生涯图数排名`);
+  }
   let cslinkMerged: CsLinkMerged | null = null;
   if (cslink || cslinkCandidates) {
     try {
@@ -372,6 +382,7 @@ async function main() {
   if (cslinkEnabled && cslinkPlay) {
     const play = cslinkPlay;
     const mapCount = (id: string) => {
+      if (popularity.size) return popularity.get(id) ?? 0;
       const p = play.getPathPlayer(id);
       return p ? p.verifiedMapCount + p.candidateMapCount + (p.legacyMapCount ?? 0) : 0;
     };
