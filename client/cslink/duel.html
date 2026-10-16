@@ -198,6 +198,9 @@ button, input { font: inherit; }
 .oppstrip span b { font-size: 15px; }
 .oppstrip span.done { border-bottom-color: var(--t); } .oppstrip span.done b { color: var(--t); }
 @media (max-width: 1180px) { .opp { display: none; } .oppstrip { display: flex; } }
+.oppstrip { touch-action: none; user-select: none; -webkit-user-select: none; cursor: pointer; }
+.oppstrip::after { content: "按住看计分板"; flex-basis: 100%; text-align: center; font-size: 10px; letter-spacing: .1em; opacity: .45; }
+@media (pointer: coarse) { .card.draw input { font-size: 16px; height: 30px; } }
 .act .wait { font-family: var(--display); font-size: 13px; letter-spacing: .12em; opacity: .7; }
 
 /* TAB 计分板 */
@@ -464,7 +467,7 @@ function sleep(ms) { return new Promise(function (r) { setTimeout(r, RM ? 0 : ms
 function stepFor(n, span, w) {
   if (n <= 1) return 0;
   var fit = (span - w) / (n - 1);
-  return Math.max(Math.min(0.7 * w, fit), Math.min(0.28 * w, fit));
+  return Math.max(Math.min((n <= 3 ? 1.06 : 0.7) * w, fit), Math.min(0.28 * w, fit));
 }
 function cardEl(id, cls) {
   var p = PLAYERS[id], nm = CSDATA.esc(p.name);
@@ -656,6 +659,7 @@ function bindDrag(el, from, id) {
     move(e);
     window.addEventListener("pointermove", move);
     window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", up);   // 触屏被系统手势打断时也要收尾
   });
 }
 function move(e) {
@@ -668,6 +672,7 @@ function move(e) {
 function up() {
   window.removeEventListener("pointermove", move);
   window.removeEventListener("pointerup", up);
+  window.removeEventListener("pointercancel", up);
   var d = drag, at = insertAt;
   d.ghost.remove();
   drag = null; insertAt = null;
@@ -940,7 +945,7 @@ async function giveUp() {
   $("keys").textContent = "这局放弃了 · 等其他人连完或时间到";
   ding("bad"); applyRoom(res); renderAct();
 }
-var HINT = "打花名搜牌 · 拖到两张牌之间，落下就判 · 回车放终点前 · 拖出桌面撤下";
+var HINT = innerWidth <= 860 ? "搜花名抽牌 · 拖到两张牌之间" : "打花名搜牌 · 拖到两张牌之间，落下就判 · 回车放终点前 · 拖出桌面撤下";
 function renderAll() {
   if (phase === "idle" && !result) $("keys").textContent = HINT;
   renderBoard(); renderFan(); renderAct();
@@ -1137,6 +1142,13 @@ function showBoard(peek) {
 function hideBoard() { if ($("sb").classList.contains("peek")) $("sb").classList.remove("on"); }
 window.addEventListener("keydown", function (e) { if (e.key === "Tab") { e.preventDefault(); if (!e.repeat && !over) showBoard(true); } });
 window.addEventListener("keyup", function (e) { if (e.key === "Tab") hideBoard(); });
+/* 手机没有 Tab：按住顶部的对手条看计分板，松手收起 */
+(function () {
+  var s = $("oppstrip");
+  s.addEventListener("pointerdown", function (e) { if (over) return; e.preventDefault(); showBoard(true); });
+  ["pointerup", "pointercancel", "pointerleave"].forEach(function (t) { s.addEventListener(t, hideBoard); });
+  s.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+})();
 function tick() {
   if (!ROOMV || !ROOMV.round) return;
   var rd = ROOMV.round, total = Math.max(1, (rd.serverDeadlineAtMs - rd.serverStartedAtMs) / 1000);

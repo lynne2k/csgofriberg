@@ -80,7 +80,7 @@ button, input { font: inherit; }
 
 /* 房间不存在 / 已关闭：单独一张提示牌，不退回两栏入口 */
 .gone { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; }
-.gone .card { position: relative; width: min(440px, 92vw); padding: 34px 30px 28px; border-radius: 18px; text-align: center; color: #2a1c10; transform: rotate(-1.2deg);
+.gone .card { position: relative; width: min(440px, 100%); padding: 34px 30px 28px; border-radius: 18px; text-align: center; color: #2a1c10; transform: rotate(-1.2deg);
   background: radial-gradient(circle at 20% 0%, rgba(255,255,255,.55), transparent 50%), linear-gradient(#f8f0de, #e3cfa6); box-shadow: inset 0 0 0 6px #f3ead6, inset 0 0 0 7px #8a6a3b, 0 24px 50px rgba(0,0,0,.5); }
 .gone .rid { font-family: var(--display); font-weight: 700; font-size: clamp(32px, 5vw, 48px); letter-spacing: .16em; line-height: 1; text-decoration: line-through; text-decoration-color: #c4383c; text-decoration-thickness: 4px; opacity: .8; }
 .gone h2 { margin-top: 16px; font-family: var(--display); font-size: 22px; letter-spacing: .12em; }
@@ -219,6 +219,24 @@ button, input { font: inherit; }
   .ring::before { inset: calc(178px + var(--seat-h) * .2) 9% calc(28px + var(--seat-h) * .2); }
   .center { top: calc(50% + 75px); width: min(720px, 74%); gap: 12px; }
 }
+/* 手机大厅：座位排成一行（多了就换行），设置和按钮接在下面，整块可以上下滑，谁也不压谁 */
+@media (max-width: 860px) {
+  :root { --seat-w: min(76px, calc((100vw - 110px) / 4)); }
+  .ring { position: absolute; left: 0; right: 0; top: 168px; bottom: 0; width: auto; height: auto; transform: none; display: flex; flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 0 14px calc(18px + env(safe-area-inset-bottom)); }
+  .seats { position: relative; inset: auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 22px 10px; padding: 16px 0 14px; flex-shrink: 0; }
+  .seat { position: relative; left: auto !important; top: auto !important; transform: none; flex-shrink: 0; }
+  .seat.empty:hover, .seat.empty:focus-visible { transform: translateY(-3px); }
+  .seat.deal { animation-name: dealN; }
+  .seat .nm { font-size: 12px; left: 5px; right: 5px; }
+  .seat .sc { font-size: 17px; }
+  .seat .fr::before { font-size: 10px; padding: 1px 5px; }
+  .center { position: relative; left: auto; top: auto; bottom: auto; transform: none; width: 100%; margin: auto 0 0; gap: 10px; }
+  .ropts { gap: 8px; }
+  .ropts button { min-width: 40px; height: 34px; }
+  .acts .btn { min-height: 46px; }
+  .felt::after { display: none; }
+}
+@keyframes dealN { from { opacity: 0; transform: translateY(-60%) scale(1.1) rotate(-8deg); } }
 </style>
 </head>
 <body>
