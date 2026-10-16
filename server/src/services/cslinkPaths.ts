@@ -92,6 +92,9 @@ export class CsLinkPathGraph {
     }
   }
 
+  /** Every player that has at least one proven teammate edge. */
+  ids(): string[] { return [...this.neighbors.keys()]; }
+
   /** A missing path means only "not connected in this game snapshot". */
   shortestJumps(startId: string, endId: string): number | null {
     if (!this.neighbors.has(startId) || !this.neighbors.has(endId)) return null;
@@ -113,13 +116,14 @@ export class CsLinkPathGraph {
   /** Try random starts first; search remaining starts only if needed so null proves no qualifying pair. */
   sampleDistantPair(minJumps = 3, maxJumps = 6, maxSources = 32,
     randomInt: (maxExclusive: number) => number = crypto.randomInt,
-    endpointAllowed?: (id: string) => boolean):
+    endpointAllowed?: (id: string) => boolean, filterKey = 'filtered'):
     { startId: string; endId: string; shortestJumps: number; dataVersion: string } | null {
     if (!Number.isSafeInteger(minJumps) || !Number.isSafeInteger(maxJumps) ||
         !Number.isSafeInteger(maxSources) || minJumps < 2 || maxJumps < minJumps || maxSources < 1) {
       throw new Error('CSLINK_PATH_INVALID_DISTANCE_RANGE');
     }
-    const rangeKey = `${minJumps}:${maxJumps}:${endpointAllowed ? 'filtered' : 'all'}`;
+    // Different endpoint filters (e.g. difficulty tiers) must not share the "no pair" cache.
+    const rangeKey = `${minJumps}:${maxJumps}:${endpointAllowed ? filterKey : 'all'}`;
     if (this.absentDistanceRanges.has(rangeKey)) return null;
     const allStarts = [...this.neighbors.keys()].sort();
     const findFrom = (startId: string, endOk: (id: string) => boolean) => {

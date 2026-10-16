@@ -21,6 +21,7 @@ import adminRoutes from './routes/admin';
 import externalPlayerRoutes, { externalPlayerAuth } from './routes/externalPlayers';
 import { setupSocket } from './socket';
 import { setupCsLinkRooms } from './socket/cslinkRooms';
+import { buildCsLinkDifficultyFilters, CSLINK_DIFFICULTIES, CSLINK_DIFFICULTY_KEYS } from './services/cslinkDifficulty';
 import {
   closeRedis,
   duplicateRedisClient,
@@ -364,12 +365,28 @@ async function main() {
     }
   }
   const stopSocket = setupSocket(io);
+  // 难度分档：在能当两端的选手里按出场图数排名，热门选手进简单档
+  let difficultyFilters: ReturnType<typeof buildCsLinkDifficultyFilters>['filters'] | undefined;
+  if (cslinkEnabled && cslinkPlay) {
+    const play = cslinkPlay;
+    const mapCount = (id: string) => {
+      const p = play.getPathPlayer(id);
+      return p ? p.verifiedMapCount + p.candidateMapCount + (p.legacyMapCount ?? 0) : 0;
+    };
+    const built = buildCsLinkDifficultyFilters(play.pathGraph().ids(), cslinkEndpointOk, mapCount);
+    difficultyFilters = built.filters;
+    console.log(`[cslink] 难度分档：可出题 ${built.ranked.length} 人；` + CSLINK_DIFFICULTY_KEYS.map(key => {
+      const tier = CSLINK_DIFFICULTIES[key];
+      return `${tier.label} 前${Number.isFinite(tier.topN) ? tier.topN : '全部'}人·${tier.minJumps}-${tier.maxJumps}跳`;
+    }).join('，'));
+  }
   const stopCsLinkRooms = cslinkEnabled && cslinkPlay ? setupCsLinkRooms(io, cslinkPlay, {
     countdownMs: 3_000,
     // 等所有人打开对战页的宽限上限；全员到齐后提前开表
     arrivalGraceMs: 12_000,
     interRoundMs: 6_000,
     endpointAllowed: portraitIds.size || activeIds.size ? cslinkEndpointOk : undefined,
+    difficultyFilters,
   }) : () => undefined;
 
   server.listen(config.port, () => {

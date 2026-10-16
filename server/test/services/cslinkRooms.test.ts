@@ -134,6 +134,10 @@ describe('CS Link local room authority', () => {
 
   it('accumulates round wins, ends the match at the target score and resets on the next match', () => {
     const roomId = lobby();
+    expect(rooms.sync('a').room!.difficulty).toBe('normal');
+    expect(rooms.setOptions('a', roomId, { difficulty: 'impossible' as any }).code).toBe('VALIDATION_FAILED');
+    expect(rooms.setOptions('a', roomId, { difficulty: 'easy' }).room!.difficulty).toBe('easy');
+    expect(rooms.setOptions('b', roomId, { difficulty: 'hell' }).code).toBe('HOST_ONLY');
     expect(rooms.setOptions('b', roomId, { targetScore: 2 }).code).toBe('HOST_ONLY');
     expect(rooms.setOptions('a', roomId, { targetScore: 11 }).code).toBe('VALIDATION_FAILED');
     expect(rooms.setOptions('a', roomId, { durationSeconds: 19 }).code).toBe('VALIDATION_FAILED');

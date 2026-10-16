@@ -1186,7 +1186,7 @@ function preTick(rd) {
   } else {
     var s = Math.ceil(msLeft / 1000); key = "c" + s;
     txt = s <= 0 ? "GO" : String(s); cls = s <= 0 ? "go" : "";
-    $("preS").textContent = "每局 " + ROOMV.durationSeconds + " 秒 · 先到 " + ROOMV.targetScore + " 分赢";
+    $("preS").textContent = ({ easy: "简单", normal: "普通", hard: "困难", hell: "地狱" }[ROOMV.difficulty] || "普通") + " · 每局 " + ROOMV.durationSeconds + " 秒 · 先到 " + ROOMV.targetScore + " 分赢";
   }
   if (key !== preLast) {
     preLast = key; n.className = cls; n.textContent = txt;

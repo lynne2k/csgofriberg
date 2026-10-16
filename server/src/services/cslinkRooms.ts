@@ -2,6 +2,8 @@ import crypto from 'crypto';
 import type { PlayPlayer } from './cslinkPlay';
 import { CsLinkPathGraph, CsLinkPathRound, CsLinkPathFinish, compareCsLinkPathFinishes } from './cslinkPaths';
 import type { StoredIdentity } from './roomStore';
+import { CSLINK_DIFFICULTIES, DEFAULT_CSLINK_DIFFICULTY, isCsLinkDifficulty,
+  type CsLinkDifficulty, type CsLinkDifficultyFilters } from './cslinkDifficulty';
 
 export interface CsLinkRoomStore {
   pathGraph(): CsLinkPathGraph;
@@ -16,6 +18,7 @@ export interface CsLinkRoomResult {
 export interface CsLinkRoomView {
   id: string; revision: number; status: 'lobby' | 'playing' | 'finished';
   hostKey: string; maxPlayers: number; durationSeconds: number;
+  difficulty: CsLinkDifficulty;
   /** First to this many round wins takes the match. */
   targetScore: number; matchOver: boolean;
   /** Round number within the current match (1-based; 0 before the first round). */
@@ -42,6 +45,7 @@ interface Member {
 interface Room {
   id: string; revision: number; status: CsLinkRoomView['status']; hostKey: string;
   maxPlayers: number; durationSeconds: number; members: Member[];
+  difficulty: CsLinkDifficulty;
   targetScore: number; matchOver: boolean; arrivals: Set<string>;
   roundNo: number; nextRoundAtMs: number | null; nextTimer: ReturnType<typeof setTimeout> | null;
   graph: CsLinkPathGraph; round: CsLinkPathRound | null; result: CsLinkRoomResult | null; touchedAt: number;
@@ -53,6 +57,8 @@ export interface CsLinkRoomOptions {
   maxRooms?: number;
   /** Question endpoints must pass this (e.g. players with a portrait); falls back if none qualify. */
   endpointAllowed?: (id: string) => boolean;
+  /** Per-difficulty endpoint filters (popularity tiers); falls back to endpointAllowed when absent. */
+  difficultyFilters?: CsLinkDifficultyFilters;
   /** Delay between the host pressing start and the round clock starting, for the shared countdown. */
   countdownMs?: number;
   /** Extra time allowed for everyone to load the duel page; the clock starts early once all have arrived. */
@@ -71,6 +77,7 @@ export class CsLinkRooms {
   private roomTtlMs: number;
   private maxRooms: number;
   private endpointAllowed?: (id: string) => boolean;
+  private difficultyFilters?: CsLinkDifficultyFilters;
   private countdownMs: number;
   private arrivalGraceMs: number;
   /** null disables automatic next rounds; the host can still use nextRound / rematch. */
@@ -82,6 +89,7 @@ export class CsLinkRooms {
     this.roomTtlMs = options.roomTtlMs ?? 60 * 60 * 1000;
     this.maxRooms = options.maxRooms ?? 100;
     this.endpointAllowed = options.endpointAllowed;
+    this.difficultyFilters = options.difficultyFilters;
     this.countdownMs = Math.max(0, options.countdownMs ?? 0);
     this.arrivalGraceMs = Math.max(0, options.arrivalGraceMs ?? 0);
     this.interRoundMs = options.interRoundMs === undefined ? null : Math.max(0, options.interRoundMs);
@@ -117,7 +125,8 @@ export class CsLinkRooms {
     return this.reply(key);
   }
 
-  create(identity: StoredIdentity, durationSeconds = 20, maxPlayers = 2, targetScore = 3): CsLinkRoomReply {
+  create(identity: StoredIdentity, durationSeconds = 20, maxPlayers = 2, targetScore = 3,
+    difficulty: CsLinkDifficulty = DEFAULT_CSLINK_DIFFICULTY): CsLinkRoomReply {
     this.sweep();
     const existing = this.roomFor(identity.key);
     if (existing) {
@@ -128,11 +137,12 @@ export class CsLinkRooms {
     if (this.rooms.size >= this.maxRooms) return this.reply(identity.key, 'ROOM_LIMIT');
     if (!Number.isInteger(durationSeconds) || durationSeconds < 20 || durationSeconds > 600 ||
         !Number.isInteger(targetScore) || targetScore < 1 || targetScore > 10 ||
+        !isCsLinkDifficulty(difficulty) ||
         !Number.isInteger(maxPlayers) || maxPlayers < 2 || maxPlayers > 8) return this.reply(identity.key, 'VALIDATION_FAILED');
     let id: string;
     do { id = `L${crypto.randomBytes(5).toString('hex').slice(0, 5).toUpperCase()}`; } while (this.rooms.has(id));
     const room: Room = { id, revision: 0, status: 'lobby', hostKey: identity.key, maxPlayers,
-      durationSeconds, targetScore, matchOver: false, arrivals: new Set(),
+      durationSeconds, difficulty, targetScore, matchOver: false, arrivals: new Set(),
       roundNo: 0, nextRoundAtMs: null, nextTimer: null,
       members: [this.newMember(identity)], graph: this.store.pathGraph(), round: null, result: null,
       touchedAt: this.now(), timer: null };
@@ -166,15 +176,18 @@ export class CsLinkRooms {
   }
 
   /** Host changes round length or target score between rounds. Changing the target restarts the match score. */
-  setOptions(key: string, roomId: string, input: { durationSeconds?: number; targetScore?: number }): CsLinkRoomReply {
+  setOptions(key: string, roomId: string,
+    input: { durationSeconds?: number; targetScore?: number; difficulty?: CsLinkDifficulty }): CsLinkRoomReply {
     const room = this.authorized(key, roomId);
     if (!room) return this.reply(key, 'NOT_IN_ROOM');
     if (room.hostKey !== key) return this.reply(key, 'HOST_ONLY');
     if (room.status !== 'lobby') return this.reply(key, 'NOT_LOBBY');
-    const { durationSeconds, targetScore } = input;
+    const { durationSeconds, targetScore, difficulty } = input;
     if (durationSeconds !== undefined && (!Number.isInteger(durationSeconds) || durationSeconds < 20 || durationSeconds > 600)) return this.reply(key, 'VALIDATION_FAILED');
     if (targetScore !== undefined && (!Number.isInteger(targetScore) || targetScore < 1 || targetScore > 10)) return this.reply(key, 'VALIDATION_FAILED');
+    if (difficulty !== undefined && !isCsLinkDifficulty(difficulty)) return this.reply(key, 'VALIDATION_FAILED');
     if (durationSeconds !== undefined) room.durationSeconds = durationSeconds;
+    if (difficulty !== undefined) room.difficulty = difficulty;
     if (targetScore !== undefined && targetScore !== room.targetScore) {
       room.targetScore = targetScore; room.matchOver = false;
       for (const member of room.members) member.score = 0;
@@ -224,7 +237,11 @@ export class CsLinkRooms {
 
   /** Draws a fresh question and starts the clock flow; members must already be reset. */
   private beginRound(room: Room): string | undefined {
-    const pair = room.graph.sampleDistantPair(3, 6, 32, undefined, this.endpointAllowed);
+    const tier = CSLINK_DIFFICULTIES[room.difficulty];
+    const filter = this.difficultyFilters?.[room.difficulty];
+    const pair = filter
+      ? room.graph.sampleDistantPair(tier.minJumps, tier.maxJumps, 32, undefined, filter, `tier:${room.difficulty}`)
+      : room.graph.sampleDistantPair(tier.minJumps, tier.maxJumps, 32, undefined, this.endpointAllowed);
     if (!pair) return 'NO_QUESTION';
     // Upper bound while people load the duel page; arrive() pulls it forward once everyone is in.
     const started = this.now() + this.countdownMs + this.arrivalGraceMs;
@@ -405,6 +422,7 @@ export class CsLinkRooms {
     const view: CsLinkRoomView | null = room && member && !member.left ? {
       id: room.id, revision: room.revision, status: room.status, hostKey: room.hostKey,
       maxPlayers: room.maxPlayers, durationSeconds: room.durationSeconds,
+      difficulty: room.difficulty,
       targetScore: room.targetScore, matchOver: room.matchOver,
       roundNo: room.roundNo, nextRoundAtMs: room.nextRoundAtMs,
       waitingKeys: room.status === 'playing' ? room.members.filter(other => !other.left && !room.arrivals.has(other.key)).map(other => other.key) : [],

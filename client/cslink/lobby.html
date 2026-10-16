@@ -51,7 +51,7 @@ button, input { font: inherit; }
 
 /* 入口：左橙建房，右蓝进房 */
 .entry { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 44px); padding: clamp(84px, 13vh, 130px) clamp(30px, 7vw, 120px) clamp(40px, 9vh, 90px); }
-.mat { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: clamp(22px, 3.4vw, 46px); border-radius: 18px; background: rgba(8,16,13,.38); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), inset 0 20px 50px rgba(0,0,0,.25); overflow: hidden; }
+.mat { position: relative; display: flex; flex-direction: column; justify-content: safe center; gap: clamp(10px, 1.8vh, 22px); padding: clamp(22px, 3.4vw, 46px); border-radius: 18px; background: rgba(8,16,13,.38); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), inset 0 20px 50px rgba(0,0,0,.25); overflow: hidden; }
 .entry.solo { grid-template-columns: minmax(0, 620px); justify-content: center; }
 .entry.solo #fJoin { display: none; }
 .mat.focus { box-shadow: inset 0 0 0 1px rgba(245,166,35,.55), 0 0 0 1px rgba(245,166,35,.25), 0 0 40px rgba(245,166,35,.18), inset 0 20px 50px rgba(0,0,0,.25); }
@@ -59,7 +59,7 @@ button, input { font: inherit; }
 .mat.t { --side: var(--t); } .mat.ct { --side: #6f86ff; }
 .mat h2 { font-family: var(--display); font-size: clamp(30px, 3.4vw, 50px); letter-spacing: .14em; line-height: 1; color: var(--side); }
 .mat h2 small { display: block; margin-top: 10px; font-family: var(--body); font-size: 14px; letter-spacing: .04em; color: var(--white); opacity: .6; font-weight: 500; }
-.opt { display: grid; gap: 9px; }
+.opt { display: grid; gap: 8px; }
 .opt > span { font-family: var(--display); font-size: 11px; letter-spacing: .24em; opacity: .55; }
 .chips { display: flex; gap: 12px; flex-wrap: wrap; }
 /* 选项做成筹码 */
@@ -148,7 +148,7 @@ button, input { font: inherit; }
 
 @media (max-width: 860px) {
   .back { top: 22px; left: 30px; }
-  .entry { grid-template-columns: 1fr; padding: 64px 22px 26px; gap: 14px; overflow-y: auto; }
+  .entry { grid-template-columns: 1fr; grid-auto-rows: max-content; padding: 64px 22px 26px; gap: 14px; overflow-y: auto; }
   .mat { gap: 12px; padding: 18px 20px; justify-content: flex-start; }
   .chip { width: 54px; height: 54px; font-size: 15px; } .chip span { width: 36px; height: 36px; }
   .plate { top: 52px; padding: 10px 10px 10px 16px; gap: 12px; } .plate .lbl { display: none; } .plate .copy { min-width: 84px; padding: 8px 10px; }
@@ -191,6 +191,13 @@ button, input { font: inherit; }
 .status:empty { display: none; }
 @media (max-width: 860px) { .felt::after { top: 40%; font-size: 64px; } .seat.empty .plus { width: 26px; height: 26px; font-size: 17px; } }
 @media (prefers-reduced-motion: reduce) { .seat .in { transition: none; } .seat.deal, .count b, .view.on { animation: none; } }
+@media (min-width: 861px) {
+  #fCreate .opt { grid-template-columns: 5.6em 1fr; align-items: center; gap: 14px; }
+}
+@media (min-width: 861px) and (max-height: 900px) {
+  #fCreate .chip { width: 56px; height: 56px; font-size: 15px; } #fCreate .chip span { width: 38px; height: 38px; }
+  #fCreate .chips { gap: 10px; }
+}
 /* 房内设置：房主可改，其他人只看 */
 .ropts { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 .ropts .grp { display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: rgba(0,0,0,.32); box-shadow: inset 0 0 0 1px rgba(245,210,140,.18); }
@@ -218,6 +225,12 @@ button, input { font: inherit; }
         <button type="button" class="chip" data-v="30" aria-pressed="false"><span>30<small>秒</small></span></button>
         <button type="button" class="chip" data-v="45" aria-pressed="false"><span>45<small>秒</small></span></button>
         <button type="button" class="chip" data-v="60" aria-pressed="false"><span>60<small>秒</small></span></button>
+      </div></div>
+      <div class="opt"><span>题目难度</span><div class="chips" data-k="difficulty" data-str="1">
+        <button type="button" class="chip" data-v="easy" aria-pressed="false"><span>简单<small>2 跳</small></span></button>
+        <button type="button" class="chip" data-v="normal" aria-pressed="true"><span>普通<small>3 跳</small></span></button>
+        <button type="button" class="chip" data-v="hard" aria-pressed="false"><span>困难<small>3-4 跳</small></span></button>
+        <button type="button" class="chip" data-v="hell" aria-pressed="false"><span>地狱<small>4+ 跳</small></span></button>
       </div></div>
       <div class="opt"><span>先拿几分</span><div class="chips" data-k="targetScore">
         <button type="button" class="chip" data-v="1" aria-pressed="false"><span>1<small>分</small></span></button>
@@ -350,7 +363,7 @@ document.querySelectorAll(".chips").forEach(function (g) {
     g.querySelectorAll(".chip").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
   });
 });
-function pick(k) { return Number(document.querySelector('.chips[data-k="' + k + '"] [aria-pressed="true"]').dataset.v); }
+function pick(k) { var v = document.querySelector('.chips[data-k="' + k + '"] [aria-pressed="true"]').dataset.v; return k === "difficulty" ? v : Number(v); }
 /* create / join 之外的事件都带上当前房间号，和 CsLinkDuel.tsx 一致 */
 async function call(event, payload, errId) {
   if (busy) return null; busy = true; showErr(errId);
@@ -361,7 +374,7 @@ async function call(event, payload, errId) {
   if (res.code) { showErr(errId, res.code, res.reason); return null; }
   accept(res); return res;
 }
-$("fCreate").onsubmit = function (e) { e.preventDefault(); call("create", { durationSeconds: pick("durationSeconds"), maxPlayers: pick("maxPlayers"), targetScore: pick("targetScore") }, "eCreate"); };
+$("fCreate").onsubmit = function (e) { e.preventDefault(); call("create", { durationSeconds: pick("durationSeconds"), maxPlayers: pick("maxPlayers"), targetScore: pick("targetScore"), difficulty: pick("difficulty") }, "eCreate"); };
 $("fJoin").onsubmit = function (e) {
   e.preventDefault(); var id = parseRoom($("joinIn").value);
   if (!id) return showErr("eJoin", "ROOM_NOT_FOUND");
@@ -390,7 +403,7 @@ function render(r) {
   var act = r.players.filter(function (x) { return !x.left; });
   var me = act.find(function (x) { return x.key === ME; }), isHost = r.hostKey === ME;
   $("code").textContent = r.id;
-  $("meta").innerHTML = "<span><b>" + r.durationSeconds + "</b>秒一局</span><span>先到<b>" + r.targetScore + "</b>分</span><span><b>" + act.length + "</b>/ " + r.maxPlayers + " 人</span>";
+  $("meta").innerHTML = "<span><b>" + (DIFF[r.difficulty] || "普通") + "</b></span><span><b>" + r.durationSeconds + "</b>秒一局</span><span>先到<b>" + r.targetScore + "</b>分</span><span><b>" + act.length + "</b>/ " + r.maxPlayers + " 人</span>";
   renderOpts(r, isHost);
   var ring = $("ring");
   ring.querySelectorAll(".seat").forEach(function (s) { s.remove(); });
@@ -480,6 +493,7 @@ function enterDuel(r) {
 }
 /* 房内设置：时长和目标分。改目标分会把比分清零（服务端处理） */
 var OPT_DUR = [20, 30, 45, 60], OPT_SCORE = [1, 3, 5];
+var DIFF = { easy: "简单", normal: "普通", hard: "困难", hell: "地狱" };
 function renderOpts(r, isHost) {
   var box = $("ropts");
   if (r.status !== "lobby") { box.innerHTML = ""; return; }
@@ -489,12 +503,16 @@ function renderOpts(r, isHost) {
       return '<button type="button" data-k="' + k + '" data-v="' + v + '" aria-pressed="' + (v === cur) + '"' + (isHost ? "" : " disabled") + '>' + v + unit + '</button>';
     }).join("") + '</div>';
   }
-  box.innerHTML = grp("每局", "durationSeconds", OPT_DUR, r.durationSeconds, "s") + grp("先到", "targetScore", OPT_SCORE, r.targetScore, "分");
+  var curD = r.difficulty || "normal";
+  var diffGrp = '<div class="grp" role="group" aria-label="难度"><span>难度</span>' + Object.keys(DIFF).map(function (k) {
+    return '<button type="button" data-k="difficulty" data-s="' + k + '" aria-pressed="' + (k === curD) + '"' + (isHost ? "" : " disabled") + '>' + DIFF[k] + '</button>';
+  }).join("") + '</div>';
+  box.innerHTML = diffGrp + grp("每局", "durationSeconds", OPT_DUR, r.durationSeconds, "s") + grp("先到", "targetScore", OPT_SCORE, r.targetScore, "分");
   if (!isHost) return;
   box.querySelectorAll("button").forEach(function (b) {
     b.onclick = function () {
       if (b.getAttribute("aria-pressed") === "true") return;
-      var body = {}; body[b.dataset.k] = Number(b.dataset.v);
+      var body = {}; body[b.dataset.k] = b.dataset.s || Number(b.dataset.v);
       call("options", body, "eLobby");
     };
   });

@@ -5,8 +5,10 @@ import { CsLinkRooms, CsLinkRoomOptions, CsLinkRoomStore, CsLinkRoomReply } from
 import { allowLocalGuess, socketAllowedWithIp } from './connection';
 import { registerSocketEvent } from './event';
 import { cleanCsLinkNickname } from '../services/cslinkNickname';
+import { CSLINK_DIFFICULTY_KEYS } from '../services/cslinkDifficulty';
 
 const roomId = z.string().regex(/^L[0-9A-F]{5}$/);
+const difficulty = z.enum(CSLINK_DIFFICULTY_KEYS).optional();
 const nickname = z.string().max(64).optional();
 const roomPayload = z.object({ roomId }).strict();
 const emptyPayload = z.object({}).strict();
@@ -48,14 +50,16 @@ export function setupCsLinkRooms(io: Server, store: CsLinkRoomStore, options: Cs
     // 座位上显示昵称；房间成员仍按身份 key 区分
     const seated = (raw: unknown): StoredIdentity => ({ ...identity, name: cleanCsLinkNickname(raw) ?? identity.name });
     register('create', z.object({ durationSeconds: z.number().int().min(20).max(600).optional(),
-      maxPlayers: z.number().int().min(2).max(8).optional(), targetScore: z.number().int().min(1).max(10).optional(), nickname }).strict(),
-    payload => rooms.create(seated(payload.nickname), payload.durationSeconds, payload.maxPlayers, payload.targetScore));
+      maxPlayers: z.number().int().min(2).max(8).optional(), targetScore: z.number().int().min(1).max(10).optional(),
+      difficulty, nickname }).strict(),
+    payload => rooms.create(seated(payload.nickname), payload.durationSeconds, payload.maxPlayers, payload.targetScore,
+      payload.difficulty));
     register('join', roomPayload.extend({ nickname }).strict(),
       payload => rooms.join(seated(payload.nickname), payload.roomId));
     register('sync', emptyPayload, () => rooms.sync(identity.key));
     register('ready', roomPayload.extend({ ready: z.boolean() }).strict(), payload => rooms.ready(identity.key, payload.roomId, payload.ready));
     register('options', roomPayload.extend({ durationSeconds: z.number().int().min(20).max(600).optional(),
-      targetScore: z.number().int().min(1).max(10).optional() }).strict(),
+      targetScore: z.number().int().min(1).max(10).optional(), difficulty }).strict(),
     payload => rooms.setOptions(identity.key, payload.roomId, payload));
     register('arrive', roomPayload.extend({ roundId: z.string().uuid() }).strict(),
       payload => rooms.arrive(identity.key, payload.roomId, payload.roundId));
