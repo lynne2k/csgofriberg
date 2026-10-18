@@ -129,6 +129,16 @@
   .mmwait i { width: 12px; height: 12px; background: var(--white); animation: blink 1s infinite; transform: rotate(45deg); }
   .mmwait button { border: 0; background: transparent; color: var(--white); font: inherit; font-size: 15px; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; opacity: .8; }
   .mmrow.on .cta { display: none; } .mmrow.on .mmwait { display: inline-flex; }
+  .mmrow { margin-top: 30px; }
+  .mmrow #mm { font-size: 24px; padding: 20px 46px; min-width: 300px; justify-content: center; }
+  .mmwait { height: 68px; }
+  /* 好友房：建房和加入放一组，层级低于天梯 */
+  .friends { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.22); }
+  .friends .lb { display: block; font-size: 13px; letter-spacing: .2em; opacity: .65; margin-bottom: 12px; }
+  .friends .row { margin-top: 0; align-items: stretch; }
+  .friends .cta { font-size: 16px; padding: 12px 22px; white-space: nowrap; flex: none; }
+  .friends .code { width: 200px; min-width: 0; height: auto; font-size: 15px; }
+  .friends .or { align-self: center; font-size: 13px; opacity: .55; }
   .mmnote { margin-top: 10px; min-height: 18px; font-size: 14px; opacity: .8; }
   @keyframes blink { 50% { opacity: .2; } }
 
@@ -202,6 +212,7 @@
         <div class="meta">
           <div><b id="dNo">#–</b><span>今日题号</span></div>
           <div><b id="dLeft">--:--:--</b><span>距离刷新</span></div>
+          <div><b id="dDone">–</b><span>今日已连通</span></div>
         </div>
         <button class="cta">开始挑战 ▸</button>
       </div>
@@ -214,20 +225,24 @@
         <div class="en">VERSUS ROOM</div>
         <p class="desc">谁是真正的链接仙人</p>
         <div class="meta">
+          <div><b>1v1</b><span>天梯</span></div>
+          <div><b>2–8</b><span>好友房</span></div>
           <div><b>0:20</b><span>回合时限</span></div>
-          <div><b>2–8</b><span>房间人数</span></div>
-          <div><b id="dDone">–</b><span>今日已连通</span></div>
-        </div>
-        <div class="row">
-          <input class="code" placeholder="房间号或邀请链接" autocomplete="off" spellcheck="false" aria-label="房间号或邀请链接" />
-          <button class="cta ghostbtn">加入</button>
         </div>
         <div class="row mmrow" id="mmrow">
-          <button class="cta ghostbtn mk" id="create">建房</button>
           <button class="cta" id="mm">天梯匹配 ▸</button>
           <span class="mmwait" role="status"><i></i>匹配中 <b id="mmT">0:00</b><button type="button" id="mmCancel">取消</button></span>
         </div>
         <div class="mmnote" id="mmNote"></div>
+        <div class="friends">
+          <span class="lb">和朋友玩</span>
+          <div class="row">
+            <button class="cta ghostbtn mk" id="create">建房</button>
+            <span class="or">或</span>
+            <input class="code" placeholder="房间号或链接" autocomplete="off" spellcheck="false" aria-label="房间号或邀请链接" />
+            <button class="cta ghostbtn" id="join">加入</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -248,7 +263,7 @@
     }
     var start = document.querySelector(".left .cta");
     var code = document.querySelector(".right .code");
-    var join = document.querySelector(".right .code + .ghostbtn");
+    var join = document.getElementById("join");
     var create = document.getElementById("create");
     start.addEventListener("click", function () { wipe(G + "daily.html", "t"); });
     create.addEventListener("click", function () { wipe(G + "lobby.html?create=1", "ct"); });
