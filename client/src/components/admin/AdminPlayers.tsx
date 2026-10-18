@@ -79,7 +79,22 @@ export default function AdminPlayers() {
 
   const save = async (form: PlayerForm) => {
     try {
-      const { id, ...body } = form;
+      const { id } = form;
+      // The list response also contains read-only database metadata. Only send editable fields.
+      const body: Omit<PlayerForm, 'id'> = {
+        nickname: form.nickname,
+        nationality: form.nationality,
+        region: form.region,
+        team: form.team,
+        team_history: form.team_history,
+        age: form.age,
+        role: form.role,
+        major_championships: form.major_championships,
+        major_appearances: form.major_appearances,
+        difficulties: form.difficulties,
+        is_active: form.is_active,
+        is_enabled: form.is_enabled,
+      };
       if (id) {
         await api.put(`/admin/players/${id}`, body);
       } else {

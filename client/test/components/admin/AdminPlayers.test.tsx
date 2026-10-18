@@ -30,6 +30,30 @@ describe('AdminPlayers', () => {
     await i18n.changeLanguage('zh');
   });
 
+  it('edits a role without submitting database metadata', async () => {
+    const editable = {
+      nickname: 'cmtry', nationality: '乌克兰', region: '欧洲',
+      team: 'Astralis', team_history: ['Taipan', 'NAVI Junior', 'FUT'],
+      age: 19, role: 'AWPer', major_championships: 0,
+      major_appearances: 1, difficulties: ['normal'],
+      is_active: true, is_enabled: true,
+    };
+    const row = { ...editable, id: 179, created_at: '2026-08-17 15:34:07' };
+    vi.mocked(api.get).mockResolvedValue({
+      data: { players: [row], total: 1, page: 1, pageSize: 50, totalPages: 1 },
+    } as never);
+    vi.mocked(api.put).mockResolvedValue({ data: { ok: true } } as never);
+    const user = userEvent.setup();
+    renderWithProviders(<AdminPlayers />);
+    await user.click(await screen.findByRole('button', { name: '编辑' }));
+    await user.selectOptions(screen.getByRole('combobox', { name: '选手位置' }), 'Rifler');
+    await user.click(screen.getByRole('button', { name: '保存修改' }));
+    await waitFor(() => expect(api.put).toHaveBeenCalledWith('/admin/players/179', {
+      ...editable, role: 'Rifler',
+    }));
+    expect(toast.success).toHaveBeenCalledWith(i18n.t('admin.saved'));
+  });
+
   it('downloads the complete import-compatible player JSON', async () => {
     const exportedPlayers = [{
       nickname: 'export-player',
