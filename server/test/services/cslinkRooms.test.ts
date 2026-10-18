@@ -105,6 +105,13 @@ describe('CS Link local room authority', () => {
     expect(room.players.every(p => !p.gaveUp)).toBe(true);
     rooms.giveUp('a', room.id, room.round!.roundId); rooms.giveUp('b', room.id, room.round!.roundId);
     expect(rooms.sync('a').room!.result).toMatchObject({ winnerKeys: [], reason: 'all_incomplete' });
+    // Nobody connected: the result still publishes a shortest route with per-hop HLTV sources.
+    const answer = rooms.sync('a').room!.result!.answer!;
+    expect(answer.routeIds[0]).toBe(room.round!.start.id);
+    expect(answer.routeIds.at(-1)).toBe(room.round!.end.id);
+    expect(answer.jumps).toBe(answer.routeIds.length - 1);
+    expect(answer.route.map(p => p.id)).toEqual(answer.routeIds);
+    answer.hops.forEach(hop => expect(hop.evidence.sourceUrl).toContain('hltv.org'));
     expect(rooms.giveUp('a', room.id, room.round!.roundId).code).toBe('NOT_PLAYING');
   });
 

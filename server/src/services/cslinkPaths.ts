@@ -96,6 +96,32 @@ export class CsLinkPathGraph {
   ids(): string[] { return [...this.neighbors.keys()]; }
 
   /** A missing path means only "not connected in this game snapshot". */
+  /** One shortest route with its evidence. `via` restricts intermediates (endpoints are always allowed). */
+  shortestRoute(startId: string, endId: string, via?: (id: string) => boolean):
+    { routeIds: string[]; hops: CsLinkPathHop[] } | null {
+    if (!this.neighbors.has(startId) || !this.neighbors.has(endId) || startId === endId) return null;
+    const parent = new Map<string, string | null>([[startId, null]]);
+    const queue = [startId];
+    let found = false;
+    for (let i = 0; i < queue.length && !found; i++) {
+      const current = queue[i];
+      // Sorted for a stable answer across processes.
+      for (const neighbor of [...this.neighbors.get(current)!].sort()) {
+        if (parent.has(neighbor)) continue;
+        if (neighbor === endId) { parent.set(neighbor, current); found = true; break; }
+        if (via && !via(neighbor)) continue;
+        parent.set(neighbor, current);
+        queue.push(neighbor);
+      }
+    }
+    if (!found) return null;
+    const routeIds: string[] = [];
+    for (let id: string | null = endId; id; id = parent.get(id) ?? null) routeIds.unshift(id);
+    const hops = routeIds.slice(1).map((toId, i) => ({ fromId: routeIds[i], toId,
+      evidence: { ...this.links.get(edgeKey(routeIds[i], toId))! } }));
+    return { routeIds, hops };
+  }
+
   shortestJumps(startId: string, endId: string): number | null {
     if (!this.neighbors.has(startId) || !this.neighbors.has(endId)) return null;
     if (startId === endId) return 0;

@@ -56,6 +56,23 @@ describe('CS Link path duel rules', () => {
     expect(sparse.sampleDistantPair(4, 4, 1, n => n - 1)).toBeNull();
   });
 
+  it('publishes one stable shortest route with HLTV evidence for every hop', () => {
+    const g = graph();
+    const answer = g.shortestRoute(id(1), id(5))!;
+    expect(answer.routeIds).toHaveLength(5);
+    expect(answer.routeIds[0]).toBe(id(1));
+    expect(answer.routeIds.at(-1)).toBe(id(5));
+    expect(g.shortestRoute(id(1), id(5))).toEqual(answer);
+    answer.hops.forEach((hop, i) => {
+      expect(hop).toMatchObject({ fromId: answer.routeIds[i], toId: answer.routeIds[i + 1] });
+      expect(hop.evidence.sourceUrl).toMatch(/^https:\/\/www\.hltv\.org\/stats\/matches\/mapstatsid\//);
+    });
+    // Blocking person 6 forces the 3 -> 4 route; blocking 3 and 6 leaves no route.
+    expect(g.shortestRoute(id(1), id(5), x => x !== id(6))!.routeIds).toEqual([1, 2, 3, 4, 5].map(id));
+    expect(g.shortestRoute(id(1), id(5), x => x !== id(6) && x !== id(3))).toBeNull();
+    expect(g.shortestRoute(id(1), id(99))).toBeNull();
+  });
+
   it('prefers endpoints that pass the filter and falls back when none qualify', () => {
     const sparse = new CsLinkPathGraph(version, [link(1, 2), link(2, 3), link(3, 4), link(4, 5)]);
     const allowed = new Set([id(2), id(5)]);

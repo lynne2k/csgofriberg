@@ -266,7 +266,21 @@ button, input { font: inherit; }
 .sb footer a { background: rgba(255,255,255,.1); color: var(--white); }
 .sb.peek footer, .sb.peek .mvp { display: none; }
 .sb footer .wait { margin-right: auto; font-size: 13px; letter-spacing: .12em; opacity: .65; }
+/* 参考答案：每局结束公开一条最短路线，每一跳都能点开 HLTV 出处 */
+.sb .ans { position: relative; display: none; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px; margin: 6px 12px 0; padding: 10px 12px; background: linear-gradient(90deg, rgba(78,104,228,.16), rgba(78,104,228,.03)); border-left: 3px solid #4e68e4; }
+.sb .ans.on { display: grid; }
+.sb .ans .lb2 { font-size: 11px; letter-spacing: .2em; white-space: nowrap; }
+.sb .ans .lb2 b { display: block; font-size: 22px; letter-spacing: .04em; color: #9fb0ff; line-height: 1.1; }
+.sb .ans .lb2 small { display: block; font-size: 10px; opacity: .55; letter-spacing: .1em; }
+.sb .ans .rt { flex-wrap: wrap; row-gap: 6px; }
+.sb .ans a.ev { flex: none; display: inline-flex; align-items: center; height: 26px; padding: 0 5px; text-decoration: none; }
+.sb .ans a.ev i { display: block; width: 22px; height: 2px; background: #ffd27a; position: relative; }
+.sb .ans a.ev i::after { content: ""; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; background: #ffd27a; transform: translate(-50%, -50%) rotate(45deg); }
+.sb .ans a.ev span { margin-left: 3px; font-size: 9px; font-weight: 700; letter-spacing: .06em; color: #ffd27a; opacity: .75; }
+.sb .ans a.ev:hover span, .sb .ans a.ev:focus-visible span { opacity: 1; text-decoration: underline; }
+.sb.peek .ans { display: none; }
 @media (max-width: 860px) {
+  .sb .ans { grid-template-columns: 1fr; gap: 6px; }
   .sb .th, .sb li { grid-template-columns: 34px minmax(0, 1fr) 46px 64px 40px; }
   .sb .th .rt { display: none; }
   .sb li .rt { grid-column: 2 / -1; flex-wrap: wrap; row-gap: 4px; }
@@ -427,6 +441,7 @@ button, input { font: inherit; }
   <header><div><b id="sbTitle">比赛结束</b><span id="sbSub"></span></div><div class="sbq" id="sbQ"></div></header>
   <div class="mvp" id="sbMvp"></div>
   <div class="grid"><div class="th"><span></span><span>玩家</span><span class="r">跳数</span><span class="r">用时</span><span class="r">比分</span><span class="rt">路线</span></div><ol id="sbBody"></ol></div>
+  <div class="ans" id="sbAns" aria-label="参考答案"></div>
   <footer id="sbFoot"></footer>
 </div></div>
 <div class="pre" id="pre" aria-live="assertive"><div class="q" id="preQ"></div><b id="preN"></b><small id="preS"></small></div>
@@ -960,7 +975,7 @@ $("q").addEventListener("input", function (e) { query = e.target.value; renderFa
    规则：限时内连通；先比跳数，跳数相同比用时；没连通的排最后。判定和排名都以服务端为准。
    对局中对手只露两样：是否已连通、连通时的跳数。路线和用时在结束后的计分板里公开。 */
 var WANT = (new URLSearchParams(location.search).get("room") || "").toUpperCase();
-var ROOMV = null, ME = "", offset = 0, over = false, latestRev = 0, FINAL = null, lastSync = 0;
+var ROOMV = null, ME = "", offset = 0, over = false, latestRev = 0, FINAL = null, ANSWER = null, lastSync = 0;
 var arrived = {};
 var me = { name: "你", me: true, hops: null, t: null, route: null, gaveUp: false };
 var others = [];
@@ -976,6 +991,7 @@ function ensurePlayer(pp) {
 function resetRound() {
   queue = []; hand = []; query = ""; $("q").value = ""; phase = "idle"; result = null; verdicts = []; activePair = -1;
   over = false; FINAL = null; me.hops = null; me.t = null; me.route = null; me.gaveUp = false;
+  ANSWER = null;
   clearBeams(); $("sb").classList.remove("on", "peek");
 }
 function applyRoom(res) {
@@ -1071,6 +1087,8 @@ function finishRound(r) {
     var b = x.best; if (b) b.route.forEach(ensurePlayer);
     return { key: x.key, name: x.name, me: x.key === ME, gaveUp: !!x.gaveUp, hops: b ? b.jumps : null, t: b ? b.elapsedMs / 1000 : null, route: b ? b.routeIds : null };
   });
+  ANSWER = r.result && r.result.answer ? r.result.answer : null;
+  if (ANSWER) ANSWER.route.forEach(ensurePlayer);
   var isHost = r.hostKey === ME;
   if (r.matchOver) {
     // 整场结束：只看结果，倒数完自动回大厅；房主在大厅里开新一场
@@ -1101,6 +1119,25 @@ function miniCard(id, cls) {
 }
 function routeHtml(route) {
   return route.map(function (id, k) { return (k ? '<i class="link"></i>' : "") + miniCard(id, k === 0 ? "s" : k === route.length - 1 ? "e" : ""); }).join("");
+}
+/* 参考答案路线：连接处换成 HLTV 出处链接（那张图两人同队出场） */
+function answerHtml(a) {
+  return a.routeIds.map(function (id, k) {
+    var hop = k ? a.hops[k - 1] : null, url = hop && hop.evidence && hop.evidence.sourceUrl;
+    var link = !k ? "" : url
+      ? '<a class="ev" href="' + CSDATA.esc(url) + '" target="_blank" rel="noopener" title="' + CSDATA.esc(PLAYERS[a.routeIds[k - 1]].name + " × " + PLAYERS[id].name) + ' 同队的 HLTV 比赛"><i></i><span>HLTV</span></a>'
+      : '<i class="link"></i>';
+    return link + miniCard(id, k === 0 ? "s" : k === a.routeIds.length - 1 ? "e" : "");
+  }).join("");
+}
+function renderAnswer(list) {
+  var box = $("sbAns"), a = ANSWER;
+  box.classList.toggle("on", !!a);
+  if (!a) { box.innerHTML = ""; return; }
+  var best = list.filter(function (p) { return p.t != null; }).map(function (p) { return p.hops; });
+  var hit = best.length && Math.min.apply(null, best) <= a.jumps;
+  box.innerHTML = '<div class="lb2">参考答案<b>' + a.jumps + ' 跳</b><small>' + (hit ? "有人打到了最少跳数" : best.length ? "最少能 " + a.jumps + " 跳" : "点连线看 HLTV 出处") + '</small></div>' +
+    '<div class="rt">' + answerHtml(a) + '</div>';
 }
 function showBoard(peek) {
   var sb = $("sb"), body = $("sbBody");
@@ -1139,6 +1176,7 @@ function showBoard(peek) {
       '<span class="rt">' + route + '</span>';
     body.appendChild(li);
   });
+  if (!peek) renderAnswer(list);
   sb.classList.add("on");
 }
 

@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import type { PlayPlayer } from './cslinkPlay';
-import { CsLinkPathGraph, CsLinkPathRound, CsLinkPathFinish, compareCsLinkPathFinishes } from './cslinkPaths';
+import { CsLinkPathGraph, CsLinkPathRound, CsLinkPathFinish, CsLinkPathHop, compareCsLinkPathFinishes } from './cslinkPaths';
 import type { StoredIdentity } from './roomStore';
 import { CSLINK_DIFFICULTIES, DEFAULT_CSLINK_DIFFICULTY, isCsLinkDifficulty,
   type CsLinkDifficulty, type CsLinkDifficultyFilters } from './cslinkDifficulty';
@@ -10,10 +10,13 @@ export interface CsLinkRoomStore {
   getPathPlayer(id: string): PlayPlayer | null;
 }
 export interface CsLinkRoomFinish extends CsLinkPathFinish { route: PlayPlayer[] }
+/** One shortest route for the round, published with the result so nobody leaves without the answer. */
+export interface CsLinkRoomAnswer { routeIds: string[]; jumps: number; hops: CsLinkPathHop[]; route: PlayPlayer[] }
 export interface CsLinkRoomResult {
   winnerKeys: string[];
   reason: 'all_incomplete' | 'one_completed' | 'fewer_jumps' | 'faster_time' | 'exact_tie';
   rankings: { key: string; name: string; rank: number | null; best: CsLinkRoomFinish | null; left: boolean; gaveUp: boolean }[];
+  answer: CsLinkRoomAnswer | null;
 }
 export interface CsLinkRoomView {
   id: string; revision: number; status: 'lobby' | 'playing' | 'finished';
@@ -434,7 +437,18 @@ export class CsLinkRooms {
       key: row.member.key, name: row.member.name, left: row.member.left, gaveUp: row.member.gaveUp,
       rank: row.best ? ranked.findIndex(other => other.best && compareCsLinkPathFinishes(other.best, row.best!) === 0) + 1 : null,
       best: this.fullFinish(row.best),
-    })) };
+    })), answer: this.answer(room) };
+  }
+  /** Prefer intermediates players can actually search for; fall back to any proven route. */
+  private answer(room: Room): CsLinkRoomAnswer | null {
+    if (!room.round) return null;
+    const { startId, endId } = room.round;
+    const found = (this.endpointAllowed && room.graph.shortestRoute(startId, endId, this.endpointAllowed))
+      || room.graph.shortestRoute(startId, endId);
+    if (!found) return null;
+    const route = found.routeIds.map(id => this.store.getPathPlayer(id));
+    if (route.some(player => !player)) return null;
+    return { routeIds: found.routeIds, jumps: found.routeIds.length - 1, hops: found.hops, route: route as PlayPlayer[] };
   }
   private reply(key: string, code?: string): CsLinkRoomReply {
     const room = this.roomFor(key), member = room && this.member(room, key);
