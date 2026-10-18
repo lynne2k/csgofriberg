@@ -266,6 +266,17 @@ button, input { font: inherit; }
 .sb footer a { background: rgba(255,255,255,.1); color: var(--white); }
 .sb.peek footer, .sb.peek .mvp { display: none; }
 .sb footer .wait { margin-right: auto; font-size: 13px; letter-spacing: .12em; opacity: .65; }
+/* 天梯：房间角落的分数榜 + 结算时的分数变化 */
+.opp .rt { display: block; font-family: var(--display); font-size: 11px; letter-spacing: .1em; opacity: .7; margin-top: 2px; }
+.ladder { margin-top: 16px; padding: 10px 12px 8px; background: rgba(13,15,20,.72); border-radius: 10px; font-family: var(--display); }
+.ladder h4 { margin: 0 0 6px; font-size: 11px; letter-spacing: .22em; opacity: .6; font-weight: 500; }
+.ladder ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font-size: 12px; }
+.ladder li { display: grid; grid-template-columns: 20px 1fr auto; gap: 6px; }
+.ladder li span:nth-child(2) { font-family: var(--body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ladder li.me { color: var(--t); }
+.ladder .mine { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,.1); font-size: 12px; opacity: .8; }
+.sb .delta { margin-right: auto; font-family: var(--display); font-size: 15px; letter-spacing: .1em; }
+.sb .delta b { font-size: 22px; margin: 0 4px; } .sb .delta .up { color: #7ee2a8; } .sb .delta .dn { color: #ff9a9e; }
 /* 参考答案：每局结束公开一条最短路线，每一跳都能点开 HLTV 出处 */
 .sb .ans { position: relative; display: none; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px; margin: 6px 12px 0; padding: 10px 12px; background: linear-gradient(90deg, rgba(78,104,228,.16), rgba(78,104,228,.03)); border-left: 3px solid #4e68e4; }
 .sb .ans.on { display: grid; }
@@ -429,6 +440,7 @@ button, input { font: inherit; }
 <aside class="opp" aria-label="房间玩家">
   <h3>房间 <span>先比跳数 · 再比用时</span></h3>
   <ul id="opp"></ul>
+  <div class="ladder" id="ladder" hidden><h4>天梯前十</h4><ol id="ladderTop"></ol><div class="mine" id="ladderMe"></div></div>
   <div class="tabhint">按住 <kbd>Tab</kbd> 看计分板</div>
 </aside>
 <section class="fan" id="fan" aria-label="搜索结果">
@@ -982,7 +994,30 @@ var others = [];
 function now() { return Date.now() + offset; }
 function withNet(fn) { if (window.CSNET) fn(); else window.addEventListener("csnet", fn, { once: true }); }
 function lobbyUrl(extra) { return "lobby.html?room=" + encodeURIComponent(ROOMV ? ROOMV.id : WANT) + (extra || ""); }
-function goLobby(extra) { var u = lobbyUrl(extra); if (window.CSWipe) CSWipe.go(u, "ink"); else location.href = u; }
+/* 天梯房没有大厅：结束或退出都回首页（离座后服务端按认输或已结算处理） */
+function goLobby(extra) {
+  if (ROOMV && ROOMV.ranked) { leaveRanked("index.html"); return; }
+  var u = lobbyUrl(extra); if (window.CSWipe) CSWipe.go(u, "ink"); else location.href = u;
+}
+var leavingRanked = false;
+function leaveRanked(dest) {
+  if (leavingRanked) return; leavingRanked = true;
+  var go = function () { if (window.CSWipe) CSWipe.go(dest, "home"); else location.href = dest; };
+  if (ROOMV) CSNET.rpc("leave", { roomId: ROOMV.id }).then(go, go); else go();
+}
+var ladderAt = 0;
+function loadLadder() {
+  if (!ROOMV || !ROOMV.ranked || Date.now() - ladderAt < 5000) return;
+  ladderAt = Date.now();
+  fetch("/api/cslink/ladder/top?limit=10", { credentials: "include" }).then(function (r) { return r.json(); }).then(function (d) {
+    if (!d || !d.top) return;
+    $("ladder").hidden = false;
+    $("ladderTop").innerHTML = d.top.length ? d.top.map(function (x) {
+      return '<li' + (me.name === x.name ? ' class="me"' : "") + '><span>' + x.rank + '</span><span>' + CSDATA.esc(x.name) + '</span><span>' + x.rating + '</span></li>';
+    }).join("") : '<li><span></span><span>还没人上榜</span><span></span></li>';
+    $("ladderMe").textContent = d.me ? "我 " + d.me.rating + " 分" + (d.me.rank ? " · 第 " + d.me.rank + " 名" : " · 打完这场上榜") : "";
+  }).catch(function () {});
+}
 /* 服务端给的选手不在本地牌库里（比如没导出的身份）时补一张无照片的牌 */
 function ensurePlayer(pp) {
   if (!pp || PLAYERS[pp.id]) return;
@@ -999,16 +1034,25 @@ function applyRoom(res) {
   if (res.meKey) ME = res.meKey;
   if (res.serverNowMs) offset = res.serverNowMs - Date.now();
   var r = res.room;
-  if (r === null) { location.replace("lobby.html"); return; }
+  if (leavingRanked) return;
+  if (r === null) { location.replace(ROOMV && ROOMV.ranked ? "index.html" : "lobby.html"); return; }
   if (!r) return;
   if (ROOMV && ROOMV.id === r.id && r.revision < latestRev) return;   // 丢弃旧 revision
   var first = !ROOMV;
   latestRev = r.revision; ROOMV = r;
   if (first) {
     var act0 = r.players.filter(function (x) { return !x.left; });
-    document.querySelector(".qno").textContent = "房间 " + r.id + " · " + act0.length + " 人";
-    document.querySelector(".back").href = lobbyUrl();
+    document.querySelector(".qno").textContent = r.ranked ? "天梯匹配 · 先到 " + r.targetScore + " 分" : "房间 " + r.id + " · " + act0.length + " 人";
+    var back = document.querySelector(".back");
+    if (r.ranked) {
+      back.href = "index.html"; back.textContent = "◂ 认输离开";
+      back.onclick = function (e) {
+        e.preventDefault();
+        if (ROOMV.matchOver || confirm("现在离开算认输，确定吗？")) leaveRanked("index.html");
+      };
+    } else back.href = lobbyUrl();
   }
+  loadLadder();
   if (r.status === "lobby" || !r.round) { goLobby(); return; }
   var rd = r.round;
   /* 每局第一次拿到题目时报到；所有人到齐后服务端把开表提前到 3 秒后 */
@@ -1065,7 +1109,9 @@ function renderOpp(bumpName) {
     var done = p.t != null, h = p.me ? myLiveHops() : p.hops;
     var li = document.createElement("li");
     li.className = (done ? "done" : "") + (p.gaveUp ? " gave" : "") + (p.me ? " me" : "") + (p.name === bumpName ? " bump" : "");
-    li.innerHTML = '<div><div class="who">' + CSDATA.esc(p.name) + '<span class="sc">' + scoreOf(p.key) + '分</span></div><span class="st">' + (done ? "已连通" : p.gaveUp ? "已放弃" : p.off ? "掉线中" : "摆牌中") + '</span></div>' +
+    var pr = ROOMV && ROOMV.ranked && ROOMV.players.find(function (q) { return q.key === (p.key || ME); });
+    li.innerHTML = '<div><div class="who">' + CSDATA.esc(p.name) + '<span class="sc">' + scoreOf(p.key) + '分</span></div><span class="st">' + (done ? "已连通" : p.gaveUp ? "已放弃" : p.off ? "掉线中" : "摆牌中") + '</span>' +
+      (pr && pr.rating != null ? '<span class="rt">天梯 ' + pr.rating + '</span>' : "") + '</div>' +
       '<div class="hp">' + (h == null ? "—" : h) + '<small>跳</small></div>';
     ul.appendChild(li);
     if (!p.me) {
@@ -1090,7 +1136,15 @@ function finishRound(r) {
   ANSWER = r.result && r.result.answer ? r.result.answer : null;
   if (ANSWER) ANSWER.route.forEach(ensurePlayer);
   var isHost = r.hostKey === ME;
-  if (r.matchOver) {
+  if (r.matchOver && r.ranked) {
+    // 天梯整场结束：显示分数变化，可以直接再排一把
+    var d = r.ladderDelta ? r.ladderDelta[ME] : null, mine = r.players.find(function (x) { return x.key === ME; });
+    $("sbFoot").innerHTML = '<span class="delta">' + (d == null ? "对手离开了" : '天梯 <b class="' + (d >= 0 ? "up" : "dn") + '">' + (d >= 0 ? "+" : "") + d + '</b>' + (mine && mine.rating != null ? "现在 " + mine.rating + " 分" : "")) + '</span>' +
+      '<a href="index.html" id="home">回首页</a><button type="button" id="again">再匹配一把</button>';
+    $("home").onclick = function (e) { e.preventDefault(); leaveRanked("index.html"); };
+    $("again").onclick = function () { leaveRanked("index.html?mm=1"); };
+    ladderAt = 0; setTimeout(loadLadder, 300);
+  } else if (r.matchOver) {
     // 整场结束：只看结果，倒数完自动回大厅；房主在大厅里开新一场
     BACK_AT = Date.now() + 8000;
     $("sbFoot").innerHTML = '<span class="wait"><b id="backN">8</b> 秒后回大厅</span>';
@@ -1147,7 +1201,8 @@ function showBoard(peek) {
   var champs = !peek && ROOMV && ROOMV.matchOver ? ROOMV.players.filter(function (x) { return !x.left && x.score >= ROOMV.targetScore; }).map(function (x) { return x.name; }) : [];
   var no = ROOMV && ROOMV.roundNo ? "第 " + ROOMV.roundNo + " 局" : "本局";
   var nobody = !peek && ROOMV && ROOMV.result && !ROOMV.result.winnerKeys.length;
-  $("sbTitle").textContent = peek ? "计分板 · " + no : champs.length ? "整场结束 · " + champs.join("、") + " 先到 " + ROOMV.targetScore + " 分" : no + "结束";
+  var endTag = !peek && ROOMV && ROOMV.matchOver && !champs.length ? (ROOMV.ranked ? "整场结束 · 平局" : "整场结束") : null;
+  $("sbTitle").textContent = peek ? "计分板 · " + no : champs.length ? "整场结束 · " + champs.join("、") + " 先到 " + ROOMV.targetScore + " 分" : endTag || no + "结束";
   $("sbSub").textContent = peek ? "对局中只看得到跳数和是否连通 · 比分 " + scoreLine() + " · 先到 " + ROOMV.targetScore + " 分"
     : (nobody ? "本局没人连通，不计分 · " : "") + "比分 " + scoreLine() + " · 先到 " + (ROOMV ? ROOMV.targetScore : "") + " 分赢整场";
   $("sbQ").innerHTML = '<span class="s">' + CSDATA.esc(PLAYERS[START].name) + '</span><i>→</i><span class="e">' + CSDATA.esc(PLAYERS[END].name) + '</span>';

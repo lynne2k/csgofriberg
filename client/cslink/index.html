@@ -122,6 +122,15 @@
   .code.bad { border-color: #ff8a8d; animation: shake .3s; }
   @keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
   .code:focus { outline: none; border-color: var(--white); }
+  /* 天梯匹配：点一下排队，配上就进对战 */
+  .right .cta.ghostbtn.mk { color: var(--white); }
+  .mmwait { display: none; align-items: center; gap: 14px; font-family: var(--display); font-size: 18px; letter-spacing: .12em; }
+  .mmwait b { font-size: 26px; min-width: 64px; text-align: right; }
+  .mmwait i { width: 12px; height: 12px; background: var(--white); animation: blink 1s infinite; transform: rotate(45deg); }
+  .mmwait button { border: 0; background: transparent; color: var(--white); font: inherit; font-size: 15px; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; opacity: .8; }
+  .mmrow.on .cta { display: none; } .mmrow.on .mmwait { display: inline-flex; }
+  .mmnote { margin-top: 10px; min-height: 18px; font-size: 14px; opacity: .8; }
+  @keyframes blink { 50% { opacity: .2; } }
 
   /* 中心徽标:跟随分割线 */
   .emblem {
@@ -213,7 +222,12 @@
           <input class="code" placeholder="房间号或邀请链接" autocomplete="off" spellcheck="false" aria-label="房间号或邀请链接" />
           <button class="cta ghostbtn">加入</button>
         </div>
-        <div class="row"><button class="cta">创建房间 ▸</button></div>
+        <div class="row mmrow" id="mmrow">
+          <button class="cta ghostbtn mk" id="create">建房</button>
+          <button class="cta" id="mm">天梯匹配 ▸</button>
+          <span class="mmwait" role="status"><i></i>匹配中 <b id="mmT">0:00</b><button type="button" id="mmCancel">取消</button></span>
+        </div>
+        <div class="mmnote" id="mmNote"></div>
       </div>
     </section>
 
@@ -223,6 +237,7 @@
   <script src="/cslink/wipe.js"></script>
 <script src="/cslink/bgm.js"></script>
   <script type="module" src="/src/cslink/daily.ts"></script>
+  <script type="module" src="/src/cslink/net.ts"></script>
   <script>
   (function () {
     var G = "/cslink/", split = document.querySelector(".split");
@@ -233,10 +248,49 @@
     }
     var start = document.querySelector(".left .cta");
     var code = document.querySelector(".right .code");
-    var join = document.querySelector(".right .ghostbtn");
-    var create = document.querySelector(".right .cta:not(.ghostbtn)");
+    var join = document.querySelector(".right .code + .ghostbtn");
+    var create = document.getElementById("create");
     start.addEventListener("click", function () { wipe(G + "daily.html", "t"); });
     create.addEventListener("click", function () { wipe(G + "lobby.html?create=1", "ct"); });
+    /* 天梯匹配：服务端先到先配，配上后两人直接进对战页 */
+    var mmRow = document.getElementById("mmrow"), mmT = document.getElementById("mmT"), mmNote = document.getElementById("mmNote");
+    var mmSince = 0, mmTimer = 0, mmOff = 0, leaving = false;
+    function withNet(fn) { if (window.CSNET) fn(); else window.addEventListener("csnet", fn, { once: true }); }
+    function mmStop() { mmRow.classList.remove("on"); clearInterval(mmTimer); mmTimer = 0; mmSince = 0; }
+    function mmTick() {
+      var s = Math.max(0, Math.floor((Date.now() + mmOff - mmSince) / 1000));
+      mmT.textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+    }
+    function mmApply(res) {
+      if (!res || leaving) return;
+      if (res.serverNowMs) mmOff = res.serverNowMs - Date.now();
+      var r = res.room;
+      if (r) {
+        mmStop(); leaving = true;
+        wipe(G + (r.status === "lobby" ? "lobby.html?room=" : "duel.html?room=") + encodeURIComponent(r.id), "ct");
+        return;
+      }
+      if (res.queue) {
+        mmSince = res.queue.sinceMs; mmRow.classList.add("on"); mmNote.textContent = "";
+        if (!mmTimer) mmTimer = setInterval(mmTick, 500);
+        mmTick(); return;
+      }
+      mmStop();
+      if (res.code) mmNote.textContent = CSNET.error(res.code);
+    }
+    document.getElementById("mm").addEventListener("click", function () {
+      mmNote.textContent = ""; mmRow.classList.add("on"); mmSince = Date.now(); mmTick();
+      withNet(function () { CSNET.rpc("queue", {}).then(mmApply); });
+    });
+    document.getElementById("mmCancel").addEventListener("click", function () {
+      mmStop(); withNet(function () { CSNET.rpc("unqueue", {}); });
+    });
+    withNet(function () {
+      CSNET.on(function (res) { if (mmSince && res && res.room) mmApply(res); });
+      /* 断线重连后服务端已把人移出队列，重新排上 */
+      CSNET.onConnect(function () { if (mmSince) CSNET.rpc("queue", {}).then(mmApply); });
+      if (/[?&]mm=1/.test(location.search)) { history.replaceState(null, "", location.pathname); document.getElementById("mm").click(); }
+    });
     /* 房间号或邀请链接都认：?room=XXXXXX、/teammates/duel/XXXXXX、裸房间号 */
     function parseRoom(v) {
       var t = String(v || "").trim(), id = "";

@@ -54,6 +54,8 @@ import { CsLinkLegacy } from './services/cslinkLegacy';
 import { CsLinkDaily } from './services/cslinkDaily';
 import { createCsLinkDailyRoutes } from './routes/cslinkDaily';
 import { createCsLinkPracticeRoutes } from './routes/cslinkPractice';
+import { CsLinkLadder } from './services/cslinkLadder';
+import { createCsLinkLadderRoutes } from './routes/cslinkLadder';
 
 const SHUTDOWN_TIMEOUT_MS = 10_000;
 const CLOUDFLARE_INSIGHTS_SCRIPT_ORIGIN = 'https://static.cloudflareinsights.com';
@@ -338,6 +340,10 @@ async function main() {
   // 练习：随机题、可选难度、不计分；分档同样请求时才读
   app.use('/api/cslink/drill', createCsLinkPracticeRoutes(cslinkEnabled ? cslinkPlay : null, cslinkEnabled,
     () => difficultyFilters, (id: string) => cslinkEndpointOk(id)));
+  // 天梯分：访客和登录用户都按身份 key 记，落盘到 JSON
+  const cslinkLadder = cslinkEnabled ? new CsLinkLadder(process.env.CSLINK_LADDER_FILE ||
+    path.resolve(__dirname, '../../.local-data/cslink-ladder.json')) : null;
+  app.use('/api/cslink/ladder', createCsLinkLadderRoutes(cslinkLadder, cslinkEnabled));
   app.use('/api/cslink', createCsLinkRoutes(cslink, cslinkEnabled));
   app.use('/api/game', gameRoutes);
   app.use('/api/daily-challenge', dailyChallengeRoutes);
@@ -407,6 +413,7 @@ async function main() {
     interRoundMs: 6_000,
     endpointAllowed: portraitIds.size || activeIds.size ? cslinkEndpointOk : undefined,
     difficultyFilters,
+    ladder: cslinkLadder ?? undefined,
   }) : () => undefined;
 
   server.listen(config.port, () => {
@@ -420,6 +427,7 @@ async function main() {
       shuttingDown = true;
       console.log(`[server] 收到 ${signal},开始优雅退出`);
       stopCsLinkRooms();
+      try { cslinkLadder?.flush(); } catch (error) { console.error('[cslink] 天梯分保存失败', error); }
       stopRuntimeMonitor();
       const serverClosed = new Promise<void>((resolve) => {
         server.close(() => resolve());

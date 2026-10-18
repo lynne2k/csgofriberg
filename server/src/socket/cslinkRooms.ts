@@ -56,6 +56,8 @@ export function setupCsLinkRooms(io: Server, store: CsLinkRoomStore, options: Cs
       payload.difficulty));
     register('join', roomPayload.extend({ nickname }).strict(),
       payload => rooms.join(seated(payload.nickname), payload.roomId));
+    register('queue', z.object({ nickname }).strict(), payload => rooms.queue(seated(payload.nickname)));
+    register('unqueue', emptyPayload, () => rooms.unqueue(identity.key));
     register('sync', emptyPayload, () => rooms.sync(identity.key));
     register('ready', roomPayload.extend({ ready: z.boolean() }).strict(), payload => rooms.ready(identity.key, payload.roomId, payload.ready));
     register('options', roomPayload.extend({ durationSeconds: z.number().int().min(20).max(600).optional(),
@@ -84,7 +86,7 @@ export function setupCsLinkRooms(io: Server, store: CsLinkRoomStore, options: Cs
     io.off('connection', onConnection);
     for (const [socket, onDisconnect] of attached) {
       socket.off('disconnect', onDisconnect);
-      for (const event of ['create', 'join', 'sync', 'ready', 'options', 'arrive', 'start', 'submit', 'giveup', 'rematch', 'next', 'leave']) {
+      for (const event of ['create', 'join', 'queue', 'unqueue', 'sync', 'ready', 'options', 'arrive', 'start', 'submit', 'giveup', 'rematch', 'next', 'leave']) {
         socket.removeAllListeners(`cslink:${event}`);
       }
     }

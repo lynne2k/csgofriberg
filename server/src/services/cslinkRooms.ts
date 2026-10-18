@@ -4,6 +4,10 @@ import { CsLinkPathGraph, CsLinkPathRound, CsLinkPathFinish, CsLinkPathHop, comp
 import type { StoredIdentity } from './roomStore';
 import { CSLINK_DIFFICULTIES, DEFAULT_CSLINK_DIFFICULTY, isCsLinkDifficulty,
   type CsLinkDifficulty, type CsLinkDifficultyFilters } from './cslinkDifficulty';
+import type { CsLinkLadder } from './cslinkLadder';
+
+/** 天梯房固定参数：玩家点一下就开打，不用设置。 */
+export const CSLINK_RANKED = { durationSeconds: 20, targetScore: 3, difficulty: 'normal' as CsLinkDifficulty };
 
 export interface CsLinkRoomStore {
   pathGraph(): CsLinkPathGraph;
@@ -30,8 +34,12 @@ export interface CsLinkRoomView {
   nextRoundAtMs: number | null;
   /** Players who have not opened the duel page yet for the current round. */
   waitingKeys: string[];
+  /** Matchmade room: fixed options, Elo settled when the match ends. */
+  ranked: boolean;
+  /** Ladder rating change per player key, once a ranked match is settled. */
+  ladderDelta: Record<string, number> | null;
   players: { key: string; name: string; connected: boolean; ready: boolean; left: boolean;
-    score: number; gaveUp: boolean; best: { jumps: number; elapsedMs: number | null } | null }[];
+    score: number; gaveUp: boolean; rating: number | null; best: { jumps: number; elapsedMs: number | null } | null }[];
   round: (CsLinkPathRound & { start: PlayPlayer; end: PlayPlayer }) | null;
   myBest: CsLinkRoomFinish | null;
   result: CsLinkRoomResult | null;
@@ -39,6 +47,8 @@ export interface CsLinkRoomView {
 export interface CsLinkRoomReply {
   code?: string; reason?: string; improved?: boolean;
   room: CsLinkRoomView | null; meKey: string; serverNowMs: number;
+  /** Present while this identity waits in the ladder queue. */
+  queue?: { sinceMs: number; waiting: number };
 }
 interface Member {
   key: string; name: string; ready: boolean; left: boolean; score: number; gaveUp: boolean;
@@ -53,6 +63,7 @@ interface Room {
   roundNo: number; nextRoundAtMs: number | null; nextTimer: ReturnType<typeof setTimeout> | null;
   graph: CsLinkPathGraph; round: CsLinkPathRound | null; result: CsLinkRoomResult | null; touchedAt: number;
   timer: ReturnType<typeof setTimeout> | null;
+  ranked: boolean; forfeitKey: string | null; idleRounds: number; ladderDelta: Record<string, number> | null;
 }
 export interface CsLinkRoomOptions {
   now?: () => number;
@@ -70,6 +81,8 @@ export interface CsLinkRoomOptions {
   interRoundMs?: number;
   /** How long a lobby seat survives without any live socket before it is freed. */
   lobbyDropMs?: number;
+  /** Elo store for matchmade rooms; ratings are hidden when absent. */
+  ladder?: CsLinkLadder;
 }
 
 /** Single-process local rooms. Every round keeps the exact game graph from its creation. */
@@ -78,6 +91,8 @@ export class CsLinkRooms {
   private membership = new Map<string, string>();
   private connections = new Map<string, Set<string>>();
   private dropTimers = new Map<string, ReturnType<typeof setTimeout>>();
+  private waiting: { identity: StoredIdentity; sinceMs: number }[] = [];
+  private ladder?: CsLinkLadder;
   private lobbyDropMs: number;
   private now: () => number;
   private expiry: ReturnType<typeof setInterval>;
@@ -101,6 +116,7 @@ export class CsLinkRooms {
     this.arrivalGraceMs = Math.max(0, options.arrivalGraceMs ?? 0);
     this.interRoundMs = options.interRoundMs === undefined ? null : Math.max(0, options.interRoundMs);
     this.lobbyDropMs = Math.max(0, options.lobbyDropMs ?? 15_000);
+    this.ladder = options.ladder;
     this.expiry = setInterval(() => this.sweep(), 30_000);
     this.expiry.unref?.();
   }
@@ -110,7 +126,7 @@ export class CsLinkRooms {
     for (const timer of this.dropTimers.values()) clearTimeout(timer);
     this.dropTimers.clear();
     for (const room of this.rooms.values()) { if (room.timer) clearTimeout(room.timer); this.cancelNext(room); }
-    this.rooms.clear(); this.membership.clear(); this.connections.clear();
+    this.rooms.clear(); this.membership.clear(); this.connections.clear(); this.waiting = [];
   }
 
   connect(identity: StoredIdentity, socketId: string) {
@@ -127,6 +143,10 @@ export class CsLinkRooms {
     const connections = this.connections.get(key);
     connections?.delete(socketId);
     if (!connections?.size) this.connections.delete(key);
+    // 匹配中关掉页面就出队，免得配到一个不在的人
+    if (!connections?.size && this.waiting.some(entry => entry.identity.key === key)) {
+      this.waiting = this.waiting.filter(entry => entry.identity.key !== key);
+    }
     const room = this.roomFor(key);
     if (room) this.notify(room);
     // A lobby seat held by someone who closed the tab would block start() forever; free it after a grace period.
@@ -150,6 +170,7 @@ export class CsLinkRooms {
   create(identity: StoredIdentity, durationSeconds = 20, maxPlayers = 2, targetScore = 3,
     difficulty: CsLinkDifficulty = DEFAULT_CSLINK_DIFFICULTY): CsLinkRoomReply {
     this.sweep();
+    this.releaseSettled(identity.key); this.dropFromQueue(identity.key);
     const existing = this.roomFor(identity.key);
     if (existing) {
       if (this.member(existing, identity.key)?.left && existing.status !== 'playing') {
@@ -163,19 +184,47 @@ export class CsLinkRooms {
         !Number.isInteger(maxPlayers) || maxPlayers < 2 || maxPlayers > 8) return this.reply(identity.key, 'VALIDATION_FAILED');
     let id: string;
     do { id = `L${crypto.randomBytes(5).toString('hex').slice(0, 5).toUpperCase()}`; } while (this.rooms.has(id));
-    const room: Room = { id, revision: 0, status: 'lobby', hostKey: identity.key, maxPlayers,
-      durationSeconds, difficulty, targetScore, matchOver: false, arrivals: new Set(),
-      roundNo: 0, nextRoundAtMs: null, nextTimer: null,
-      members: [this.newMember(identity)], graph: this.store.pathGraph(), round: null, result: null,
-      touchedAt: this.now(), timer: null };
+    const room = this.newRoom(id, identity, durationSeconds, maxPlayers, targetScore, difficulty, false);
     this.rooms.set(id, room); this.membership.set(identity.key, id); this.notify(room);
     return this.reply(identity.key);
   }
+
+  /** 天梯匹配：排队的人先到先配，凑够两人直接开打。 */
+  queue(identity: StoredIdentity): CsLinkRoomReply {
+    this.sweep();
+    this.releaseSettled(identity.key);
+    const existing = this.roomFor(identity.key);
+    if (existing) {
+      if (this.member(existing, identity.key)?.left && existing.status !== 'playing') this.membership.delete(identity.key);
+      else return this.reply(identity.key, this.member(existing, identity.key)?.left ? 'LEFT_ROUND' : 'ALREADY_IN_ROOM');
+    }
+    if (this.waiting.some(entry => entry.identity.key === identity.key)) return this.reply(identity.key);
+    this.waiting = this.waiting.filter(entry => this.isConnected(entry.identity.key));
+    const opponent = this.waiting.shift();
+    if (!opponent) {
+      this.waiting.push({ identity, sinceMs: this.now() });
+      return this.reply(identity.key);
+    }
+    if (this.rooms.size >= this.maxRooms) { this.waiting.unshift(opponent); return this.reply(identity.key, 'ROOM_LIMIT'); }
+    let id: string;
+    do { id = `L${crypto.randomBytes(5).toString('hex').slice(0, 5).toUpperCase()}`; } while (this.rooms.has(id));
+    const room = this.newRoom(id, opponent.identity, CSLINK_RANKED.durationSeconds, 2, CSLINK_RANKED.targetScore,
+      CSLINK_RANKED.difficulty, true);
+    room.members.push(this.newMember(identity));
+    for (const member of room.members) { member.ready = true; this.membership.set(member.key, id); }
+    this.rooms.set(id, room);
+    const code = this.beginRound(room);
+    if (code) { this.deleteRoom(room); this.waiting.unshift(opponent); return this.reply(identity.key, code); }
+    return this.reply(identity.key);
+  }
+
+  unqueue(key: string): CsLinkRoomReply { this.dropFromQueue(key); return this.reply(key); }
 
   join(identity: StoredIdentity, roomId: string): CsLinkRoomReply {
     const room = this.rooms.get(roomId);
     if (!room) return this.reply(identity.key, 'ROOM_NOT_FOUND');
     this.closeIfDue(room);
+    this.releaseSettled(identity.key); this.dropFromQueue(identity.key);
     const existing = this.roomFor(identity.key);
     if (existing) {
       const member = this.member(existing, identity.key)!;
@@ -203,6 +252,7 @@ export class CsLinkRooms {
     const room = this.authorized(key, roomId);
     if (!room) return this.reply(key, 'NOT_IN_ROOM');
     if (room.hostKey !== key) return this.reply(key, 'HOST_ONLY');
+    if (room.ranked) return this.reply(key, 'RANKED_FIXED');
     if (room.status !== 'lobby') return this.reply(key, 'NOT_LOBBY');
     const { durationSeconds, targetScore, difficulty } = input;
     if (durationSeconds !== undefined && (!Number.isInteger(durationSeconds) || durationSeconds < 20 || durationSeconds > 600)) return this.reply(key, 'VALIDATION_FAILED');
@@ -327,6 +377,7 @@ export class CsLinkRooms {
     if (!room) return this.reply(key, 'NOT_IN_ROOM');
     this.closeIfDue(room);
     if (room.hostKey !== key) return this.reply(key, 'HOST_ONLY');
+    if (room.ranked) return this.reply(key, 'RANKED_FIXED');
     if (room.status !== 'finished') return this.reply(key, 'NOT_FINISHED');
     this.toLobby(room); return this.reply(key);
   }
@@ -336,6 +387,11 @@ export class CsLinkRooms {
     if (!room || room.id !== roomId) return this.reply(key, 'NOT_IN_ROOM');
     this.closeIfDue(room);
     const member = this.member(room, key)!;
+    // 天梯局中途走人算认输
+    if (room.ranked && !room.ladderDelta && room.status !== 'lobby' && !member.left) {
+      room.forfeitKey = key;
+      if (room.status === 'finished') { room.matchOver = true; this.cancelNext(room); this.settle(room); }
+    }
     if (room.status === 'lobby') {
       room.members = room.members.filter(member => member.key !== key); this.membership.delete(key);
     } else { member.left = true; member.ready = false; }
@@ -343,12 +399,35 @@ export class CsLinkRooms {
     if (!room.members.some(member => !member.left)) {
       if (room.status === 'playing') this.finish(room);
       else this.deleteRoom(room);
-    } else this.notify(room);
+    } else if (room.ranked && room.status === 'playing') this.finish(room);
+    else this.notify(room);
     this.changed([key]); return this.reply(key);
   }
 
   private newMember(identity: StoredIdentity): Member {
     return { key: identity.key, name: identity.name, ready: false, left: false, score: 0, gaveUp: false, best: null, receipts: new Map() };
+  }
+  private newRoom(id: string, host: StoredIdentity, durationSeconds: number, maxPlayers: number, targetScore: number,
+    difficulty: CsLinkDifficulty, ranked: boolean): Room {
+    return { id, revision: 0, status: 'lobby', hostKey: host.key, maxPlayers,
+      durationSeconds, difficulty, targetScore, matchOver: false, arrivals: new Set(),
+      roundNo: 0, nextRoundAtMs: null, nextTimer: null,
+      members: [this.newMember(host)], graph: this.store.pathGraph(), round: null, result: null,
+      touchedAt: this.now(), timer: null, ranked, forfeitKey: null, idleRounds: 0, ladderDelta: null };
+  }
+  private dropFromQueue(key: string) { this.waiting = this.waiting.filter(entry => entry.identity.key !== key); }
+  /** 已结算的天梯房不再占着人：再点匹配 / 建房时自动离座。 */
+  private releaseSettled(key: string) {
+    const room = this.roomFor(key);
+    if (room?.ranked && room.matchOver && room.status === 'finished') this.leave(key, room.id);
+  }
+  /** Elo：$S_A$ 取 1 / 0.5 / 0，按整场比分（或认输）定。 */
+  private settle(room: Room) {
+    if (!room.ranked || room.ladderDelta || !this.ladder || room.members.length !== 2) return;
+    const [a, b] = room.members;
+    const scoreA: 0 | 0.5 | 1 = room.forfeitKey === a.key ? 0 : room.forfeitKey === b.key ? 1
+      : a.score > b.score ? 1 : a.score < b.score ? 0 : 0.5;
+    room.ladderDelta = this.ladder.settle({ key: a.key, name: a.name }, { key: b.key, name: b.name }, scoreA);
   }
   private pruneAndReset(room: Room) {
     for (const member of room.members.filter(member => member.left)) {
@@ -412,7 +491,13 @@ export class CsLinkRooms {
     // 全员挂机（没交过路线也没放弃）就不再自动续局，免得空房一直循环
     const active = room.members.filter(member => !member.left);
     const anyoneTried = active.some(member => member.gaveUp || member.receipts.size > 0);
-    if (pause !== null && !room.matchOver && active.length >= 2 && anyoneTried) {
+    if (room.ranked) {
+      // 天梯房：有人走了或连续两局没人动，整场就此结束
+      room.idleRounds = anyoneTried ? 0 : room.idleRounds + 1;
+      if (room.forfeitKey || active.length < 2 || room.idleRounds >= 2) room.matchOver = true;
+      if (room.matchOver) this.settle(room);
+    }
+    if (pause !== null && !room.matchOver && active.length >= 2 && (anyoneTried || room.ranked)) {
       room.nextRoundAtMs = this.now() + pause;
       room.nextTimer = setTimeout(() => this.autoNext(room), pause);
       room.nextTimer.unref?.();
@@ -459,7 +544,9 @@ export class CsLinkRooms {
       targetScore: room.targetScore, matchOver: room.matchOver,
       roundNo: room.roundNo, nextRoundAtMs: room.nextRoundAtMs,
       waitingKeys: room.status === 'playing' ? room.members.filter(other => !other.left && !room.arrivals.has(other.key)).map(other => other.key) : [],
+      ranked: room.ranked, ladderDelta: room.ladderDelta,
       players: room.members.map(member => ({ key: member.key, name: member.name,
+        rating: this.ladder ? this.ladder.rating(member.key) : null,
         ready: member.ready, left: member.left, score: member.score, gaveUp: member.gaveUp, connected: !member.left && this.isConnected(member.key),
         best: member.best ? { jumps: member.best.jumps,
           // Mid-round, opponents only see jump counts; times are revealed with the result.
@@ -468,7 +555,9 @@ export class CsLinkRooms {
         end: this.store.getPathPlayer(room.round.endId)! } : null,
       myBest: this.fullFinish(member.best), result: room.result,
     } : null;
-    return { ...(code ? { code } : {}), room: view, meKey: key, serverNowMs: this.now() };
+    const queued = this.waiting.find(entry => entry.identity.key === key);
+    return { ...(code ? { code } : {}), room: view, meKey: key, serverNowMs: this.now(),
+      ...(queued ? { queue: { sinceMs: queued.sinceMs, waiting: this.waiting.length } } : {}) };
   }
   private deleteRoom(room: Room) {
     if (room.timer) clearTimeout(room.timer);

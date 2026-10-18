@@ -29,8 +29,10 @@ export interface DuelRoom {
   nextRoundAtMs: number | null;
   /** Players who have not opened the duel page for the current round yet. */
   waitingKeys: string[];
+  ranked?: boolean;
+  ladderDelta?: Record<string, number> | null;
   players: { key: string; name: string; connected: boolean; ready: boolean; left: boolean;
-    score: number; gaveUp: boolean; best: { jumps: number; elapsedMs: number | null } | null }[];
+    score: number; gaveUp: boolean; rating?: number | null; best: { jumps: number; elapsedMs: number | null } | null }[];
   round: { roundId: string; dataVersion: string; start: PlayPlayer; end: PlayPlayer;
     serverStartedAtMs: number; serverDeadlineAtMs: number; maxJumps: number } | null;
   myBest: DuelFinish | null;
@@ -47,6 +49,7 @@ export interface DuelResponse {
   meKey?: string;
   serverNowMs?: number;
   improved?: boolean;
+  queue?: { sinceMs: number; waiting: number };
 }
 
 export function duelError(code?: string, reason?: string): string {
@@ -85,6 +88,7 @@ export function duelError(code?: string, reason?: string): string {
     TOO_MANY_SUBMISSIONS: '本局提交次数已达上限。',
     GAVE_UP: '你已放弃本局，等下一局吧。',
     ALREADY_CONNECTED: '你已经连通了，不用放弃。',
+    RANKED_FIXED: '天梯局规则固定，不能修改。',
     CSLINK_DUEL_UNAVAILABLE: '多人路径房间尚未加载，请稍后重试。',
     NETWORK_ERROR: '连接已断开，重连后会恢复房间和已提交成绩。',
     REQUEST_TIMEOUT: '服务器暂未回复。可以同步房间，确认刚才的操作是否已成功。',
