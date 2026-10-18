@@ -55,6 +55,7 @@ export default defineConfig({
         main: path.resolve(import.meta.dirname, 'index.html'),
         cslinkHome: path.resolve(import.meta.dirname, 'cslink/index.html'),
         cslinkDaily: path.resolve(import.meta.dirname, 'cslink/daily.html'),
+        cslinkPractice: path.resolve(import.meta.dirname, 'cslink/practice.html'),
         cslinkLobby: path.resolve(import.meta.dirname, 'cslink/lobby.html'),
         cslinkDuel: path.resolve(import.meta.dirname, 'cslink/duel.html'),
       },

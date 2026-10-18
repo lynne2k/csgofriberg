@@ -53,6 +53,7 @@ import { createCsLinkPlayRoutes } from './routes/cslinkPlay';
 import { CsLinkLegacy } from './services/cslinkLegacy';
 import { CsLinkDaily } from './services/cslinkDaily';
 import { createCsLinkDailyRoutes } from './routes/cslinkDaily';
+import { createCsLinkPracticeRoutes } from './routes/cslinkPractice';
 
 const SHUTDOWN_TIMEOUT_MS = 10_000;
 const CLOUDFLARE_INSIGHTS_SCRIPT_ORIGIN = 'https://static.cloudflareinsights.com';
@@ -334,6 +335,9 @@ async function main() {
       // 每日题用普通档；分档在下面 socket 初始化前建好，请求时才读
       () => difficultyFilters?.normal) : null;
   app.use('/api/cslink/daily', createCsLinkDailyRoutes(cslinkDaily, cslinkEnabled));
+  // 练习：随机题、可选难度、不计分；分档同样请求时才读
+  app.use('/api/cslink/drill', createCsLinkPracticeRoutes(cslinkEnabled ? cslinkPlay : null, cslinkEnabled,
+    () => difficultyFilters, (id: string) => cslinkEndpointOk(id)));
   app.use('/api/cslink', createCsLinkRoutes(cslink, cslinkEnabled));
   app.use('/api/game', gameRoutes);
   app.use('/api/daily-challenge', dailyChallengeRoutes);
