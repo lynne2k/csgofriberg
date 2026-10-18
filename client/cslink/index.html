@@ -262,7 +262,7 @@
       wipe(G + "lobby.html?room=" + encodeURIComponent(id), "ct");
     }
     join.addEventListener("click", doJoin);
-    code.addEventListener("keydown", function (e) { if (e.key === "Enter") doJoin(); });
+    code.addEventListener("keydown", function (e) { if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229) doJoin(); });
     code.addEventListener("input", function () { code.classList.remove("bad"); });
     code.addEventListener("paste", function () {
       setTimeout(function () { if (/[\/?]/.test(code.value) && parseRoom(code.value)) doJoin(); }, 0);

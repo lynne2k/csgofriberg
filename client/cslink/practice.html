@@ -901,8 +901,12 @@ function renderAll() {
 }
 
 $("q").addEventListener("input", function (e) { query = e.target.value; renderFan(); });
+/* 中文输入法：上屏英文的那次回车不算"放牌"。isComposing 覆盖 Chrome/Firefox，229 和上屏后 80ms 内兜住 Safari */
+var imeEndAt = 0;
+$("q").addEventListener("compositionend", function () { imeEndAt = Date.now(); });
+function imeBusy(e) { return e.isComposing || e.keyCode === 229 || Date.now() - imeEndAt < 80; }
 $("q").addEventListener("keydown", function (e) {
-  if (e.key !== "Enter") return;
+  if (e.key !== "Enter" || imeBusy(e)) return;
   var first = fanOrder.filter(function (el) { return el.dataset.from === "deck"; })[0];
   if (!first) return;
   if (result) clearResult();
