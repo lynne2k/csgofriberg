@@ -782,6 +782,7 @@ async function linkUp(ids, seq) {
   FROZEN = el; $("clockN").textContent = fmtMs(el);
   if (!Q.solved) { Q.solved = true; STATS.solved++; renderHud(); }
   result = "ok"; renderAct();
+  showAnswer(Q, "本题最优解");
   var j = ids.length - 1;
   $("keys").textContent = j + " 跳连通 · " + fmtSec(el) + (j <= Q.shortestJumps ? " · 已是最少跳数" : " · 最少能 " + Q.shortestJumps + " 跳");
   celebrate(); ding("win");
@@ -856,14 +857,18 @@ $("diff").addEventListener("click", function (e) {
 });
 $("skip").onclick = function () { nextQuestion(result !== "ok"); };
 /* 放弃：马上换下一题，上一题的最短路线放在面板里，每一跳能点开 HLTV 出处 */
-async function showAnswer(prev) {
+var answerSeq = 0;
+async function showAnswer(prev, label) {
+  label = label || "上一题答案";
+  var seq = ++answerSeq;
   var box = $("pans");
-  box.innerHTML = '<div class="t">上一题答案 …</div>';
+  box.innerHTML = '<div class="t">' + label + ' …</div>';
   var res = await D().reveal({ startId: prev.start.id, endId: prev.end.id, dataVersion: prev.dataVersion });
+  if (seq !== answerSeq) return;
   var a = res && res.answer;
-  if (!a) { box.innerHTML = '<div class="t">上一题答案暂时取不到</div>'; return; }
+  if (!a) { box.innerHTML = '<div class="t">' + label + '暂时取不到</div>'; return; }
   a.route.forEach(ensurePlayer);
-  box.innerHTML = '<div class="t">上一题答案<b>' + a.jumps + ' 跳</b></div><ol>' + a.routeIds.map(function (id, k) {
+  box.innerHTML = '<div class="t">' + label + '<b>' + a.jumps + ' 跳</b></div><ol>' + a.routeIds.map(function (id, k) {
     var hop = k ? a.hops[k - 1] : null, url = hop && hop.evidence && hop.evidence.sourceUrl;
     return '<li>' + (k ? '↳ ' : '') + CSDATA.esc(PLAYERS[id].name) + (url ? '<a href="' + CSDATA.esc(url) + '" target="_blank" rel="noopener">HLTV 同队 ↗</a>' : '') + '</li>';
   }).join("") + '</ol>';
@@ -873,12 +878,14 @@ async function nextQuestion(gaveUp) {
   if (loadingQ || phase === "linking") return;
   loadingQ = true; $("skip").disabled = true;
   var prev = Q;
-  if (gaveUp && prev) showAnswer(prev); else if (!gaveUp) $("pans").innerHTML = "";
+  // 放弃或连通后换题，面板都保留上一题的最优解，方便对照
+  if (prev) showAnswer(prev, "上一题答案"); else { answerSeq++; $("pans").innerHTML = ""; }
   $("keys").textContent = "洗牌中…";
   var res = await D().question(DIFF);
   loadingQ = false; $("skip").disabled = false;
   if (!res || res.code || !res.start) { $("keys").textContent = dailyErr(res && res.code); return; }
-  Q = res; RUN = { startedAtMs: null }; FROZEN = null;
+  // 练习不计分：题目一亮出来就开表，思考时间也算进去
+  Q = res; RUN = { startedAtMs: Date.now() }; FROZEN = null;
   ensurePlayer(Q.start); ensurePlayer(Q.end);
   START = Q.start.id; END = Q.end.id;
   queue = []; hand = []; query = ""; $("q").value = "";
