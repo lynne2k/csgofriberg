@@ -231,11 +231,25 @@ async function main() {
   const rawIndexHtml = fs.existsSync(clientIndexPath)
     ? fs.readFileSync(clientIndexPath, 'utf8')
     : null;
-  const inlineScriptHashes = rawIndexHtml
-    ? [...rawIndexHtml.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map(
-        (match) => `'sha256-${crypto.createHash('sha256').update(match[1], 'utf8').digest('base64')}'`
-      )
-    : [];
+  // 除了根 index.html，/cslink/*.html 等独立页面也有内联脚本和 onclick，同样要算哈希
+  const sha = (s: string) => `'sha256-${crypto.createHash('sha256').update(s, 'utf8').digest('base64')}'`;
+  const clientHtmlFiles: string[] = [];
+  const walkHtml = (dir: string) => {
+    if (!fs.existsSync(dir)) return;
+    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, ent.name);
+      if (ent.isDirectory() && ent.name !== 'assets') walkHtml(full); // 软链接目录（定妆照）不跟进
+      else if (ent.isFile() && ent.name.endsWith('.html')) clientHtmlFiles.push(full);
+    }
+  };
+  walkHtml(clientDist);
+  const inlineScriptHashes = new Set<string>();
+  const inlineHandlerHashes = new Set<string>();
+  for (const file of clientHtmlFiles) {
+    const html = fs.readFileSync(file, 'utf8');
+    for (const m of html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)) inlineScriptHashes.add(sha(m[1]));
+    for (const m of html.matchAll(/\son[a-z]+="([^"]*)"/g)) inlineHandlerHashes.add(sha(m[1]));
+  }
 
   app.use(helmet({
     contentSecurityPolicy: {
@@ -252,6 +266,8 @@ async function main() {
           ...(config.umami ? [config.umami.origin] : []),
           ...inlineScriptHashes,
         ],
+        // 内联事件处理（返回按钮、关于弹窗、HLTV 小图标）按哈希放行
+        scriptSrcAttr: inlineHandlerHashes.size ? ["'unsafe-hashes'", ...inlineHandlerHashes] : ["'none'"],
         workerSrc: ["'self'"],
         styleSrc: ["'self'", "'unsafe-inline'", GEETEST_SCRIPT_ORIGIN],
         imgSrc: [

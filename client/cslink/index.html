@@ -102,6 +102,34 @@
   .meta b { display: block; font-size: 30px; line-height: 1; }
   .meta span { font-size: 12px; letter-spacing: .16em; opacity: .7; }
 
+  /* 单人模式：今日题目是主角，练习是一行次要入口 */
+  .today { margin-top: 26px; font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: .14em; opacity: .8; }
+  .left .meta { gap: 28px; }
+  .left .meta b { font-size: 20px; display: inline; margin-right: 6px; }
+  .left .meta span { font-size: 12px; letter-spacing: .12em; }
+  .left .chain { margin-top: 10px; gap: 14px; font-size: 30px; letter-spacing: .02em; }
+  .left .node { padding: 0 0 4px; background: none; color: var(--ink); clip-path: none; border-bottom: 3px solid var(--ink); }
+  .left .node.q { outline: 0; border: 0; min-width: 0; width: 38px; height: 38px; padding: 0; border-radius: 50%;
+    display: grid; place-items: center; font-size: 20px; background: rgba(13,15,20,.14); }
+  .left .arrow { font-size: 22px; opacity: .45; }
+  .left .mmrow { justify-content: flex-start; }
+  .left #goDaily { font-size: 24px; padding: 20px 46px; min-width: 300px; justify-content: center; }
+  .practice { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(13,15,20,.25); display: flex; align-items: center; gap: 18px; }
+  .practice .lb { font-size: 15px; opacity: .78; }
+  .left .cta.line { margin-top: 0; font-size: 16px; padding: 12px 24px; background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); clip-path: none; }
+  .left .cta.line:hover { background: var(--ink); color: var(--t); filter: none; }
+  /* 左右两栏逐行对齐：信息区等高，统计行贴底；两边都有提示行和小标题 */
+  .info { height: var(--info-h, 150px); display: flex; flex-direction: column; justify-content: flex-end; }
+  .info > :first-child { margin-top: 0; }
+  .right .info .meta { margin-top: 0; }
+  .practice { display: block; }
+  .practice .lb { display: block; font-size: 13px; letter-spacing: .2em; opacity: .65; margin-bottom: 12px; }
+  .practice .prow { display: flex; align-items: center; gap: 18px; }
+  .practice .hint { font-size: 15px; opacity: .78; }
+  /* 主按钮和下方分割线之间收紧；提示语只在有内容时占位 */
+  .right .mmnote { min-height: 0; height: 0; margin-top: 6px; overflow: visible; }
+  .left .practice, .right .friends { margin-top: 22px; }
+
   /* 按钮 */
   .cta {
     margin-top: 32px; display: inline-flex; align-items: center; gap: 12px; border: 0; cursor: pointer;
@@ -164,6 +192,13 @@
     .desc { margin-top: 14px; font-size: 18px; }
     .chain, .meta { margin-top: 16px; }
     .cta, .row { margin-top: 22px; }
+    .today, .practice { margin-top: 18px; }
+    .left .chain { font-size: 26px; }
+    .left #goDaily { font-size: 22px; padding: 17px 40px; }
+  }
+  /* 不够高时背景 SOLO 缩小贴底，别压住练习入口 */
+  @media (max-height: 940px) and (min-width: 821px) {
+    .left .ghost { font-size: 7vw; bottom: 22px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -196,25 +231,36 @@
 <body>
   <header class="topbar">
     <div class="brand"><i></i>CS LINK</div>
-    <nav class="nav"><a href="/cslink/practice.html" onclick="event.preventDefault();window.CSWipe?CSWipe.go(this.href,'t'):location.href=this.href">练习</a><a href="#about" onclick="event.preventDefault();window.CSBgm&&CSBgm.about()">关于</a></nav>
+    <nav class="nav"><a href="#about" onclick="event.preventDefault();window.CSBgm&&CSBgm.about()">关于</a></nav>
   </header>
 
   <main class="split">
-    <section class="panel left" aria-labelledby="daily-title">
-      <div class="ghost" aria-hidden="true">DAILY</div>
+    <section class="panel left" aria-labelledby="solo-title">
+      <div class="ghost" aria-hidden="true">SOLO</div>
       <div class="content">
-        <h2 id="daily-title">每日挑战</h2>
-        <div class="en">DAILY CHALLENGE</div>
+        <h2 id="solo-title">单人模式</h2>
+        <div class="en">SOLO</div>
         <p class="desc"><b>老尼</b>和<b>老汤</b>差了几个身位？</p>
+        <div class="info">
+        <div class="today">今日题目 <span id="dNo">#–</span></div>
         <div class="chain" id="chain" aria-label="今日题目">
           <span class="node" id="dStart">…</span><span class="arrow">→</span><span class="node q">?</span><span class="arrow">→</span><span class="node" id="dEnd">…</span>
         </div>
         <div class="meta">
-          <div><b id="dNo">#–</b><span>今日题号</span></div>
           <div><b id="dLeft">--:--:--</b><span>距离刷新</span></div>
           <div><b id="dDone">–</b><span>今日已连通</span></div>
         </div>
-        <button class="cta">开始挑战 ▸</button>
+        </div>
+        <div class="row mmrow">
+          <button class="cta" id="goDaily">每日挑战 ▸</button>
+        </div>
+        <div class="practice">
+          <span class="lb">自己练</span>
+          <div class="prow">
+            <button class="cta line" id="goPractice">练习 ▸</button>
+            <span class="hint">不计时、不上榜，随便刷</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -224,10 +270,12 @@
         <h2 id="duel-title">多人对战</h2>
         <div class="en">VERSUS ROOM</div>
         <p class="desc">谁是真正的链接仙人</p>
+        <div class="info">
         <div class="meta">
           <div><b>1v1</b><span>天梯</span></div>
           <div><b>2–8</b><span>好友房</span></div>
           <div><b>0:20</b><span>回合时限</span></div>
+        </div>
         </div>
         <div class="row mmrow" id="mmrow">
           <button class="cta" id="mm">天梯匹配 ▸</button>
@@ -261,11 +309,13 @@
       split.style.setProperty("--s", side === "t" ? "96" : "4");
       if (window.CSWipe) CSWipe.go(url, side); else location.href = url;
     }
-    var start = document.querySelector(".left .cta");
+    var start = document.getElementById("goDaily");
     var code = document.querySelector(".right .code");
     var join = document.getElementById("join");
     var create = document.getElementById("create");
     start.addEventListener("click", function () { wipe(G + "daily.html", "t"); });
+    /* 难度在练习页里选 */
+    document.getElementById("goPractice").addEventListener("click", function () { wipe(G + "practice.html", "t"); });
     create.addEventListener("click", function () { wipe(G + "lobby.html?create=1", "ct"); });
     /* 天梯匹配：服务端先到先配，配上后两人直接进对战页 */
     var mmRow = document.getElementById("mmrow"), mmT = document.getElementById("mmT"), mmNote = document.getElementById("mmNote");

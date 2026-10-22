@@ -342,7 +342,13 @@ var PLAYERS = CSDATA.players;
 var START = null, END = null;   // 由 /api/cslink/daily/today 给出
 var Q = null, RUN = null, CLOCK_OFF = 0;   // Q：当前题；RUN.startedAtMs：本地开表时间
 var DIFFS = [["easy", "简单", "热门选手 · 2 跳"], ["normal", "普通", "常见选手 · 3 跳"], ["hard", "困难", "更多选手 · 3–4 跳"], ["hell", "地狱", "全部选手 · 4–6 跳"]];
-var DIFF = (function () { try { var v = localStorage.getItem("cslink-practice-diff"); return DIFFS.some(function (d) { return d[0] === v; }) ? v : "normal"; } catch (e) { return "normal"; } })();
+var DIFF = (function () {
+  var ok = function (v) { return DIFFS.some(function (d) { return d[0] === v; }); };
+  // 首页选好难度带 ?d= 进来；没带就用上次记住的
+  var q = (location.search.match(/[?&]d=([a-z]+)/) || [])[1];
+  if (ok(q)) { try { localStorage.setItem("cslink-practice-diff", q); } catch (e) {} return q; }
+  try { var v = localStorage.getItem("cslink-practice-diff"); return ok(v) ? v : "normal"; } catch (e) { return "normal"; }
+})();
 var STATS = { done: 0, solved: 0 };
 function D() { return window.CSPRACTICE; }
 var queue = [];

@@ -49,7 +49,8 @@ async function guests() {
   const powCookie = proof.cookies.join('; ');
   const first = await request('/auth/session', powCookie, {});
   const second = await request('/auth/session', powCookie, {});
-  return [first, second].map(row => [powCookie, ...row.cookies].join('; '));
+  const third = await request('/auth/session', powCookie, {});
+  return [first, second, third].map(row => [powCookie, ...row.cookies].join('; '));
 }
 
 async function connect(cookie) {
@@ -86,26 +87,38 @@ function waitForFinished(socket, durationMs) {
 }
 
 try {
-  const [cookieA, cookieB] = await guests();
+  // A third player stays idle so the round runs to its deadline instead of settling once A and B finish.
+  const [cookieA, cookieB, cookieC] = await guests();
   let a = await connect(cookieA);
   const b = await connect(cookieB);
-  const created = success(await emit(a, 'cslink:create', { durationSeconds: 60, maxPlayers: 2 }));
+  const c = await connect(cookieC);
+  // targetScore 1 keeps the smoke to a single settled round.
+  const created = success(await emit(a, 'cslink:create', { durationSeconds: 20, maxPlayers: 3, targetScore: 1 }));
   const roomId = created.room.id;
   const joined = success(await emit(b, 'cslink:join', { roomId }));
+  success(await emit(c, 'cslink:join', { roomId }));
   assert.notEqual(created.meKey, joined.meKey, 'Players must have independent identities');
-  assert.equal(joined.room.players.length, 2);
   assert.equal((await emit(b, 'cslink:start', { roomId })).code, 'HOST_ONLY');
   success(await emit(a, 'cslink:ready', { roomId, ready: true }));
   success(await emit(b, 'cslink:ready', { roomId, ready: true }));
+  success(await emit(c, 'cslink:ready', { roomId, ready: true }));
   const started = success(await emit(a, 'cslink:start', { roomId }));
-  const round = started.room.round;
+  const roundId = started.room.round.roundId;
+  // Duel pages report arrival; once everyone is in, the clock is pulled forward to a short countdown.
+  success(await emit(a, 'cslink:arrive', { roomId, roundId }));
+  success(await emit(b, 'cslink:arrive', { roomId, roundId }));
+  success(await emit(c, 'cslink:arrive', { roomId, roundId }));
+  const armed = success(await emit(a, 'cslink:sync'));
+  const round = armed.room.round;
+  assert(round.serverStartedAtMs < started.room.round.serverStartedAtMs, 'Arrival must pull the clock forward');
   const other = success(await emit(b, 'cslink:sync'));
   assert.deepEqual(other.room.round, round, 'Players must receive identical endpoints/version/clocks');
-  assert.equal(round.serverDeadlineAtMs - round.serverStartedAtMs, 60000);
+  await delay(Math.max(0, round.serverStartedAtMs - armed.serverNowMs) + 200);
+  assert.equal(round.serverDeadlineAtMs - round.serverStartedAtMs, 20000);
   assert.equal(other.room.result, null);
   assert.equal(other.room.myBest, null);
   assert(!JSON.stringify(round).includes('shortestJumps'), 'Question must not publish a solution');
-  const ended = waitForFinished(b, 60000);
+  const ended = waitForFinished(b, 20000);
   const query = new URLSearchParams({ playerA: round.start.id, playerB: round.end.id, version: round.dataVersion });
   const { data: path } = await request(`/cslink/play/path?${query}`, cookieA);
   assert.equal(path.status, 'connected');
@@ -155,7 +168,7 @@ try {
   assert.deepEqual(finalA.room.result, finalB.room.result);
   assert.deepEqual(finalA.room.result.winnerKeys, [joined.meKey]);
   assert.equal(finalA.room.result.reason, 'faster_time');
-  assert(finalA.room.result.rankings.every(row => row.best?.hops.length === path.jumps));
+  assert(finalA.room.result.rankings.filter(row => row.best).every(row => row.best.hops.length === path.jumps));
   assert.equal((await emit(a, 'cslink:submit', { ...submission, eventId: crypto.randomUUID() })).code, 'ROUND_EXPIRED');
   const replay = success(await emit(a, 'cslink:rematch', { roomId }));
   assert.equal(replay.room.status, 'lobby');
@@ -163,6 +176,7 @@ try {
   assert.equal(replay.room.myBest, null);
   assert(replay.room.players.every(player => !player.ready && !player.best));
   success(await emit(b, 'cslink:leave', { roomId }));
+  success(await emit(c, 'cslink:leave', { roomId }));
   success(await emit(a, 'cslink:leave', { roomId }));
   const report = { checkedAt: new Date().toISOString(), roomId, dataVersion: round.dataVersion,
     endpoints: [round.start.nickname, round.end.nickname], jumps: path.jumps,

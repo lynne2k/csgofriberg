@@ -770,6 +770,8 @@ function markServerBroke(ids) {
 }
 async function linkUp(ids, seq) {
   phase = "linking"; renderAct();
+  // 第一张牌落下就连通时，开局请求可能还没回来；先等它，否则服务端会回 NOT_STARTED
+  if (beginP) await beginP;
   var res = await D().submit({ date: TODAY.date, dataVersion: TODAY.dataVersion, routeIds: ids });
   phase = "idle";
   if (seq !== judgeSeq) return;
@@ -800,13 +802,13 @@ setInterval(function () {
   $("clockN").textContent = FROZEN != null ? fmtMs(FROZEN) : RUN.startedAtMs == null ? "0:00" : fmtMs(Date.now() + CLOCK_OFF - RUN.startedAtMs);
 }, 250);
 /* 第一次放牌时让服务端开始计时；只调一次，失败下次放牌再试 */
-var beginning = false;
-async function beginClock() {
-  if (!RUN || RUN.startedAtMs != null || beginning || !D()) return;
-  beginning = true;
-  var res = await D().begin();
-  beginning = false;
-  if (res && res.run) { RUN = res.run; CLOCK_OFF = res.serverNowMs - Date.now(); renderHud(); }
+var beginP = null;
+function beginClock() {
+  if (!RUN || RUN.startedAtMs != null || beginP || !D()) return beginP;
+  beginP = D().begin().then(function (res) {
+    if (res && res.run) { RUN = res.run; CLOCK_OFF = res.serverNowMs - Date.now(); renderHud(); }
+  }).finally(function () { beginP = null; });
+  return beginP;
 }
 function lbRow(r) {
   return '<li' + (r.me ? ' style="color:var(--t)"' : '') + '><span class="r">' + r.rank + '</span><span class="n">' + CSDATA.esc(r.name) +

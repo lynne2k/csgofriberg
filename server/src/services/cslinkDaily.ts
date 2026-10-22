@@ -13,6 +13,16 @@ const MAX_JUMPS = 16;
 const RETENTION_SECONDS = 3 * 24 * 60 * 60;
 const MAX_ENTRIES_PER_DAY = 50_000;
 
+/** 手动指定某天的题：环境变量 CSLINK_DAILY_PINS="2026-10-22=hltv:3741>hltv:21167,..."；
+ *  两端不存在或不连通时忽略，回到随机出题 */
+function pinnedPair(date: string): { startId: string; endId: string } | null {
+  for (const item of (process.env.CSLINK_DAILY_PINS || '').split(',')) {
+    const m = item.trim().match(/^(\d{4}-\d{2}-\d{2})=([^>\s]+)>([^>\s]+)$/);
+    if (m && m[1] === date) return { startId: m[2], endId: m[3] };
+  }
+  return null;
+}
+
 export interface CsLinkDailyRun {
   key: string;
   name: string;
@@ -95,16 +105,23 @@ export class CsLinkDaily {
       return this.cache.today;
     }
     const seed = `cslink-daily:${window.date}:${graph.dataVersion}`;
+    const pin = pinnedPair(window.date);
+    const pinJumps = pin ? graph.shortestJumps(pin.startId, pin.endId) : null;
+    const pinnedOk = pin && pinJumps != null && pinJumps >= 2
+      && this.store.getPathPlayer(pin.startId) && this.store.getPathPlayer(pin.endId);
     const normal = window.date >= CSLINK_DAILY_NORMAL_FROM ? this.normalFilter?.() : undefined;
-    const normalPair = normal ? graph.sampleDistantPair(3, 3, 32, seededRandom(seed), normal, 'tier:normal') : null;
-    const pair = normalPair || graph.sampleDistantPair(3, 5, 32, seededRandom(seed), this.endpointAllowed);
+    const normalPair = pinnedOk ? null
+      : normal ? graph.sampleDistantPair(3, 3, 32, seededRandom(seed), normal, 'tier:normal') : null;
+    const pair = pinnedOk ? { startId: pin!.startId, endId: pin!.endId, shortestJumps: pinJumps! }
+      : normalPair || graph.sampleDistantPair(3, 5, 32, seededRandom(seed), this.endpointAllowed);
     if (!pair) return null;
     const start = this.store.getPathPlayer(pair.startId), end = this.store.getPathPlayer(pair.endId);
     if (!start || !end) return null;
     const today = { date: window.date, no: dayNumber(window.date), dataVersion: graph.dataVersion,
       shortestJumps: pair.shortestJumps, start, end, nextRefreshAt: window.nextRefreshAt,
       // 普通档按两端选手分区：分档规则变了题目换了，旧成绩不会混进新题
-      bucket: normalPair ? `${window.date}:normal:${pair.startId}:${pair.endId}` : window.date };
+      bucket: pinnedOk ? `${window.date}:pin:${pair.startId}:${pair.endId}`
+        : normalPair ? `${window.date}:normal:${pair.startId}:${pair.endId}` : window.date };
     this.cache = { date: window.date, dataVersion: graph.dataVersion, today };
     return today;
   }

@@ -134,7 +134,8 @@ export function validateProductionConfig(): void {
   if (Boolean(configuredGeeTestCaptchaId) !== Boolean(configuredGeeTestPrivateKey)) {
     throw new Error('GEETEST_CAPTCHA_ID_AND_PRIVATE_KEY_MUST_BE_CONFIGURED_TOGETHER');
   }
-  if (!config.geetest.enabled) {
+  // GEETEST_OPTIONAL=true：只开放游客玩法的小规模部署可不配验证码，注册仍有 PoW 限速
+  if (!config.geetest.enabled && process.env.GEETEST_OPTIONAL !== 'true') {
     throw new Error('GEETEST_MUST_BE_CONFIGURED_IN_PRODUCTION');
   }
   if (
