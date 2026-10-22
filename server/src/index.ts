@@ -133,7 +133,10 @@ async function main() {
   let cslinkLegacy: CsLinkLegacy | null = null;
   if (cslinkEnabled && process.env.CSLINK_LEGACY_RELATIONS_DIR) {
     try {
-      cslinkLegacy = CsLinkLegacy.open(process.env.CSLINK_LEGACY_RELATIONS_DIR);
+      // 手动补录（A/S 库外、玩家点名需要的阵容），和旧库同格式，并入旧库一起加载
+      cslinkLegacy = CsLinkLegacy.open(process.env.CSLINK_LEGACY_RELATIONS_DIR,
+        process.env.CSLINK_MANUAL_RELATIONS_FILE ||
+          path.resolve(__dirname, '../../data/cslink/manual-relations.json'));
       if (cslinkLegacy) console.log(`[cslink] GitHub 旧库关系已加载: ${cslinkLegacy.version}`);
     } catch (error) {
       console.error('[cslink] GitHub 旧库关系导入失败，保留已加载来源', error);

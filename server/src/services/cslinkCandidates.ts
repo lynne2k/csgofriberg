@@ -3,6 +3,7 @@ import path from 'path';
 import crypto from 'crypto';
 import type Database from 'better-sqlite3';
 import { HttpError } from '../middleware/common';
+import { cslinkFuzzyIncludes } from './cslinkLegacy';
 
 interface CandidatePlayerRow {
   player_id: string;
@@ -189,10 +190,9 @@ export class CsLinkCandidates {
 
   searchAll(query: string) {
     const raw = query.trim().normalize('NFC');
-    const key = raw.toLocaleLowerCase();
-    const items = !key ? [] : [...this.players.values()].filter(player =>
-      player.nickname.normalize('NFC').toLocaleLowerCase().includes(key) ||
-      this.aliases.get(player.id)?.some(alias => alias.normalize('NFC').toLocaleLowerCase().includes(key)) ||
+    const items = !raw ? [] : [...this.players.values()].filter(player =>
+      cslinkFuzzyIncludes(player.nickname, raw) ||
+      this.aliases.get(player.id)?.some(alias => cslinkFuzzyIncludes(alias, raw)) ||
       player.hltvId === raw.replace(/^hltv:/, '') || player.id === raw);
     items.sort((a, b) => Number(b.nickname === raw) - Number(a.nickname === raw) ||
       b.evidenceMapCount - a.evidenceMapCount || Number(a.hltvId) - Number(b.hltvId));

@@ -3,6 +3,7 @@ import path from 'path';
 import crypto from 'crypto';
 import type Database from 'better-sqlite3';
 import { HttpError } from '../middleware/common';
+import { cslinkFuzzyIncludes } from './cslinkLegacy';
 
 export interface EvidencePlayer {
   id: string;
@@ -115,7 +116,7 @@ export class CsLinkEvidence {
     const raw = query.trim().normalize('NFC');
     const key = raw.toLowerCase();
     const matches = !key ? [] : [...this.players.values()].filter(p =>
-      p.nickname.normalize('NFC').toLowerCase().includes(key) || p.name?.toLowerCase().includes(key) ||
+      cslinkFuzzyIncludes(p.nickname, raw) || p.name?.toLowerCase().includes(key) ||
       p.hltvId === key.replace(/^hltv:/, '') || p.id === raw);
     // Ranking only: a single or exact-looking result still requires an explicit ID selection.
     matches.sort((a, b) => Number(b.nickname === raw) - Number(a.nickname === raw) || a.id.localeCompare(b.id));

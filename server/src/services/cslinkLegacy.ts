@@ -1,8 +1,29 @@
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 
 export const CSLINK_PLAYER_ID = /^(?:hltv:[1-9]\d{0,9}|legacy:[a-f0-9]{20})$/;
 const MAP_URL = /^https:\/\/www\.hltv\.org\/stats\/matches\/mapstatsid\/(\d+)\/[^/?#\s]+\/?$/;
+
+/** 搜索归一化，与前端 data.js 的 norm 保持一致：不分大小写，形近字符视为同一个。 */
+export function cslinkSearchKey(value: string): string {
+  return value.normalize('NFC').toLowerCase()
+    .replace(/[1l!|]/g, 'i').replace(/0/g, 'o').replace(/[4@]/g, 'a')
+    .replace(/3/g, 'e').replace(/[5$]/g, 's').replace(/7/g, 't').replace(/[\s_.-]/g, '');
+}
+
+/** 归一化后的子串匹配；查询至少 3 个字符时，再容忍一次相邻字母对调（phyz → phzy）。 */
+export function cslinkFuzzyIncludes(haystack: string, query: string): boolean {
+  const hay = cslinkSearchKey(haystack), q = cslinkSearchKey(query);
+  if (!q) return false;
+  if (hay.includes(q)) return true;
+  if (q.length < 3) return false;
+  for (let i = 0; i + 1 < q.length; i++) {
+    if (q[i] === q[i + 1]) continue;
+    if (hay.includes(q.slice(0, i) + q[i + 1] + q[i] + q.slice(i + 2))) return true;
+  }
+  return false;
+}
 
 /** Preserve the existing numeric order while giving local identities a stable order. */
 export function compareCsLinkPlayerIds(a: string, b: string): number {
@@ -79,13 +100,26 @@ export class CsLinkLegacy {
     for (const evidence of this.edges.values()) evidence.sort((a, b) => b.mapId - a.mapId);
   }
 
-  static open(directory: string): CsLinkLegacy | null {
+  /** 旧库 graph.json，外加可选的手动补录文件（同格式，只有 players 和 maps）。 */
+  static open(directory: string, manualFile?: string): CsLinkLegacy | null {
     const file = path.join(path.resolve(directory), 'graph.json');
     if (!fs.existsSync(file)) return null;
     const data = JSON.parse(fs.readFileSync(file, 'utf8'));
     if (data.schemaVersion !== 1 || typeof data.version !== 'string' ||
         !/^[a-f0-9]{20}$/.test(data.version) || !Array.isArray(data.players) || !Array.isArray(data.maps)) {
       throw new Error('CSLINK_LEGACY_INVALID_GRAPH');
+    }
+    if (manualFile && fs.existsSync(manualFile)) {
+      const manual = JSON.parse(fs.readFileSync(manualFile, 'utf8'));
+      if (manual.schemaVersion !== 1 || !Array.isArray(manual.players) || !Array.isArray(manual.maps)) {
+        throw new Error('CSLINK_MANUAL_INVALID_FILE');
+      }
+      const known = new Set(data.players.map((player: { id: string }) => player.id));
+      data.players = [...data.players, ...manual.players.filter((player: { id: string }) => !known.has(player.id))];
+      data.maps = [...data.maps, ...manual.maps];
+      // 版本号跟着补录内容变，房间和题目缓存不会把新旧数据混用
+      data.version = crypto.createHash('sha256').update(data.version)
+        .update(manual.maps.map((map: LegacyMap) => map.sourceFingerprint).join(',')).digest('hex').slice(0, 20);
     }
     const ids = new Set<string>();
     for (const player of data.players) {
@@ -129,11 +163,10 @@ export class CsLinkLegacy {
   pairs() { return [...this.edges.keys()].map(key => key.split('|') as [string, string]); }
   relationship(a: string, b: string) { return this.edges.get(cslinkPairKey(a, b)) ?? []; }
   searchAll(query: string) {
-    const tokens = query.trim().normalize('NFC').toLowerCase().split(/\s+/).filter(Boolean);
+    const tokens = query.trim().split(/\s+/).filter(Boolean);
     return this.allPlayers().filter(player => {
-      const searchable = [...this.aliases.get(player.id)!, player.identityContext ?? '']
-        .join(' ').normalize('NFC').toLowerCase();
-      return tokens.every(token => searchable.includes(token));
+      const names = [...this.aliases.get(player.id)!, player.identityContext ?? ''];
+      return tokens.every(token => names.some(name => cslinkFuzzyIncludes(name, token)));
     });
   }
   metadata() {

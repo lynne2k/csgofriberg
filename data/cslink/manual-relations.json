@@ -1,0 +1,523 @@
+{
+ "schemaVersion": 1,
+ "note": "手动补录：A/S 库外、但玩家需要的队友关系。阵容来自 HLTV 比赛页 Lineups。",
+ "players": [
+  {
+   "id": "hltv:16495",
+   "hltvId": "16495",
+   "nickname": "kory",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/16495/kory"
+  },
+  {
+   "id": "hltv:16726",
+   "hltvId": "16726",
+   "nickname": "phzy",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/16726/phzy"
+  },
+  {
+   "id": "hltv:7028",
+   "hltvId": "7028",
+   "nickname": "Summer",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/7028/summer"
+  },
+  {
+   "id": "hltv:8605",
+   "hltvId": "8605",
+   "nickname": "somebody",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/8605/somebody"
+  },
+  {
+   "id": "hltv:12490",
+   "hltvId": "12490",
+   "nickname": "expro",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/12490/expro"
+  },
+  {
+   "id": "hltv:14561",
+   "hltvId": "14561",
+   "nickname": "18yM",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/14561/18ym"
+  },
+  {
+   "id": "hltv:7026",
+   "hltvId": "7026",
+   "nickname": "DD",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/7026/dd"
+  },
+  {
+   "id": "hltv:12958",
+   "hltvId": "12958",
+   "nickname": "AE",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/12958/ae"
+  },
+  {
+   "id": "hltv:5187",
+   "hltvId": "5187",
+   "nickname": "captainMo",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/5187/captainmo"
+  },
+  {
+   "id": "hltv:11574",
+   "hltvId": "11574",
+   "nickname": "xiaosaGe",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/11574/xiaosage"
+  },
+  {
+   "id": "hltv:16555",
+   "hltvId": "16555",
+   "nickname": "Ax1Le",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/16555/ax1le"
+  },
+  {
+   "id": "hltv:21348",
+   "hltvId": "21348",
+   "nickname": "ArtFr0st",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/21348/artfr0st"
+  },
+  {
+   "id": "hltv:20101",
+   "hltvId": "20101",
+   "nickname": "fame",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/20101/fame"
+  },
+  {
+   "id": "hltv:16921",
+   "hltvId": "16921",
+   "nickname": "nafany",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/16921/nafany"
+  },
+  {
+   "id": "hltv:19235",
+   "hltvId": "19235",
+   "nickname": "BELCHONOKK",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/19235/belchonokk"
+  },
+  {
+   "id": "hltv:7998",
+   "hltvId": "7998",
+   "nickname": "s1mple",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/7998/s1mple"
+  },
+  {
+   "id": "hltv:8918",
+   "hltvId": "8918",
+   "nickname": "electroNic",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/8918/electronic"
+  },
+  {
+   "id": "hltv:9032",
+   "hltvId": "9032",
+   "nickname": "Magisk",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/9032/magisk"
+  },
+  {
+   "id": "hltv:20903",
+   "hltvId": "20903",
+   "nickname": "Senzu",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/20903/senzu"
+  },
+  {
+   "id": "hltv:21001",
+   "hltvId": "21001",
+   "nickname": "mzinho",
+   "identityKind": "hltv",
+   "profileUrl": "https://www.hltv.org/stats/players/21001/mzinho"
+  }
+ ],
+ "maps": [
+  {
+   "mapId": 165045,
+   "event": "IEM Chengdu 2024 China Open Qualifier 1",
+   "eventUrl": "https://www.hltv.org/events/7481/iem-chengdu-2024-china-open-qualifier-1",
+   "tier": "Manual",
+   "map": "Overpass",
+   "dateRaw": "2023-10-25 10:10:00",
+   "sourceUrl": "https://www.hltv.org/stats/matches/mapstatsid/165045/steel-helmet-vs-rare-atom",
+   "sourceFingerprint": "d38a378d2e94bd677690e6f6c0873aa473b5d6a9e30aef6c65fadd382b3ae32e",
+   "matchUrl": "https://www.hltv.org/matches/2367650/rare-atom-vs-steel-helmet-iem-chengdu-2024-china-open-qualifier-1",
+   "opponents": [
+    "Rare Atom",
+    "Steel Helmet"
+   ],
+   "score": [
+    13,
+    9
+   ],
+   "groups": [
+    [
+     {
+      "playerId": "hltv:16495",
+      "nickname": "kory",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:16726",
+      "nickname": "phzy",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:7028",
+      "nickname": "Summer",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:8605",
+      "nickname": "somebody",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:12490",
+      "nickname": "expro",
+      "identityBasis": "manual_hltv_match_page"
+     }
+    ],
+    [
+     {
+      "playerId": "hltv:14561",
+      "nickname": "18yM",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:7026",
+      "nickname": "DD",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:12958",
+      "nickname": "AE",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:5187",
+      "nickname": "captainMo",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:11574",
+      "nickname": "xiaosaGe",
+      "identityBasis": "manual_hltv_match_page"
+     }
+    ]
+   ]
+  },
+  {
+   "mapId": 165051,
+   "event": "IEM Chengdu 2024 China Open Qualifier 1",
+   "eventUrl": "https://www.hltv.org/events/7481/iem-chengdu-2024-china-open-qualifier-1",
+   "tier": "Manual",
+   "map": "Mirage",
+   "dateRaw": "2023-10-25 10:10:00",
+   "sourceUrl": "https://www.hltv.org/stats/matches/mapstatsid/165051/rare-atom-vs-steel-helmet",
+   "sourceFingerprint": "21a143b8bf5bbe4c449794aa7cd1f93aaaa612a20fcea4efe20c6eb01a73f4f2",
+   "matchUrl": "https://www.hltv.org/matches/2367650/rare-atom-vs-steel-helmet-iem-chengdu-2024-china-open-qualifier-1",
+   "opponents": [
+    "Rare Atom",
+    "Steel Helmet"
+   ],
+   "score": [
+    8,
+    13
+   ],
+   "groups": [
+    [
+     {
+      "playerId": "hltv:16495",
+      "nickname": "kory",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:16726",
+      "nickname": "phzy",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:7028",
+      "nickname": "Summer",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:8605",
+      "nickname": "somebody",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:12490",
+      "nickname": "expro",
+      "identityBasis": "manual_hltv_match_page"
+     }
+    ],
+    [
+     {
+      "playerId": "hltv:14561",
+      "nickname": "18yM",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:7026",
+      "nickname": "DD",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:12958",
+      "nickname": "AE",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:5187",
+      "nickname": "captainMo",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:11574",
+      "nickname": "xiaosaGe",
+      "identityBasis": "manual_hltv_match_page"
+     }
+    ]
+   ]
+  },
+  {
+   "mapId": 165059,
+   "event": "IEM Chengdu 2024 China Open Qualifier 1",
+   "eventUrl": "https://www.hltv.org/events/7481/iem-chengdu-2024-china-open-qualifier-1",
+   "tier": "Manual",
+   "map": "Ancient",
+   "dateRaw": "2023-10-25 10:10:00",
+   "sourceUrl": "https://www.hltv.org/stats/matches/mapstatsid/165059/steel-helmet-vs-rare-atom",
+   "sourceFingerprint": "fe638802d8f87fbcdd6edb9939d410e30f9a6242f1d7523cc79d921b0cfb44c1",
+   "matchUrl": "https://www.hltv.org/matches/2367650/rare-atom-vs-steel-helmet-iem-chengdu-2024-china-open-qualifier-1",
+   "opponents": [
+    "Rare Atom",
+    "Steel Helmet"
+   ],
+   "score": [
+    14,
+    16
+   ],
+   "groups": [
+    [
+     {
+      "playerId": "hltv:16495",
+      "nickname": "kory",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:16726",
+      "nickname": "phzy",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:7028",
+      "nickname": "Summer",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:8605",
+      "nickname": "somebody",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:12490",
+      "nickname": "expro",
+      "identityBasis": "manual_hltv_match_page"
+     }
+    ],
+    [
+     {
+      "playerId": "hltv:14561",
+      "nickname": "18yM",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:7026",
+      "nickname": "DD",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:12958",
+      "nickname": "AE",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:5187",
+      "nickname": "captainMo",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:11574",
+      "nickname": "xiaosaGe",
+      "identityBasis": "manual_hltv_match_page"
+     }
+    ]
+   ]
+  },
+  {
+   "mapId": 234643,
+   "event": "Esports World Cup 2026 Open Qualifier",
+   "eventUrl": "https://www.hltv.org/events/8762/esports-world-cup-2026-open-qualifier",
+   "tier": "Manual",
+   "dateRaw": "2026-08-07 00:00:00",
+   "matchUrl": "https://www.hltv.org/matches/2396477/1win-vs-bcgame-esports-world-cup-2026-open-qualifier",
+   "opponents": [
+    "1win",
+    "BC.Game"
+   ],
+   "map": "Cache",
+   "sourceUrl": "https://www.hltv.org/stats/matches/mapstatsid/234643/1win-vs-bcgame",
+   "sourceFingerprint": "624e86a9a051ca4620d38712197f53ef6c4b93ce1404610b917ac1068cc13787",
+   "score": [
+    6,
+    13
+   ],
+   "groups": [
+    [
+     {
+      "playerId": "hltv:16555",
+      "nickname": "Ax1Le",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:21348",
+      "nickname": "ArtFr0st",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:20101",
+      "nickname": "fame",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:16921",
+      "nickname": "nafany",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:19235",
+      "nickname": "BELCHONOKK",
+      "identityBasis": "manual_hltv_match_page"
+     }
+    ],
+    [
+     {
+      "playerId": "hltv:7998",
+      "nickname": "s1mple",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:8918",
+      "nickname": "electroNic",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:9032",
+      "nickname": "Magisk",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:20903",
+      "nickname": "Senzu",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:21001",
+      "nickname": "mzinho",
+      "identityBasis": "manual_hltv_match_page"
+     }
+    ]
+   ]
+  },
+  {
+   "mapId": 234656,
+   "event": "Esports World Cup 2026 Open Qualifier",
+   "eventUrl": "https://www.hltv.org/events/8762/esports-world-cup-2026-open-qualifier",
+   "tier": "Manual",
+   "dateRaw": "2026-08-07 00:00:00",
+   "matchUrl": "https://www.hltv.org/matches/2396477/1win-vs-bcgame-esports-world-cup-2026-open-qualifier",
+   "opponents": [
+    "1win",
+    "BC.Game"
+   ],
+   "map": "Dust2",
+   "sourceUrl": "https://www.hltv.org/stats/matches/mapstatsid/234656/bcgame-vs-1win",
+   "sourceFingerprint": "6a65f9b6877c3915238d26c2cdacf515ca23db9f14d17b6b53b52eec41e00395",
+   "score": [
+    5,
+    13
+   ],
+   "groups": [
+    [
+     {
+      "playerId": "hltv:16555",
+      "nickname": "Ax1Le",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:21348",
+      "nickname": "ArtFr0st",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:20101",
+      "nickname": "fame",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:16921",
+      "nickname": "nafany",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:19235",
+      "nickname": "BELCHONOKK",
+      "identityBasis": "manual_hltv_match_page"
+     }
+    ],
+    [
+     {
+      "playerId": "hltv:7998",
+      "nickname": "s1mple",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:8918",
+      "nickname": "electroNic",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:9032",
+      "nickname": "Magisk",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:20903",
+      "nickname": "Senzu",
+      "identityBasis": "manual_hltv_match_page"
+     },
+     {
+      "playerId": "hltv:21001",
+      "nickname": "mzinho",
+      "identityBasis": "manual_hltv_match_page"
+     }
+    ]
+   ]
+  }
+ ]
+}

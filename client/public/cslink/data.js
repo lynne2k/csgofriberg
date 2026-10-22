@@ -43,16 +43,24 @@
     LIST = LIST.filter(function (p) { return !p.hidden; });
     api.players = PLAYERS;
   });
-  /* 联想：花名开头匹配排前面，其次包含；同档按出场地图数（越常见越靠前） */
+  /* 打错一对相邻字母也能搜到（phyz → phzy）：查询至少 3 个字符时，生成每种对调一次的写法 */
+  function swaps(s) {
+    var out = [];
+    if (s.length < 3) return out;
+    for (var i = 0; i + 1 < s.length; i++) if (s[i] !== s[i + 1]) out.push(s.slice(0, i) + s[i + 1] + s[i] + s.slice(i + 2));
+    return out;
+  }
+  function swapHit(key, alts) { for (var i = 0; i < alts.length; i++) if (key.indexOf(alts[i]) >= 0) return true; return false; }
+  /* 联想：完全一致 > 花名开头 > 包含 > 相邻字母对调；同档按出场地图数（越常见越靠前） */
   function search(q, taken, limit) {
-    var s = norm(q.trim()), hits = [];
+    var s = norm(q.trim()), hits = [], alts = swaps(s);
     if (!s) return { list: [], total: 0 };
     for (var i = 0; i < LIST.length; i++) {
       var p = LIST[i];
       if (taken[p.id] || !p.img || !p.active) continue;   // 只放有定妆照、且 2024 起还在 S/A 出场的选手
       var at = p.key.indexOf(s);
-      if (at < 0) continue;
-      hits.push({ id: p.id, rank: at === 0 ? (p.key === s ? 3 : 2) : 1, maps: p.maps });
+      if (at < 0 && !swapHit(p.key, alts)) continue;
+      hits.push({ id: p.id, rank: at < 0 ? 0 : at === 0 ? (p.key === s ? 3 : 2) : 1, maps: p.maps });
     }
     hits.sort(function (a, b) { return b.rank - a.rank || b.maps - a.maps; });
     return { list: hits.slice(0, limit).map(function (h) { return h.id; }), total: hits.length };
@@ -65,7 +73,10 @@
     }
     return null;
   }
-  function matches(id, q) { var s = norm(q.trim()); return !!s && PLAYERS[id].key.indexOf(s) >= 0; }
+  function matches(id, q) {
+    var s = norm(q.trim()), k = PLAYERS[id].key;
+    return !!s && (k.indexOf(s) >= 0 || swapHit(k, swaps(s)));
+  }
   var api = window.CSDATA = { ready: ready, players: PLAYERS, search: search, edge: edge, matches: matches, norm: norm, esc: esc };
 })();
 
