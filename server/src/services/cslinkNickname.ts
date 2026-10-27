@@ -1,3 +1,6 @@
+import { guestNameFromKey, userNameFromUsername } from './identityDisplay';
+import { moderateCsLinkNickname } from './cslinkNickModeration';
+
 /**
  * CS Link 排行榜 / 房间座位上显示的昵称。只改显示，不改身份：
  * 成绩、排名、房间成员仍按访客 key 或登录用户 id 区分。
@@ -10,5 +13,14 @@ export function cleanCsLinkNickname(raw: unknown): string | null {
     .replace(/\s+/gu, ' ')
     .trim();
   const length = [...text].length;
-  return length >= 2 && length <= 12 ? text : null;
+  if (length < 2 || length > 12) return null;
+  // 词库审核（政治、色情、暴恐）：不通过就当没填，调用方退回访客编号
+  return moderateCsLinkNickname(text).ok ? text : null;
+}
+
+/** 读取时再过一遍：Redis / 天梯里审核上线前存进去的昵称，不合规就显示成编号 */
+export function displayCsLinkNickname(name: string, key: string): string {
+  if (/^(访客|用户)#[0-9A-Z]{5}$/.test(name) || moderateCsLinkNickname(name).ok) return name;
+  if (key.startsWith('u:')) return userNameFromUsername(key.slice(2));
+  return guestNameFromKey(key.startsWith('g:') ? key.slice(2) : key);
 }

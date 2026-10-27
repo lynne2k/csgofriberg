@@ -1,4 +1,4 @@
-/* 样板共用数据层：读 tools/build-data.mjs 导出的真实选手和队友关系。
+/* 游戏共用数据层：读 scripts/build-cslink-data.mjs 导出的真实选手和队友关系。
    players.json 每项 = [id, 花名, 照片编号或 null, 出场地图数, 旧库身份说明或 null, 最近队伍, 最后一次 S/A 出场年份或 null]
    edges.json   键 = 两个 id 排序后用 | 连接，值 = [赛事名, HLTV 地图页] */
 (function () {
@@ -23,7 +23,7 @@
     var legend = {};
     (res[2].legends || []).forEach(function (id) { legend[id] = true; });
     res[0].forEach(function (r) {
-      var p = { id: r[0], name: r[1], img: r[2] ? "portraits/" + r[2] + ".png" : null, maps: r[3], ctx: r[4], team: r[5] || "", key: norm(r[1]),
+      var p = { id: r[0], name: r[1], img: r[2] ? "portraits/" + r[2] + ".webp" : null, maps: r[3], ctx: r[4], team: r[5] || "", key: norm(r[1]),
         active: r.length < 7 || (r[6] != null && r[6] >= ACTIVE_FROM_YEAR) || !!legend[r[0]] };   // 旧格式没有年份时不过滤
       p.tag = tagOf(p);
       PLAYERS[p.id] = p; LIST.push(p);
@@ -41,6 +41,9 @@
       g.slice(1).forEach(function (p) { p.hidden = true; p.rep = head.id; });
     });
     LIST = LIST.filter(function (p) { return !p.hidden; });
+    var names = {};
+    LIST.forEach(function (p) { var n = p.name.toLowerCase(); (names[n] = names[n] || []).push(p); });
+    Object.keys(names).forEach(function (n) { if (names[n].length > 1) names[n].forEach(function (p) { p.sameName = true; }); });
     api.players = PLAYERS;
   });
   /* 打错一对相邻字母也能搜到（phyz → phzy）：查询至少 3 个字符时，生成每种对调一次的写法 */
@@ -53,14 +56,15 @@
   function swapHit(key, alts) { for (var i = 0; i < alts.length; i++) if (key.indexOf(alts[i]) >= 0) return true; return false; }
   /* 联想：完全一致 > 花名开头 > 包含 > 相邻字母对调；同档按出场地图数（越常见越靠前） */
   function search(q, taken, limit) {
-    var s = norm(q.trim()), hits = [], alts = swaps(s);
+    var literal = q.trim().toLowerCase(), s = norm(literal), hits = [], alts = swaps(s);
     if (!s) return { list: [], total: 0 };
     for (var i = 0; i < LIST.length; i++) {
       var p = LIST[i];
-      if (taken[p.id] || !p.img || !p.active) continue;   // 只放有定妆照、且 2024 起还在 S/A 出场的选手
+      // 只放 2024 起还在 S/A 出场（或老将名单里）的选手；没定妆照的 HLTV 身份用占位卡面，旧库无编号身份仍不放
+      if (taken[p.id] || !p.active || (!p.img && !/^hltv:/.test(p.id))) continue;
       var at = p.key.indexOf(s);
       if (at < 0 && !swapHit(p.key, alts)) continue;
-      hits.push({ id: p.id, rank: at < 0 ? 0 : at === 0 ? (p.key === s ? 3 : 2) : 1, maps: p.maps });
+      hits.push({ id: p.id, rank: p.name.toLowerCase() === literal ? 4 : at < 0 ? 0 : at === 0 ? (p.key === s ? 3 : 2) : 1, maps: p.maps });
     }
     hits.sort(function (a, b) { return b.rank - a.rank || b.maps - a.maps; });
     return { list: hits.slice(0, limit).map(function (h) { return h.id; }), total: hits.length };

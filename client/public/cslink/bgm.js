@@ -46,9 +46,10 @@
   var dlg = document.createElement("div"); dlg.className = "csabout"; dlg.setAttribute("role", "dialog"); dlg.setAttribute("aria-modal", "true"); dlg.setAttribute("aria-labelledby", "csaboutT");
   dlg.innerHTML =
     '<div class="box"><h3 id="csaboutT">关于 CS Link</h3>' +
-    '<p>给两名职业选手，用当过队友的人把他们连起来。比赛和阵容数据来自 HLTV，每条队友关系都能点回对应的比赛页。</p>' +
+    '<p>比赛数据以 S/A 级赛事为主，另有部分历史比赛和手动补录。连线可点开 HLTV 同队比赛记录；没有收录的关系不代表两人没当过队友。卡面队伍是最近收录的出场队伍，不一定是现效力队伍。</p>' +
+    '<p>给两名职业选手，搜索并放入中间人。每相邻两人都当过队友，就能连上；中间人越少，跳数越少。放牌后自动判断，点牌上的 HLTV 图标可以看选手主页。</p>' +
     '<p>背景音乐：<br>Music: "Lobby Time" Kevin MacLeod (<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>)<br>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>' +
-
+    '<p>昵称审核词库：<a href="https://github.com/konsheng/Sensitive-lexicon" target="_blank" rel="noopener">Sensitive-lexicon</a> (MIT)、<a href="https://github.com/kfcd/chaizi" target="_blank" rel="noopener">kfcd/chaizi</a> (<a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>)、OpenCC (Apache-2.0)</p>' +
     '<button type="button" class="close">知道了</button></div>';
   var mBtn = bar.querySelector(".m");
   function sync() { mBtn.setAttribute("aria-pressed", on ? "true" : "false"); mBtn.title = on ? "关掉音乐" : "打开音乐"; }

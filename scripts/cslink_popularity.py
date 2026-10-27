@@ -26,6 +26,8 @@ LEGEND_TOP = 150
 # 区分大小写的花名（NiKo 和 niko 不是一个人）
 STARS = ['s1mple', 'device', 'NiKo', 'ZywOo', 'donk', 'm0NESY', 'jL', 'Jame']
 # 早年 Major 的赛事名里不带 "Major"，按库里的原名补上
+# 手动放回的老将：2024 起没打 S/A，但玩家点名要能搜到（Freeman：2020 后只打过 S/A 以外的比赛）
+MANUAL_LEGENDS = ['hltv:10774']
 OLD_MAJORS = {'DreamHack Winter 2013', 'ESL One: Katowice 2015', 'ESL One: Cologne 2014', 'DreamHack Winter 2014',
               'ESL One: Cologne 2015', 'DreamHack Open Cluj\u2060-\u2060Napoca 2015', 'ESL One: Cologne 2016'}
 
@@ -64,6 +66,7 @@ def main():
         scores[pid] = (10**9 if row[1] in stars else 0) + round(weighted * 10) * 1000 + min(row[3] or 0, 999)
     by_fame = sorted((p for p in names if p in portraits), key=lambda p: (-famous[p], p))
     legends = [p for p in by_fame[:LEGEND_TOP] if p not in active]
+    legends += [p for p in MANUAL_LEGENDS if p in portraits and p not in active and p not in legends]
     pool = sorted((p for p in names if p in portraits and (p in active or p in legends)), key=lambda p: (-scores[p], p))
     out = {'method': '2*R + F; R = recent S/A events x year weight, F = 1.5*Majors + 0.15*other S/A; STARS pinned',
            'weights': {'year': YEAR_WEIGHT, 'tier': TIER_WEIGHT, 'major': MAJOR, 'other': OTHER, 'recentX': RECENT_X},

@@ -1,6 +1,8 @@
 /* CS Link 昵称：只存在本机 localStorage，提交成绩、建房、进房时带给服务端。
    规则和 server/src/services/cslinkNickname.ts 一致：2–12 个字，去掉控制字符和 <>"'`&\ 。
    昵称只改显示名，成绩和排名仍按访客身份归属。 */
+import { api } from '../api/client';
+
 const KEY = 'cslinkNickname';
 const ASKED = 'cslinkNicknameAsked';
 
@@ -20,6 +22,14 @@ function save(name: string | null) {
     localStorage.setItem(ASKED, '1');
   } catch { /* 隐私模式写不进去就只在本页生效 */ }
   window.dispatchEvent(new Event('csnick'));
+}
+
+/** 服务端词库审核；网络出错时先放行，提交成绩时服务端还会再审一次 */
+async function serverAllows(name: string): Promise<boolean> {
+  try {
+    const res = await api.post('/cslink/daily/nickname-check', { nickname: name });
+    return res.data?.ok !== false;
+  } catch { return true; }
 }
 
 const STYLE = `
@@ -55,10 +65,16 @@ export function askNickname(): Promise<string | undefined> {
     input.value = getNickname() ?? '';
     const prev = document.activeElement as HTMLElement | null;
     const close = (name: string | undefined) => { back.remove(); prev?.focus?.(); resolve(name); };
-    form.addEventListener('submit', (e) => {
+    let checking = false;
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (checking) return;
       const name = cleanNickname(input.value);
       if (!name) { err.textContent = '2–12 个字，别用 < > " \' & 这类符号'; input.focus(); return; }
+      checking = true; err.textContent = '';
+      const ok = await serverAllows(name);
+      checking = false;
+      if (!ok) { err.textContent = '这个昵称不能用，换一个吧'; input.focus(); input.select(); return; }
       save(name); close(name);
     });
     back.querySelector('.skip')!.addEventListener('click', () => { save(getNickname() ?? null); close(getNickname()); });

@@ -26,7 +26,7 @@ describe('CS Link ladder matchmaking', () => {
     expect(waiting.room).toBeNull();
     expect(waiting.queue).toMatchObject({ waiting: 1 });
     const paired = rooms.queue(identity('b')).room!;
-    expect(paired).toMatchObject({ ranked: true, status: 'playing', durationSeconds: 20, targetScore: 3, difficulty: 'normal' });
+    expect(paired).toMatchObject({ ranked: true, status: 'playing', durationSeconds: 40, targetScore: 3, difficulty: 'normal' });
     expect(rooms.sync('a').room!.id).toBe(paired.id);
     expect(rooms.sync('a').queue).toBeUndefined();
     expect(rooms.setOptions('a', paired.id, { targetScore: 1 }).code).toBe('RANKED_FIXED');

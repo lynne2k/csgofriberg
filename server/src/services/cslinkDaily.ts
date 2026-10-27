@@ -1,7 +1,10 @@
 import crypto from 'crypto';
+import fs from 'node:fs';
+import path from 'node:path';
 import { redis, redisKey } from '../redis';
 import { dailyChallengeWindow } from './dailyChallenge';
 import { compareCsLinkPathFinishes, type CsLinkPathFinish } from './cslinkPaths';
+import { displayCsLinkNickname } from './cslinkNickname';
 import type { CsLinkRoomStore } from './cslinkRooms';
 import type { PlayPlayer } from './cslinkPlay';
 
@@ -91,12 +94,43 @@ const runStore: RunStore = {
 };
 
 export class CsLinkDaily {
+  private saved: { date: string; startId: string; endId: string; bucket: string } | null = null;
   private cache: { date: string; dataVersion: string; today: CsLinkDailyToday } | null = null;
   constructor(private readonly store: CsLinkRoomStore,
     private readonly endpointAllowed?: (id: string) => boolean,
     private readonly now: () => number = Date.now,
     /** 普通档两端过滤；在难度分档建好后才可用，所以传 getter */
-    private readonly normalFilter?: () => ((id: string) => boolean) | undefined) {}
+    private readonly normalFilter?: () => ((id: string) => boolean) | undefined,
+    private readonly questionFile?: string) {
+    if (questionFile && fs.existsSync(questionFile)) {
+      const saved = JSON.parse(fs.readFileSync(questionFile, 'utf8'));
+      if (!saved || !['date', 'startId', 'endId', 'bucket'].every(k => typeof saved[k] === 'string') ||
+          !/^\d{4}-\d{2}-\d{2}$/.test(saved.date) || !saved.bucket.startsWith(saved.date)) {
+        throw new Error('CSLINK_INVALID_DAILY_QUESTION_FILE');
+      }
+      this.saved = saved;
+    }
+  }
+
+  /** Reload must not silently replace the daily question or its score bucket. */
+  validateSnapshot(store: CsLinkRoomStore) {
+    const today = this.today();
+    if (today && (!store.getPathPlayer(today.start.id) || !store.getPathPlayer(today.end.id) ||
+        store.pathGraph().shortestJumps(today.start.id, today.end.id) == null)) {
+      throw new Error('CSLINK_RELOAD_BREAKS_DAILY_QUESTION');
+    }
+  }
+
+  private remember(today: CsLinkDailyToday) {
+    const saved = { date: today.date, startId: today.start.id, endId: today.end.id, bucket: today.bucket };
+    if (this.questionFile) {
+      fs.mkdirSync(path.dirname(this.questionFile), { recursive: true });
+      const temp = this.questionFile + '.tmp';
+      fs.writeFileSync(temp, JSON.stringify(saved) + '\n', { mode: 0o600 });
+      fs.renameSync(temp, this.questionFile);
+    }
+    this.saved = saved;
+  }
 
   today(): CsLinkDailyToday | null {
     const window = dailyChallengeWindow(this.now());
@@ -104,8 +138,18 @@ export class CsLinkDaily {
     if (this.cache && this.cache.date === window.date && this.cache.dataVersion === graph.dataVersion) {
       return this.cache.today;
     }
-    const seed = `cslink-daily:${window.date}:${graph.dataVersion}`;
     const pin = pinnedPair(window.date);
+    const saved = this.saved?.date === window.date ? this.saved : null;
+    if (saved && (!pin || (pin.startId === saved.startId && pin.endId === saved.endId))) {
+      const start = this.store.getPathPlayer(saved.startId), end = this.store.getPathPlayer(saved.endId);
+      const shortestJumps = graph.shortestJumps(saved.startId, saved.endId);
+      if (!start || !end || shortestJumps == null) throw new Error('CSLINK_SAVED_DAILY_UNAVAILABLE');
+      const today = { date: window.date, no: dayNumber(window.date), dataVersion: graph.dataVersion,
+        shortestJumps, start, end, nextRefreshAt: window.nextRefreshAt, bucket: saved.bucket };
+      this.cache = { date: window.date, dataVersion: graph.dataVersion, today };
+      return today;
+    }
+    const seed = `cslink-daily:${window.date}:${graph.dataVersion}`;
     const pinJumps = pin ? graph.shortestJumps(pin.startId, pin.endId) : null;
     const pinnedOk = pin && pinJumps != null && pinJumps >= 2
       && this.store.getPathPlayer(pin.startId) && this.store.getPathPlayer(pin.endId);
@@ -122,6 +166,7 @@ export class CsLinkDaily {
       // 普通档按两端选手分区：分档规则变了题目换了，旧成绩不会混进新题
       bucket: pinnedOk ? `${window.date}:pin:${pair.startId}:${pair.endId}`
         : normalPair ? `${window.date}:normal:${pair.startId}:${pair.endId}` : window.date };
+    this.remember(today);
     this.cache = { date: window.date, dataVersion: graph.dataVersion, today };
     return today;
   }
@@ -157,10 +202,11 @@ export class CsLinkDaily {
     if (!today) return { code: 'NO_QUESTION' as const };
     if (input.date !== today.date) return { code: 'DAILY_EXPIRED' as const };
     if (input.dataVersion !== today.dataVersion) return { code: 'VERSION_MISMATCH' as const };
+    const graph = this.store.pathGraph(); // Capture before Redis await; a reload cannot mix graphs mid-submit.
     const run = await runStore.get(today.bucket, key);
     if (!run || run.startedAtMs == null) return { code: 'NOT_STARTED' as const };
     const receivedAt = this.now();
-    const result = this.store.pathGraph().finish({
+    const result = graph.finish({
       roundId: `daily:${today.date}`, dataVersion: today.dataVersion,
       startId: today.start.id, endId: today.end.id,
       serverStartedAtMs: run.startedAtMs, serverDeadlineAtMs: today.nextRefreshAt, maxJumps: MAX_JUMPS,
@@ -187,7 +233,7 @@ export class CsLinkDaily {
     const done = runs.filter(run => run.best).sort((a, b) =>
       a.best!.jumps - b.best!.jumps || a.best!.elapsedMs - b.best!.elapsedMs ||
       a.best!.completedAtMs - b.best!.completedAtMs);
-    const row = (run: CsLinkDailyRun, rank: number | null) => ({ rank, name: run.name,
+    const row = (run: CsLinkDailyRun, rank: number | null) => ({ rank, name: displayCsLinkNickname(run.name, run.key),
       jumps: run.best?.jumps ?? null, elapsedMs: run.best?.elapsedMs ?? null, me: run.key === key });
     const top = done.slice(0, limit).map((run, i) => row(run, i + 1));
     const mine = key ? runs.find(run => run.key === key) : undefined;

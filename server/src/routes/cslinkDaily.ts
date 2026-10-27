@@ -39,6 +39,11 @@ export function createCsLinkDailyRoutes(daily: CsLinkDaily | null, enabled: bool
     if (!today) return res.status(503).json({ code: 'NO_QUESTION' });
     res.json(today);
   });
+  /** 起昵称时先问一下能不能用；词库只在服务端，不下发给前端 */
+  router.post('/nickname-check', rateLimit({ name: 'cslink-nick-check', limit: 20, windowSeconds: 60, key: requestIdentity }),
+    validateBody(nicknameSchema), (req, res) => {
+      res.json({ ok: cleanCsLinkNickname(req.body?.nickname) !== null });
+    });
   router.post('/start', rateLimit({ name: 'cslink-daily-start', limit: 30, windowSeconds: 60, key: requestIdentity }),
     validateBody(nicknameSchema), asyncHandler(async (req, res) => {
       const me = owner(req);

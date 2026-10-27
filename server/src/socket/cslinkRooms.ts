@@ -17,7 +17,7 @@ const submitPayload = roomPayload.extend({ roundId: z.string().uuid(), dataVersi
   routeIds: z.array(z.string().min(1).max(80)).min(2).max(17) }).strict();
 
 /** Attaches to the existing authenticated default namespace; separate from the guessing game's rooms. */
-export function setupCsLinkRooms(io: Server, store: CsLinkRoomStore, options: CsLinkRoomOptions = {}): () => void {
+export function setupCsLinkRooms(io: Server, store: CsLinkRoomStore, options: CsLinkRoomOptions = {}): (() => void) & { rooms: CsLinkRooms } {
   const sockets = new Map<string, Set<Socket>>();
   const attached = new Map<Socket, () => void>();
   const rooms = new CsLinkRooms(store, keys => {
@@ -82,7 +82,7 @@ export function setupCsLinkRooms(io: Server, store: CsLinkRoomStore, options: Cs
     socket.emit('cslink:state', rooms.sync(identity.key));
   };
   io.on('connection', onConnection);
-  return () => {
+  const stop = () => {
     io.off('connection', onConnection);
     for (const [socket, onDisconnect] of attached) {
       socket.off('disconnect', onDisconnect);
@@ -92,4 +92,5 @@ export function setupCsLinkRooms(io: Server, store: CsLinkRoomStore, options: Cs
     }
     rooms.stop(); sockets.clear(); attached.clear();
   };
+  return Object.assign(stop, { rooms });
 }

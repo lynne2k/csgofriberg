@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { displayCsLinkNickname } from './cslinkNickname';
 
 export interface CsLinkLadderEntry { key: string; name: string; rating: number; wins: number; losses: number; draws: number; updatedAt: number }
 export interface CsLinkLadderSide { key: string; name: string }
@@ -43,7 +44,7 @@ export class CsLinkLadder {
 
   top(limit = 10) {
     return [...this.entries.values()].sort((x, y) => y.rating - x.rating || x.updatedAt - y.updatedAt).slice(0, limit)
-      .map((row, index) => ({ rank: index + 1, name: row.name, rating: row.rating, games: row.wins + row.losses + row.draws }));
+      .map((row, index) => ({ rank: index + 1, name: displayCsLinkNickname(row.name, row.key), rating: row.rating, games: row.wins + row.losses + row.draws }));
   }
 
   /** 玩家自己的分数和名次（没打过天梯时 rank 为 null）。 */

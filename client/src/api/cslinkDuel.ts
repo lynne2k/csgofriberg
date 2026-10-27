@@ -82,6 +82,7 @@ export function duelError(code?: string, reason?: string): string {
     ROUND_MISMATCH: '房间已经进入新的一局，旧提交未计入。',
     VERSION_MISMATCH: '本局数据版本与提交不一致，请重新同步房间。',
     LEFT_ROUND: '你已退出本局，可以等房主开启下一局。',
+    SERVER_MAINTENANCE: '服务器准备更新，当前对局可以继续，请稍后再开新局。',
     NO_QUESTION: '当前关系库暂时无法生成对战题目。',
     NO_ACTIVE_PLAYERS: '房间里没有可参加下一局的玩家。',
     EVENT_ID_CONFLICT: '这次提交已处理，请同步房间后重试。',

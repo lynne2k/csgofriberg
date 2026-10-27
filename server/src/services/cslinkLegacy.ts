@@ -119,7 +119,7 @@ export class CsLinkLegacy {
       data.maps = [...data.maps, ...manual.maps];
       // 版本号跟着补录内容变，房间和题目缓存不会把新旧数据混用
       data.version = crypto.createHash('sha256').update(data.version)
-        .update(manual.maps.map((map: LegacyMap) => map.sourceFingerprint).join(',')).digest('hex').slice(0, 20);
+        .update(JSON.stringify(manual)).digest('hex').slice(0, 20);
     }
     const ids = new Set<string>();
     for (const player of data.players) {

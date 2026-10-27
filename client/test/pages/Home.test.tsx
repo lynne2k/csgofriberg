@@ -51,8 +51,10 @@ describe('Home email verification reminder', () => {
   it('places the daily challenge as the first home menu entry', () => {
     renderAtRoute(<Home />);
 
-    const daily = screen.getByRole('link', { name: /每日挑战/ });
-    expect(daily.parentElement?.firstElementChild).toBe(daily);
+    const daily = screen.getAllByRole('link', { name: /每日挑战/ })
+      .find(link => link.getAttribute('href') === '/daily');
+    expect(daily).toBeDefined();
+    expect(daily?.parentElement?.firstElementChild).toBe(daily);
   });
 
   it.each([

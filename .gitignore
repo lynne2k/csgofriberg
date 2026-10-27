@@ -23,6 +23,6 @@ client/tsconfig.tsbuildinfo
 __pycache__/
 *.py[cod]
 
-# CS Link 牌桌的本地数据导出和定妆照链接（由 prototypes/game-table/tools/build-data.mjs 生成）
+# CS Link 牌桌的本地数据导出和定妆照链接（由 scripts/build-cslink-data.mjs 生成）
 client/public/cslink/data/
 client/public/cslink/portraits

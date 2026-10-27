@@ -97,10 +97,13 @@ button, input { font: inherit; }
 .face { position: absolute; inset: 9px 18px 18px 18px; z-index: 2; overflow: hidden; border-radius: 4px; }
 .face img { position: absolute; left: 50%; bottom: 0; height: 100%; width: auto; max-width: none; transform: translateX(-50%); filter: drop-shadow(0 8px 10px rgba(0,0,0,.35)); pointer-events: none; }
 /* 没有定妆照：花名缩写做大字，底下压一行全名，和有照片的牌同一套边框 */
-.face.blank { display: grid; place-items: center; align-content: center; gap: 6px; background: radial-gradient(circle at 50% 38%, rgba(138,106,59,.22), transparent 62%), repeating-linear-gradient(45deg, rgba(92,67,36,.08) 0 6px, transparent 6px 12px); box-shadow: inset 0 0 0 1px rgba(92,67,36,.28); }
-.face.blank b { font-family: var(--display); font-weight: 700; font-size: calc(var(--w) * .34); line-height: 1; letter-spacing: .02em; color: rgba(58,36,16,.82); text-shadow: 0 2px 0 rgba(255,255,255,.5); }
-.face.blank span { max-width: 92%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--display); font-weight: 700; font-size: calc(var(--w) * .1); letter-spacing: .06em; opacity: .7; }
-.card.end .face.blank b { color: rgba(255,255,255,.85); text-shadow: none; }
+.face.blank { display: block; background: radial-gradient(ellipse at 50% 30%, rgba(255,245,220,.35), transparent 60%), repeating-linear-gradient(135deg, rgba(92,67,36,.07) 0 5px, transparent 5px 10px); box-shadow: inset 0 0 0 1px rgba(92,67,36,.22); }
+.face.blank .sil { position: absolute; left: 50%; bottom: 0; width: 92%; height: auto; transform: translateX(-50%); fill: rgba(58,36,16,.2); }
+.face.blank b { position: absolute; left: 0; right: 0; bottom: 30%; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 4px; font-family: var(--display); font-weight: 700; font-size: calc(var(--w) * .15); line-height: 1; letter-spacing: .03em; color: rgba(42,28,16,.88); text-shadow: 0 1px 0 rgba(255,255,255,.45); }
+.face.blank span { position: absolute; left: 0; right: 0; bottom: 18%; text-align: center; font-size: calc(var(--w) * .065); letter-spacing: .14em; color: rgba(42,28,16,.55); }
+.card.start .face.blank .sil { fill: rgba(90,57,6,.24); }
+.card.end .face.blank .sil { fill: rgba(255,255,255,.2); }
+.card.end .face.blank b, .card.end .face.blank span { color: rgba(255,255,255,.88); text-shadow: 0 1px 0 rgba(0,0,0,.3); }
 .fan .empty { position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--hand-w) * 1.4 + 34px); font-family: var(--display); font-size: 13px; letter-spacing: .12em; color: rgba(243,234,214,.55); pointer-events: none; white-space: nowrap; transition: opacity .2s; }
 .team-tag { position: absolute; left: 50%; bottom: 5px; transform: translateX(-50%); max-width: 78%; overflow: hidden; text-overflow: ellipsis; z-index: 4; font-family: var(--display); font-size: 9px; letter-spacing: .16em; font-weight: 700; opacity: .62; white-space: nowrap; pointer-events: none; }
 .card .role { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); z-index: 5; font-family: var(--display); font-weight: 700; font-size: 10px; letter-spacing: .2em; padding: 2px 8px; background: var(--ink); color: var(--white); border-radius: 3px; white-space: nowrap; }
@@ -415,6 +418,8 @@ button, input { font: inherit; }
 .opp li.gave { opacity: .55; } .opp li.gave .st { color: #ff9a9e; }
 .wait .pips i.gave { background: rgba(229,72,77,.35); color: #ffd0d2; text-decoration: line-through; }
 .sb li .gave { color: #ff9a9e; }
+/* 同名选手把收录队伍放在卡片顶端，折叠搜索结果时仍能区分。 */
+.identity-team { position:absolute; top:52px; left:6px; z-index:5; writing-mode:vertical-rl; padding:4px 3px; border-radius:3px; background:rgba(18,25,29,.86); color:#f4e9cf; font:700 10px/1.15 var(--display); letter-spacing:.03em; pointer-events:none; max-height:calc(100% - 61px); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 </style>
 </head>
 <body>
@@ -503,13 +508,15 @@ function cardEl(id, cls) {
   var el = document.createElement("article");
   el.className = "card " + (cls || "");
   el.dataset.id = id;
+  el.setAttribute("aria-label", p.name + (p.team ? " · " + p.team : ""));
   var pip = '<span class="nm">' + nm + '</span><i class="dia"></i>';
   var face = p.img
-    ? '<div class="face"><img src="' + p.img + '" alt="' + nm + '" draggable="false" /></div>'
-    : '<div class="face blank" aria-label="' + nm + '"><b>' + CSDATA.esc(p.name.slice(0, 2).toUpperCase()) + '</b><span>' + nm + '</span></div>';
+    ? '<div class="face"><img src="' + p.img + '" alt="' + nm + '" draggable="false" loading="lazy" /></div>'
+    : '<div class="face blank" aria-label="' + nm + '（暂无定妆照）"><svg class="sil" viewBox="0 0 100 120" aria-hidden="true"><path d="M50 14c-12 0-20 9-20 21 0 9 4 16 10 20v5c-17 4-30 14-34 30L4 120h92l-2-30c-4-16-17-26-34-30v-5c6-4 10-11 10-20 0-12-8-21-20-21z"/></svg><b>' + nm + '</b><span>暂无定妆照</span></div>';
   var tag = p.ctx ? p.tag : p.team;
+  var identity = p.sameName ? '<span class="identity-team" title="最近收录的出场队伍">' + CSDATA.esc(p.team || p.tag || p.id) + '</span>' : "";
   el.innerHTML = '<span class="orn"></span><div class="pip tl">' + pip + '</div><div class="pip br">' + pip + '</div>' +
-    face + '<div class="team-tag">' + CSDATA.esc(tag) + '</div><i class="cover"></i>' + hltvLink(p);
+    identity + face + '<div class="team-tag">' + CSDATA.esc(tag) + '</div><i class="cover"></i>' + hltvLink(p);
   return el;
 }
 /* 左下角小图标：只有 hltv 编号的身份才有主页可跳；借照片身份用自己那条的编号 */
@@ -635,7 +642,7 @@ function renderFan() {
   });
   fanEls = next;
   var em = fan.querySelector(".empty"); if (!em) { em = document.createElement("div"); em.className = "empty"; fan.appendChild(em); }
-  em.textContent = items.length ? "" : "在牌堆上打花名抽牌 ▾";
+  em.textContent = items.length ? "" : "输入花名找选手 · 点牌或拖到桌上";
   $("count").textContent = query.trim() ? (pool.length ? (pool.length > MAX_SUGGEST ? MAX_SUGGEST + "/" + pool.length : "+" + pool.length) : "没找到") : "";
   void fan.offsetWidth;   // 先按牌堆位置落一帧，再滑到目标位置
   layoutFan();
@@ -670,55 +677,66 @@ function layoutFan() {
   }
 }
 
-/* 拖拽 */
+/* 点击搜索结果即可放牌；拖动仍可插入、换位或撤下。系统取消手势不改队列。 */
 function bindDrag(el, from, id) {
   el.addEventListener("pointerdown", function (e) {
-    if (phase !== "idle" || e.button !== 0) return;
-    if (e.target.closest && e.target.closest("a.hltv")) return;   // 点到卡角 HLTV 图标：只跳主页，不起牌
+    if (phase !== "idle" || drag || e.button !== 0) return;
+    if (e.target.closest && e.target.closest("a.hltv")) return;
     e.preventDefault();
-    clearResult();   // 起牌先收掉连线，落下再判
-    var w = cssPx("--card-w");
-    var ghost = cardEl(id, "ghost");
+    var w = cssPx("--card-w"), ghost = cardEl(id, "ghost");
     ghost.style.setProperty("--w", w + "px");
+    ghost.style.visibility = "hidden";
     document.body.appendChild(ghost);
-    drag = { from: from, id: id, ghost: ghost, dx: w / 2, dy: w * 0.7 };
+    drag = { from: from, id: id, ghost: ghost, dx: w / 2, dy: w * 0.7,
+      pointer: e.pointerId, x: e.clientX, y: e.clientY, moved: false, el: el };
     setPeek(null);
-    el.classList.add("placeholder");
-    sfx("pick");
-    if (from === "queue") renderBoard();
-    move(e);
     window.addEventListener("pointermove", move);
     window.addEventListener("pointerup", up);
-    window.addEventListener("pointercancel", up);   // 触屏被系统手势打断时也要收尾
+    window.addEventListener("pointercancel", up);
   });
 }
 function move(e) {
-  if (!drag) return;
+  if (!drag || e.pointerId !== drag.pointer) return;
+  if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) >= 8) {
+    drag.moved = true;
+    clearResult();
+    drag.ghost.style.visibility = "visible";
+    drag.el.classList.add("placeholder");
+    sfx("pick");
+    if (drag.from === "queue") renderBoard();
+  }
+  if (!drag.moved) return;
   drag.ghost.style.left = (e.clientX - drag.dx) + "px";
   drag.ghost.style.top = (e.clientY - drag.dy) + "px";
   var next = overBoard(e.clientX, e.clientY) ? insertFromX(e.clientX) : null;
   if (next !== insertAt) { if (next != null) sfx("slide"); insertAt = next; layoutBoard(); }
 }
-function up() {
+function up(e) {
+  if (!drag || (e && e.pointerId !== drag.pointer)) return;
   window.removeEventListener("pointermove", move);
   window.removeEventListener("pointerup", up);
   window.removeEventListener("pointercancel", up);
-  var d = drag, at = insertAt;
-  d.ghost.remove();
+  var d = drag, cancelled = !e || e.type === "pointercancel";
+  // pointerup may be the only event after a quick drag.
+  if (!cancelled) move(e);
+  var tapped = !d.moved && d.from === "deck";
+  var at = cancelled ? null : tapped ? queue.length : insertAt;
+  d.ghost.remove(); d.el.classList.remove("placeholder");
   drag = null; insertAt = null;
+  var removed = !cancelled && d.moved && at == null && d.from === "queue";
   if (at != null) {
+    clearResult();
     queue = queue.filter(function (x) { return x !== d.id; });
     queue.splice(Math.min(at, queue.length), 0, d.id);
     hand = hand.filter(function (x) { return x !== d.id; });
-    landed = d.id;
-    sfx("place");
-    if (d.from === "deck") { query = ""; $("q").value = ""; }
-  } else if (d.from === "queue") {
+    landed = d.id; sfx("place");
+    if (d.from === "deck") { query = ""; $("q").value = ""; $("q").blur(); }
+  } else if (removed) {
     sfx("away");
-    queue = queue.filter(function (x) { return x !== d.id; });  // 拖离桌面 = 撤下，回到牌库里可以再搜
+    queue = queue.filter(function (x) { return x !== d.id; });
   }
   renderAll();
-  if (at != null || d.from === "queue") judge(at != null ? d.id : null);
+  if (at != null || removed) judge(at != null ? d.id : null);
 }
 
 var HOP_MS = 170;              // 每一跳通电的时长
@@ -880,7 +898,7 @@ function judge(placed) {
   if (broke < 0) return linkUp(ids, seq);
   renderAct();
   if (hitBad) ding("bad");
-  $("keys").textContent = PLAYERS[ids[broke]].name + " 和 " + PLAYERS[ids[broke + 1]].name + " 没做过队友 · 换一张试试";
+  $("keys").textContent = PLAYERS[ids[broke]].name + " 和 " + PLAYERS[ids[broke + 1]].name + " 暂无同队记录 · 换一张试试";
 }
 function markServerBroke(ids) {
   verdicts[ids.length - 2] = { ok: false };
@@ -928,7 +946,11 @@ function drawPair(i) {
   }, 90);
   var chip = document.createElement(v.ok ? "a" : "div");
   chip.className = "chip" + (v.ok ? "" : " bad");
-  chip.textContent = v.ok ? v.event + " ↗" : "没做过队友";
+  chip.textContent = innerWidth <= 860 ? (v.ok ? "HLTV ↗" : "未收录") : (v.ok ? v.event + " ↗" : "暂无同队记录");
+  chip.title = v.ok ? v.event + " · 同队比赛" : "当前关系库暂无同队记录";
+  chip.setAttribute("aria-label", chip.title);
+  chip.style.maxWidth = Math.max(48, Math.min(innerWidth <= 860 ? 68 : 240, Math.abs(g.x2 - g.x1) * 1.6)) + "px";
+  chip.style.overflow = "hidden"; chip.style.textOverflow = "ellipsis";
   if (v.ok) { chip.href = v.href; chip.target = "_blank"; chip.rel = "noopener"; }
   chip.style.left = ((g.x1 + g.x2) / 2) + "px";
   chip.style.top = (i % 2 ? g.y + g.lift / 2 + 22 : geo.top - 14) + "px";
@@ -975,7 +997,7 @@ async function giveUp() {
   $("keys").textContent = "这局放弃了 · 等其他人连完或时间到";
   ding("bad"); applyRoom(res); renderAct();
 }
-var HINT = innerWidth <= 860 ? "搜花名抽牌 · 拖到两张牌之间" : "打花名搜牌 · 拖到两张牌之间，落下就判 · 回车放终点前 · 拖出桌面撤下";
+var HINT = innerWidth <= 860 ? "搜花名 · 点牌上桌，也可拖动换位" : "搜花名后点牌或回车上桌 · 拖动换位 · 相邻两人当过队友就能连上";
 function renderAll() {
   if (phase === "idle" && !result) $("keys").textContent = HINT;
   renderBoard(); renderFan(); renderAct();
@@ -1169,7 +1191,7 @@ function scoreLine() {
 }
 function miniCard(id, cls) {
   var p = PLAYERS[id], n = CSDATA.esc(p.name);
-  return '<span class="mini ' + (cls || "") + '">' + (p.img ? '<img src="' + p.img + '" alt="" />' : '<span class="ini">' + CSDATA.esc(p.name.slice(0, 2).toUpperCase()) + '</span>') + n + '</span>';
+  return '<span class="mini ' + (cls || "") + '">' + (p.img ? '<img src="' + p.img + '" alt="" loading="lazy" decoding="async" />' : '<span class="ini">' + CSDATA.esc(p.name.slice(0, 2).toUpperCase()) + '</span>') + n + '</span>';
 }
 function routeHtml(route) {
   return route.map(function (id, k) { return (k ? '<i class="link"></i>' : "") + miniCard(id, k === 0 ? "s" : k === route.length - 1 ? "e" : ""); }).join("");

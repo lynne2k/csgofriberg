@@ -7,9 +7,11 @@ import { CSLINK_DIFFICULTIES, DEFAULT_CSLINK_DIFFICULTY, isCsLinkDifficulty,
 import type { CsLinkLadder } from './cslinkLadder';
 
 /** 天梯房固定参数：玩家点一下就开打，不用设置。 */
-export const CSLINK_RANKED = { durationSeconds: 20, targetScore: 3, difficulty: 'normal' as CsLinkDifficulty };
+export const CSLINK_RANKED = { durationSeconds: 40, targetScore: 3, difficulty: 'normal' as CsLinkDifficulty };
 
 export interface CsLinkRoomStore {
+  /** 固定住当前数据；已有房间跨轮保持同一份图和选手信息。 */
+  snapshot?(): CsLinkRoomStore;
   pathGraph(): CsLinkPathGraph;
   getPathPlayer(id: string): PlayPlayer | null;
 }
@@ -61,11 +63,13 @@ interface Room {
   difficulty: CsLinkDifficulty;
   targetScore: number; matchOver: boolean; arrivals: Set<string>;
   roundNo: number; nextRoundAtMs: number | null; nextTimer: ReturnType<typeof setTimeout> | null;
+  store: CsLinkRoomStore; selection: Pick<CsLinkRoomOptions, 'endpointAllowed' | 'difficultyFilters'>;
   graph: CsLinkPathGraph; round: CsLinkPathRound | null; result: CsLinkRoomResult | null; touchedAt: number;
   timer: ReturnType<typeof setTimeout> | null;
   ranked: boolean; forfeitKey: string | null; idleRounds: number; ladderDelta: Record<string, number> | null;
 }
 export interface CsLinkRoomOptions {
+  selection?: () => Pick<CsLinkRoomOptions, 'endpointAllowed' | 'difficultyFilters'>;
   now?: () => number;
   roomTtlMs?: number;
   maxRooms?: number;
@@ -87,6 +91,8 @@ export interface CsLinkRoomOptions {
 
 /** Single-process local rooms. Every round keeps the exact game graph from its creation. */
 export class CsLinkRooms {
+  private draining = false;
+  private selection: NonNullable<CsLinkRoomOptions['selection']>;
   private rooms = new Map<string, Room>();
   private membership = new Map<string, string>();
   private connections = new Map<string, Set<string>>();
@@ -98,8 +104,6 @@ export class CsLinkRooms {
   private expiry: ReturnType<typeof setInterval>;
   private roomTtlMs: number;
   private maxRooms: number;
-  private endpointAllowed?: (id: string) => boolean;
-  private difficultyFilters?: CsLinkDifficultyFilters;
   private countdownMs: number;
   private arrivalGraceMs: number;
   /** null disables automatic next rounds; the host can still use nextRound / rematch. */
@@ -108,10 +112,9 @@ export class CsLinkRooms {
   constructor(private store: CsLinkRoomStore, private changed: (keys: string[]) => void,
     options: CsLinkRoomOptions = {}) {
     this.now = options.now ?? Date.now;
+    this.selection = options.selection ?? (() => ({ endpointAllowed: options.endpointAllowed, difficultyFilters: options.difficultyFilters }));
     this.roomTtlMs = options.roomTtlMs ?? 60 * 60 * 1000;
     this.maxRooms = options.maxRooms ?? 100;
-    this.endpointAllowed = options.endpointAllowed;
-    this.difficultyFilters = options.difficultyFilters;
     this.countdownMs = Math.max(0, options.countdownMs ?? 0);
     this.arrivalGraceMs = Math.max(0, options.arrivalGraceMs ?? 0);
     this.interRoundMs = options.interRoundMs === undefined ? null : Math.max(0, options.interRoundMs);
@@ -119,6 +122,25 @@ export class CsLinkRooms {
     this.ladder = options.ladder;
     this.expiry = setInterval(() => this.sweep(), 30_000);
     this.expiry.unref?.();
+  }
+
+  /** 维护时只阻止新整场，已有对局（包括局间休息）照常走完。 */
+  drain(enabled: boolean) {
+    this.draining = enabled;
+    if (enabled) {
+      const keys = this.waiting.map(entry => entry.identity.key);
+      this.waiting = [];
+      this.changed(keys);
+    }
+    return this.status();
+  }
+  status() {
+    const rooms = [...this.rooms.values()];
+    const active = rooms.filter(room => room.status === 'playing' ||
+      (room.status === 'finished' && !room.matchOver && room.nextRoundAtMs !== null));
+    return { draining: this.draining, rooms: rooms.length, activeMatches: active.length,
+      activeRoomIds: active.map(room => room.id), queued: this.waiting.length,
+      connectedPlayers: this.connections.size, safeToRestart: this.draining && active.length === 0 };
   }
 
   stop() {
@@ -169,6 +191,7 @@ export class CsLinkRooms {
 
   create(identity: StoredIdentity, durationSeconds = 20, maxPlayers = 2, targetScore = 3,
     difficulty: CsLinkDifficulty = DEFAULT_CSLINK_DIFFICULTY): CsLinkRoomReply {
+    if (this.draining) return this.reply(identity.key, 'SERVER_MAINTENANCE');
     this.sweep();
     this.releaseSettled(identity.key); this.dropFromQueue(identity.key);
     const existing = this.roomFor(identity.key);
@@ -191,6 +214,7 @@ export class CsLinkRooms {
 
   /** 天梯匹配：排队的人先到先配，凑够两人直接开打。 */
   queue(identity: StoredIdentity): CsLinkRoomReply {
+    if (this.draining) return this.reply(identity.key, 'SERVER_MAINTENANCE');
     this.sweep();
     this.releaseSettled(identity.key);
     const existing = this.roomFor(identity.key);
@@ -221,6 +245,7 @@ export class CsLinkRooms {
   unqueue(key: string): CsLinkRoomReply { this.dropFromQueue(key); return this.reply(key); }
 
   join(identity: StoredIdentity, roomId: string): CsLinkRoomReply {
+    if (this.draining && this.membership.get(identity.key) !== roomId) return this.reply(identity.key, 'SERVER_MAINTENANCE');
     const room = this.rooms.get(roomId);
     if (!room) return this.reply(identity.key, 'ROOM_NOT_FOUND');
     this.closeIfDue(room);
@@ -286,6 +311,7 @@ export class CsLinkRooms {
   }
 
   start(key: string, roomId: string): CsLinkRoomReply {
+    if (this.draining) return this.reply(key, 'SERVER_MAINTENANCE');
     const room = this.authorized(key, roomId);
     if (!room) return this.reply(key, 'NOT_IN_ROOM');
     if (room.hostKey !== key) return this.reply(key, 'HOST_ONLY');
@@ -303,6 +329,7 @@ export class CsLinkRooms {
     this.closeIfDue(room);
     if (room.hostKey !== key) return this.reply(key, 'HOST_ONLY');
     if (room.status !== 'finished' || room.matchOver) return this.reply(key, 'NOT_FINISHED');
+    if (this.draining && room.nextRoundAtMs === null) return this.reply(key, 'SERVER_MAINTENANCE');
     this.autoNext(room);
     return this.reply(key);
   }
@@ -310,10 +337,10 @@ export class CsLinkRooms {
   /** Draws a fresh question and starts the clock flow; members must already be reset. */
   private beginRound(room: Room): string | undefined {
     const tier = CSLINK_DIFFICULTIES[room.difficulty];
-    const filter = this.difficultyFilters?.[room.difficulty];
+    const filter = room.selection.difficultyFilters?.[room.difficulty];
     const pair = filter
       ? room.graph.sampleDistantPair(tier.minJumps, tier.maxJumps, 32, undefined, filter, `tier:${room.difficulty}`)
-      : room.graph.sampleDistantPair(tier.minJumps, tier.maxJumps, 32, undefined, this.endpointAllowed);
+      : room.graph.sampleDistantPair(tier.minJumps, tier.maxJumps, 32, undefined, room.selection.endpointAllowed);
     if (!pair) return 'NO_QUESTION';
     // Upper bound while people load the duel page; arrive() pulls it forward once everyone is in.
     const started = this.now() + this.countdownMs + this.arrivalGraceMs;
@@ -409,10 +436,11 @@ export class CsLinkRooms {
   }
   private newRoom(id: string, host: StoredIdentity, durationSeconds: number, maxPlayers: number, targetScore: number,
     difficulty: CsLinkDifficulty, ranked: boolean): Room {
-    return { id, revision: 0, status: 'lobby', hostKey: host.key, maxPlayers,
+    const store = this.store.snapshot?.() ?? this.store;
+    return { store, selection: this.selection(), id, revision: 0, status: 'lobby', hostKey: host.key, maxPlayers,
       durationSeconds, difficulty, targetScore, matchOver: false, arrivals: new Set(),
       roundNo: 0, nextRoundAtMs: null, nextTimer: null,
-      members: [this.newMember(host)], graph: this.store.pathGraph(), round: null, result: null,
+      members: [this.newMember(host)], graph: store.pathGraph(), round: null, result: null,
       touchedAt: this.now(), timer: null, ranked, forfeitKey: null, idleRounds: 0, ladderDelta: null };
   }
   private dropFromQueue(key: string) { this.waiting = this.waiting.filter(entry => entry.identity.key !== key); }
@@ -504,9 +532,9 @@ export class CsLinkRooms {
     }
     this.notify(room);
   }
-  private fullFinish(finish: CsLinkPathFinish | null): CsLinkRoomFinish | null {
+  private fullFinish(room: Room, finish: CsLinkPathFinish | null): CsLinkRoomFinish | null {
     return finish ? { ...finish, routeIds: [...finish.routeIds], hops: finish.hops.map(hop => ({
-      ...hop, evidence: { ...hop.evidence } })), route: finish.routeIds.map(id => this.store.getPathPlayer(id)!) } : null;
+      ...hop, evidence: { ...hop.evidence } })), route: finish.routeIds.map(id => room.store.getPathPlayer(id)!) } : null;
   }
   private result(room: Room): CsLinkRoomResult {
     const ranked = room.members.map(member => ({ member, best: member.left ? null : member.best }))
@@ -521,17 +549,17 @@ export class CsLinkRooms {
     return { winnerKeys, reason, rankings: ranked.map((row, index) => ({
       key: row.member.key, name: row.member.name, left: row.member.left, gaveUp: row.member.gaveUp,
       rank: row.best ? ranked.findIndex(other => other.best && compareCsLinkPathFinishes(other.best, row.best!) === 0) + 1 : null,
-      best: this.fullFinish(row.best),
+      best: this.fullFinish(room, row.best),
     })), answer: this.answer(room) };
   }
   /** Prefer intermediates players can actually search for; fall back to any proven route. */
   private answer(room: Room): CsLinkRoomAnswer | null {
     if (!room.round) return null;
     const { startId, endId } = room.round;
-    const found = (this.endpointAllowed && room.graph.shortestRoute(startId, endId, this.endpointAllowed))
+    const found = (room.selection.endpointAllowed && room.graph.shortestRoute(startId, endId, room.selection.endpointAllowed))
       || room.graph.shortestRoute(startId, endId);
     if (!found) return null;
-    const route = found.routeIds.map(id => this.store.getPathPlayer(id));
+    const route = found.routeIds.map(id => room.store.getPathPlayer(id));
     if (route.some(player => !player)) return null;
     return { routeIds: found.routeIds, jumps: found.routeIds.length - 1, hops: found.hops, route: route as PlayPlayer[] };
   }
@@ -551,9 +579,9 @@ export class CsLinkRooms {
         best: member.best ? { jumps: member.best.jumps,
           // Mid-round, opponents only see jump counts; times are revealed with the result.
           elapsedMs: room.status === 'playing' && member.key !== key ? null : member.best.elapsedMs } : null })),
-      round: room.round ? { ...room.round, start: this.store.getPathPlayer(room.round.startId)!,
-        end: this.store.getPathPlayer(room.round.endId)! } : null,
-      myBest: this.fullFinish(member.best), result: room.result,
+      round: room.round ? { ...room.round, start: room.store.getPathPlayer(room.round.startId)!,
+        end: room.store.getPathPlayer(room.round.endId)! } : null,
+      myBest: this.fullFinish(room, member.best), result: room.result,
     } : null;
     const queued = this.waiting.find(entry => entry.identity.key === key);
     return { ...(code ? { code } : {}), room: view, meKey: key, serverNowMs: this.now(),

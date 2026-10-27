@@ -21,7 +21,7 @@ import adminRoutes from './routes/admin';
 import externalPlayerRoutes, { externalPlayerAuth } from './routes/externalPlayers';
 import { setupSocket } from './socket';
 import { setupCsLinkRooms } from './socket/cslinkRooms';
-import { buildCsLinkDifficultyFilters, CSLINK_DIFFICULTIES, CSLINK_DIFFICULTY_KEYS } from './services/cslinkDifficulty';
+import { buildCsLinkDifficultyFilters } from './services/cslinkDifficulty';
 import {
   closeRedis,
   duplicateRedisClient,
@@ -54,6 +54,9 @@ import { CsLinkLegacy } from './services/cslinkLegacy';
 import { CsLinkDaily } from './services/cslinkDaily';
 import { createCsLinkDailyRoutes } from './routes/cslinkDaily';
 import { createCsLinkPracticeRoutes } from './routes/cslinkPractice';
+import { liveObject, readCsLinkSelection } from './services/cslinkLiveData';
+import { startCsLinkControl } from './services/cslinkControl';
+import { loadCsLinkNickLexicon } from './services/cslinkNickModeration';
 import { CsLinkLadder } from './services/cslinkLadder';
 import { createCsLinkLadderRoutes } from './routes/cslinkLadder';
 
@@ -144,10 +147,9 @@ async function main() {
   }
   let activeLegacy: CsLinkLegacy | null = null;
   let cslinkPlay: CsLinkPlay | null = null;
+  let historicalInput: { projectionDir: string; candidateDir: string; candidates: CsLinkCandidates } | null = null;
   if (cslinkEnabled && cslinkCandidates && process.env.CSLINK_CANDIDATE_VERSION_DIR &&
       process.env.CSLINK_PLAY_PROJECTION_DIR) {
-    let historicalInput: { projectionDir: string; candidateDir: string;
-      candidates: CsLinkCandidates } | null = null;
     if (process.env.CSLINK_HISTORICAL_CANDIDATE_DIR &&
         process.env.CSLINK_HISTORICAL_PLAY_PROJECTION_DIR) {
       try {
@@ -222,6 +224,20 @@ async function main() {
     } catch (error) {
       console.error('[cslink] 统一关系视图不可用，原数据接口保持运行', error);
     }
+  }
+
+  const initialPlay = cslinkPlay;
+  const initialFilters = initialPlay ? buildCsLinkDifficultyFilters(initialPlay.pathGraph().ids(), cslinkEndpointOk,
+    id => {
+      if (popularity.size) return popularity.get(id) ?? 0;
+      const p = initialPlay.getPathPlayer(id);
+      return p ? p.verifiedMapCount + p.candidateMapCount + (p.legacyMapCount ?? 0) : 0;
+    }).filters : undefined;
+  let liveData = initialPlay ? { play: initialPlay, merged: cslinkMerged,
+    selection: { endpointAllowed: cslinkEndpointOk, difficultyFilters: initialFilters } } : null;
+  if (liveData) {
+    cslinkPlay = liveObject(() => liveData!.play);
+    if (cslinkMerged) cslinkMerged = liveObject(() => liveData!.merged!);
   }
 
   const app = express();
@@ -352,13 +368,15 @@ async function main() {
   app.use('/api/cslink/play', createCsLinkPlayRoutes(cslinkPlay, cslinkCandidates, cslink, cslinkEnabled));
   // 每日挑战两端和房间用同一个过滤（cslinkEndpointOk 在下面 socket 初始化前填好，请求时才读）
   const cslinkDaily = cslinkEnabled && cslinkPlay
-    ? new CsLinkDaily(cslinkPlay, (id: string) => cslinkEndpointOk(id), Date.now,
+    ? new CsLinkDaily(cslinkPlay, (id: string) => liveData!.selection.endpointAllowed(id), Date.now,
       // 每日题用普通档；分档在下面 socket 初始化前建好，请求时才读
-      () => difficultyFilters?.normal) : null;
+      () => liveData?.selection.difficultyFilters?.normal,
+      process.env.CSLINK_DAILY_QUESTION_FILE || path.join(path.dirname(process.env.CSLINK_LADDER_FILE ||
+        path.resolve(__dirname, '../../.local-data/cslink-ladder.json')), 'cslink-daily-question.json')) : null;
   app.use('/api/cslink/daily', createCsLinkDailyRoutes(cslinkDaily, cslinkEnabled));
   // 练习：随机题、可选难度、不计分；分档同样请求时才读
   app.use('/api/cslink/drill', createCsLinkPracticeRoutes(cslinkEnabled ? cslinkPlay : null, cslinkEnabled,
-    () => difficultyFilters, (id: string) => cslinkEndpointOk(id)));
+    () => liveData?.selection.difficultyFilters, (id: string) => liveData!.selection.endpointAllowed(id)));
   // 天梯分：访客和登录用户都按身份 key 记，落盘到 JSON
   const cslinkLadder = cslinkEnabled ? new CsLinkLadder(process.env.CSLINK_LADDER_FILE ||
     path.resolve(__dirname, '../../.local-data/cslink-ladder.json')) : null;
@@ -409,31 +427,55 @@ async function main() {
     }
   }
   const stopSocket = setupSocket(io);
-  // 难度分档：在能当两端的选手里按出场图数排名，热门选手进简单档
-  let difficultyFilters: ReturnType<typeof buildCsLinkDifficultyFilters>['filters'] | undefined;
-  if (cslinkEnabled && cslinkPlay) {
-    const play = cslinkPlay;
-    const mapCount = (id: string) => {
-      if (popularity.size) return popularity.get(id) ?? 0;
-      const p = play.getPathPlayer(id);
-      return p ? p.verifiedMapCount + p.candidateMapCount + (p.legacyMapCount ?? 0) : 0;
-    };
-    const built = buildCsLinkDifficultyFilters(play.pathGraph().ids(), cslinkEndpointOk, mapCount);
-    difficultyFilters = built.filters;
-    console.log(`[cslink] 难度分档：可出题 ${built.ranked.length} 人；` + CSLINK_DIFFICULTY_KEYS.map(key => {
-      const tier = CSLINK_DIFFICULTIES[key];
-      return `${tier.label} 前${Number.isFinite(tier.topN) ? tier.topN : '全部'}人·${tier.minJumps}-${tier.maxJumps}跳`;
-    }).join('，'));
-  }
   const stopCsLinkRooms = cslinkEnabled && cslinkPlay ? setupCsLinkRooms(io, cslinkPlay, {
     countdownMs: 3_000,
     // 等所有人打开对战页的宽限上限；全员到齐后提前开表
     arrivalGraceMs: 12_000,
     interRoundMs: 6_000,
-    endpointAllowed: portraitIds.size || activeIds.size ? cslinkEndpointOk : undefined,
-    difficultyFilters,
+    selection: () => liveData!.selection,
     ladder: cslinkLadder ?? undefined,
-  }) : () => undefined;
+  }) : Object.assign(() => undefined, { rooms: null });
+
+  // This socket is optional, local-only, and owner-readable. No public admin endpoint.
+  // Reload covers manual relations and selection files; source SQLite replacement still needs a planned restart.
+  let reloading = false;
+  const control = async (command: string) => {
+    if (shuttingDown) throw new Error('SERVER_SHUTTING_DOWN');
+    const rooms = stopCsLinkRooms.rooms;
+    if (!rooms || !liveData) throw new Error('CSLINK_UNAVAILABLE');
+    if (command === 'status' || command === 'check-restart') return { ...rooms.status(),
+      dataVersion: liveData.play.dataVersion, redis: isRedisAvailable() ? 'up' : 'degraded',
+      safeToRestart: !reloading && rooms.status().safeToRestart && isRedisAvailable() };
+    if (reloading) throw new Error('RELOAD_IN_PROGRESS');
+    if (command === 'drain') return rooms.drain(true);
+    if (command === 'resume') return rooms.drain(false);
+    if (command !== 'reload') throw new Error('UNKNOWN_COMMAND');
+    // Rebuilding the graph is CPU-heavy. Do not spend players' round time on a reload.
+    if (rooms.status().activeMatches) throw new Error('CSLINK_ACTIVE_MATCHES');
+    const wasDraining = rooms.status().draining;
+    rooms.drain(true);
+    reloading = true;
+    try {
+      const manualFile = process.env.CSLINK_MANUAL_RELATIONS_FILE || path.resolve(__dirname, '../../data/cslink/manual-relations.json');
+      fs.accessSync(manualFile);
+      const legacy = CsLinkLegacy.open(process.env.CSLINK_LEGACY_RELATIONS_DIR!, manualFile);
+      if (!legacy) throw new Error('CSLINK_LEGACY_MISSING');
+      const play = await CsLinkPlay.open(process.env.CSLINK_PLAY_PROJECTION_DIR!,
+        process.env.CSLINK_CANDIDATE_VERSION_DIR!, cslinkCandidates!, cslink, historicalInput, legacy);
+      const selection = readCsLinkSelection(play, { portraits: portraitDir, active: activeFile, popularity: popularityFile });
+      const merged = new CsLinkMerged(cslink, cslinkCandidates, play.candidateScope(), play.historicalScope(), legacy);
+      cslinkDaily?.validateSnapshot(play);
+      if (!loadCsLinkNickLexicon()) throw new Error('CSLINK_NICK_LEXICON_RELOAD_FAILED');
+      const previousVersion = liveData.play.dataVersion;
+      liveData = { play, merged, selection };
+      console.log(`[cslink] data reloaded ${previousVersion} -> ${play.dataVersion}`);
+      return { previousVersion, dataVersion: play.dataVersion, ...rooms.status() };
+    } finally { reloading = false; rooms.drain(wasDraining); }
+  };
+  // Freeze and persist today's endpoints before accepting requests or reloads.
+  cslinkDaily?.today();
+  const stopControl = process.env.CSLINK_CONTROL_SOCKET && liveData
+    ? await startCsLinkControl(process.env.CSLINK_CONTROL_SOCKET, control) : async () => undefined;
 
   server.listen(config.port, () => {
     console.log(`[server] 弗一把服务已启动: http://localhost:${config.port}`);
@@ -445,6 +487,7 @@ async function main() {
     shutdownPromise = (async () => {
       shuttingDown = true;
       console.log(`[server] 收到 ${signal},开始优雅退出`);
+      await stopControl();
       stopCsLinkRooms();
       try { cslinkLadder?.flush(); } catch (error) { console.error('[cslink] 天梯分保存失败', error); }
       stopRuntimeMonitor();
