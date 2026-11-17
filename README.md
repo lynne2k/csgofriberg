@@ -1,4 +1,24 @@
-> **CS Link 接手说明（2026-11-09）**：本分支的在线产品是 `/cslink/` 下的选手队友连线游戏。开发或部署前请先读 [AGENT_HANDOFF.md](AGENT_HANDOFF.md)，其中包含产品决策、实际代码入口、数据移交、本地验证和生产运维。下方保留原上游“弗一把”的介绍，不代表当前 CS Link 的完整部署方式。
+# CS Link
+
+一个 Counter-Strike 职业选手队友连线小游戏：给出两位选手，用“谁和谁当过队友”把他们连起来，中间用的人越少越好。
+
+[在线试玩](https://cslink.cc/cslink/) · [开发与 Agent 接手指南](AGENT_HANDOFF.md) · [问题反馈](https://github.com/lynne2k/csgofriberg/issues)
+
+- 每日挑战与排行榜，也可以在单人练习中选择难度、自由换题。
+- 好友房和天梯匹配，限时连接，先比跳数、再比用时。
+- 卡牌可点击或拖拽放置；选手主页和队友关系都有 HLTV 来源入口。
+
+当前代码统一在 **`main`**。前端为 Vite 多页牌桌，后端使用 Node.js / TypeScript、Express 和 Socket.IO；详细架构及运行步骤见接手指南。
+
+```sh
+git clone https://github.com/lynne2k/csgofriberg.git
+cd csgofriberg
+```
+
+完整比赛数据和定妆照不包含在 Git 中，本地运行前请阅读 [数据与素材交接](docs/agent-handoff/03-data-and-sources.md)。项目基于 [shnlfriberg/csgofriberg](https://github.com/shnlfriberg/csgofriberg) 开发，保留 [AGPL-3.0](LICENSE) 许可及上游说明。
+
+<details>
+<summary>上游“弗一把”原始说明（历史参考，非当前 CS Link 运行指南）</summary>
 
 <div align="center">
 
@@ -211,3 +231,5 @@ client/src
 ## 许可证
 
 本项目基于 [AGPL-3.0](LICENSE) 开源。
+
+</details>

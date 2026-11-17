@@ -4,7 +4,7 @@
 
 ## 别混淆三种仓库
 
-- **应用上游**：`shnlfriberg/csgofriberg`，我们在 `lynne2k/csgofriberg` 的 `cslink-game-table` 分支开发。
+- **应用上游**：`shnlfriberg/csgofriberg`，我们在 `lynne2k/csgofriberg` 开发；2026-11-17 起统一使用 `main`，原工作分支是 `cslink-game-table`。
 - **旧比赛数据源**：`tedtay/CS-GO-Pro-Matches-Comprehensive-Dataset`。固定版本、下载地址与 SHA-256 在 `data/cslink/source.lock.json`；源文件主要是 CSV。它不等于应用仓库自带一套已完备的 CS Link 图。
 - **后续采集与补录**：HLTV 比赛/地图的实际阵容，经本地候选库、批准地图名单与人工补录进入游戏。照片是另一路资源。
 

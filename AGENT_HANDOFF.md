@@ -1,12 +1,12 @@
 # CS Link：Agent 接手入口
 
-核对日期：**2026-11-09**。这份交接针对已经上线的 **CS Link 选手队友连线游戏**，不是上游“弗一把”猜选手游戏。以下路径均相对本仓库根目录。
+文档更新：**2026-11-17**；运行状态核对日期：**2026-11-09**。这份交接针对已经上线的 **CS Link 选手队友连线游戏**，不是上游“弗一把”猜选手游戏。以下路径均相对本仓库根目录。
 
 文档可以单独打包转交；接手者仍需对应分支的代码和单独移交的数据文件。文档包不是可直接运行的完整项目备份。
 
 ## 先看这几件事
 
-- 当前工作分支：`cslink-game-table`；代码基线：`26a437ac718c2b9afd0fc7ccf3c29106b334bbaa`。
+- 当前主分支：`main`（由原 `cslink-game-table` 整理而来）；最近核对的线上业务代码基线：`26a437ac718c2b9afd0fc7ccf3c29106b334bbaa`。
 - 推送目标是 `fork`：<https://github.com/lynne2k/csgofriberg>。`origin` 是原作者仓库，不要推错。
 - 正式入口：<https://cslink.cc/cslink/>；本地入口：<http://localhost:5173/cslink/>。
 - 当前产品界面主要在 **`client/cslink/*.html`**，不是 React 的旧首页。共享通信模块在 `client/src/cslink/`。
@@ -29,14 +29,14 @@
 
 ## 从 GitHub 取得当前代码
 
-使用 CS Link 工作分支，不要默认克隆后停留在上游旧版的 `main`：
+仓库默认的 `main` 已统一为当前 CS Link 版本：
 
 ```sh
-git clone --branch cslink-game-table --single-branch https://github.com/lynne2k/csgofriberg.git
+git clone --branch main --single-branch https://github.com/lynne2k/csgofriberg.git
 cd csgofriberg
 ```
 
-已经有 checkout 时先检查未提交内容，再切换/同步相应分支，不要直接覆盖工作区。2026-11-17 此次整理上传的是代码与交接说明；文中的运行状态快照仍是 **2026-11-09** 的观察结果，不代表上传时重新验收了生产。完整数据与照片仍按第 03 份文档单独交接。
+已经有 checkout 时先检查未提交内容，再切换/同步相应分支，不要直接覆盖工作区。旧 checkout 的 `origin` 可能仍指向原作者仓库，先确认 remote。2026-11-17 整理的是 GitHub 主分支和交接说明；文中的运行状态快照仍是 **2026-11-09** 的观察结果，不代表重新验收或部署了生产。完整数据与照片仍按第 03 份文档单独交接。
 
 ## 第一轮接手动作
 

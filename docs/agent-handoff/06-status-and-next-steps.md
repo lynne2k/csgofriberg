@@ -2,6 +2,10 @@
 
 [返回接手入口](../../AGENT_HANDOFF.md)
 
+## 2026-11-17 仓库入口更新
+
+代码与交接文档统一到 `lynne2k/csgofriberg` 的默认 `main` 分支，仓库首页以 CS Link 为入口。原 `cslink-game-table` 的内容保留；旧分支另有本机 Git bundle 备份。本次是 Git 分支和文档整理，没有更新线上服务。以下 11 月 9 日的运行快照保留原样，不能当作当前在线人数。
+
 ## 2026-11-09 本次直接核对
 
 - 本地分支 `cslink-game-table`，HEAD 为 `26a437ac718c2b9afd0fc7ccf3c29106b334bbaa`，跟踪 `fork/cslink-game-table`；读取了本地 remote 配置，没有新执行 fetch/push，因此不声称刚核对过远端最新 tip。
