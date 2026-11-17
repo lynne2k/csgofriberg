@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "purpose": "CS Link agent handoff; read-only facts, no credentials or player identities",
+  "documentation_date": "2026-11-09",
+  "repository": {
+    "local_path": "/Users/flippy/Library/Mobile Documents/com~apple~CloudDocs/Counter-Strike/csgofriberg",
+    "branch": "cslink-game-table",
+    "baseline_commit": "26a437ac718c2b9afd0fc7ccf3c29106b334bbaa",
+    "tracking": "fork/cslink-game-table",
+    "fork": "https://github.com/lynne2k/csgofriberg.git",
+    "upstream": "https://github.com/shnlfriberg/csgofriberg.git",
+    "remote_tip_fetched_this_task": false
+  },
+  "preexisting_worktree_changes": [
+    {
+      "status": "modified",
+      "path": "client/tsconfig.tsbuildinfo"
+    },
+    {
+      "status": "untracked",
+      "path": "promo/"
+    },
+    {
+      "status": "untracked",
+      "path": "scripts/.bot_tmp.mjs"
+    }
+  ],
+  "production": {
+    "observed_at": "2026-11-09T18:36:08.413843+08:00",
+    "deployed_commit": "26a437ac718c2b9afd0fc7ccf3c29106b334bbaa",
+    "service": {
+      "MainPID": "1864517",
+      "NRestarts": "0",
+      "WorkingDirectory": "/srv/cslink/app",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "control": {
+      "ok": true,
+      "result": {
+        "draining": false,
+        "rooms": 0,
+        "activeMatches": 0,
+        "activeRoomIds": [],
+        "queued": 0,
+        "connectedPlayers": 0,
+        "safeToRestart": false,
+        "dataVersion": "d1d1fb035acd033c5403",
+        "redis": "up"
+      }
+    },
+    "daily_question_date": "2026-11-09",
+    "host": "43.161.196.208",
+    "public_url": "https://cslink.cc/cslink/",
+    "observation_scope": "SSH control status, service metadata, deployed marker, persisted question date only; no fresh browser/game/ranking verification"
+  },
+  "validation": {
+    "this_task": [
+      "repository/source inspection",
+      "data and portrait inventory",
+      "read-only production metadata"
+    ],
+    "application_tests_run_this_task": false,
+    "production_mutations_this_task": false,
+    "prior_acceptance_report": "docs/cslink-feedback-2026-10-27.md"
+  },
+  "local_exports": {
+    "players.json": {
+      "path": "client/public/cslink/data/players.json",
+      "bytes": 184569,
+      "sha256": "d1dcf0a2f7c64f0a907593d651cc9693219d21a9b376db9ba880940cfd0185fa",
+      "entries": 2422
+    },
+    "edges.json": {
+      "path": "client/public/cslink/data/edges.json",
+      "bytes": 1492509,
+      "sha256": "43e0041ddf824b3a4c597c9b5a073ef87e417d8e19b04fc7575dc0ddaa88c1ec",
+      "entries": 11502
+    },
+    "active-ids.json": {
+      "path": "client/public/cslink/data/active-ids.json",
+      "bytes": 9483,
+      "sha256": "a7c1a9165afe43200286626e99b836d4df140ae9ba3b5c2dc01a509b2ee84dcb",
+      "fromYear": 2024,
+      "ids_count": 736
+    },
+    "popularity.json": {
+      "path": "client/public/cslink/data/popularity.json",
+      "bytes": 58165,
+      "sha256": "3950c7d075b0c1009445e913fa733234cbc9dae8a1f12dbc35cfcf6b0fd5e9f7",
+      "scores_count": 2414,
+      "legends_count": 37
+    }
+  },
+  "local_inventory_at": "2026-11-09T18:43:37.640698+08:00",
+  "local_portraits": {
+    "png": {
+      "files": 1254,
+      "bytes": 159329936
+    },
+    "webp": {
+      "files": 1254,
+      "bytes": 16687072
+    }
+  },
+  "manual_relations": {
+    "path": "data/cslink/manual-relations.json",
+    "sha256": "707da13805fc0fc366237595ea52c762d628d5413b65d807be6da3b4376ae878",
+    "players": 52,
+    "maps": 12
+  }
+}

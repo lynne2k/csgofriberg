@@ -1,3 +1,5 @@
+> **CS Link 接手说明（2026-11-09）**：本分支的在线产品是 `/cslink/` 下的选手队友连线游戏。开发或部署前请先读 [AGENT_HANDOFF.md](AGENT_HANDOFF.md)，其中包含产品决策、实际代码入口、数据移交、本地验证和生产运维。下方保留原上游“弗一把”的介绍，不代表当前 CS Link 的完整部署方式。
+
 <div align="center">
 
 # 弗一把 (csgofriberg)
